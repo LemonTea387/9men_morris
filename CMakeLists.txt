@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 project(
-  EverythingNMN
+  EverythingNMM
   VERSION 0.0.1
   DESCRIPTION "A Nine Men's Morris Game made in C++ for the FIT3077 unit in Monash University (Malaysia)."
   LANGUAGES CXX
@@ -14,5 +14,5 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(SFML)
-add_executable(EverythingNMN src/main.cpp)
-target_link_libraries(EverythingNMN sfml-graphics)
+add_executable(EverythingNMM src/main.cpp)
+target_link_libraries(EverythingNMM sfml-graphics)
