@@ -8,8 +8,11 @@
 
 class MenuScene : public Scene {
  private:
+  // TO-DO: Use a Button class (with rounded corners, hover support, etc.)
   sf::RectangleShape m_QuitButton;
   sf::Text m_QuitText;
+
+  sf::Font m_ButtonFont;
 
  public:
   MenuScene();
