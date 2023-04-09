@@ -1,7 +1,10 @@
 #ifndef GAME_H
 #define GAME_H
+#include <SFML/Window.hpp>
 #include <memory>
 #include <vector>
+
+#include "SFML/Graphics/RenderWindow.hpp"
 
 class Scene;
 class Game {
@@ -20,6 +23,13 @@ class Game {
  public:
   static constexpr int WINDOW_WIDTH = 800;
   static constexpr int WINDOW_HEIGHT = 800;
+
+  static sf::RenderWindow& GetWindow() {
+    static sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
+                                   "EverythingNMM");
+
+    return window;
+  }
 
  public:
   // Delete copy and assignment constructor

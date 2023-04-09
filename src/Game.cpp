@@ -10,8 +10,17 @@ void Game::PopScene() { m_Scenes.pop_back(); }
 void Game::PushScene(ScenePtr&& scene) { m_Scenes.push_back(std::move(scene)); }
 
 void Game::Loop() const {
-  m_Scenes.back()->Update();
+  sf::Event event;
+  while (Game::GetWindow().pollEvent(event)) {
+    if (event.type == sf::Event::Closed) {
+      Game::GetWindow().close();
+    }
+    m_Scenes.back()->Update();
+  }
+
+  Game::GetWindow().clear();
   m_Scenes.back()->Render();
+  Game::GetWindow().display();
 }
 
 void Game::Run() {
@@ -25,7 +34,7 @@ void Game::Run() {
   // the argument to a unique_ptr myself.
   m_Scenes.emplace_back(new MenuScene());
 
-  while (m_Scenes.size() > 0) {
+  while (m_Scenes.size() > 0 && Game::GetWindow().isOpen()) {
     this->Loop();
   }
 
