@@ -21,8 +21,8 @@ class Game {
   void Loop() const;
 
  public:
-  static constexpr int WINDOW_WIDTH = 800;
-  static constexpr int WINDOW_HEIGHT = 800;
+  static constexpr int WINDOW_WIDTH = 900;
+  static constexpr int WINDOW_HEIGHT = 900;
 
   static sf::RenderWindow& GetWindow() {
     static sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),

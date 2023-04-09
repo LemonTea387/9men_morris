@@ -9,11 +9,12 @@
 class MenuScene : public Scene {
  private:
   sf::RectangleShape m_QuitButton;
+  sf::Text m_QuitText;
 
  public:
   MenuScene();
   ~MenuScene();
-  virtual void Update() override;
+  virtual void Update(sf::Event event) override;
   virtual void Render() override;
 };
 

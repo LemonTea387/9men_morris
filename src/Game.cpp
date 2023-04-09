@@ -15,12 +15,14 @@ void Game::Loop() const {
     if (event.type == sf::Event::Closed) {
       Game::GetWindow().close();
     }
-    m_Scenes.back()->Update();
+    m_Scenes.back()->Update(event);
   }
 
-  Game::GetWindow().clear();
-  m_Scenes.back()->Render();
-  Game::GetWindow().display();
+  if (m_Scenes.size() > 0) {
+    Game::GetWindow().clear();
+    m_Scenes.back()->Render();
+    Game::GetWindow().display();
+  }
 }
 
 void Game::Run() {
@@ -38,5 +40,7 @@ void Game::Run() {
     this->Loop();
   }
 
-  Loop();
+  if (Game::GetWindow().isOpen()) {
+    Game::GetWindow().close();
+  }
 }
