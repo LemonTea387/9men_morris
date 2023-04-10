@@ -16,6 +16,15 @@ FetchContent_Declare(
   GIT_TAG        2.5.1
 )
 
+FetchContent_MakeAvailable(SFML)
+add_executable(EverythingNMM 
+  src/main.cpp
+  src/Scene/Scene.hpp
+  src/Scene/MenuScene.hpp
+  src/Scene/MenuScene.cpp
+  src/Game.hpp
+  src/Game.cpp
+)
 
 if(MSVC)
   # Microsoft Documentation recommends these two lines
@@ -31,13 +40,4 @@ if(MSVC)
   endif()
 endif()
 
-FetchContent_MakeAvailable(SFML)
-add_executable(EverythingNMM 
-  src/main.cpp
-  src/Scene/Scene.hpp
-  src/Scene/MenuScene.hpp
-  src/Scene/MenuScene.cpp
-  src/Game.hpp
-  src/Game.cpp
-  )
 target_link_libraries(EverythingNMM sfml-graphics)
