@@ -1,8 +1,6 @@
 #include <iostream>
 #include "Game.hpp"
 
-<<<<<<< src/main.cpp
-
 #ifdef _MSC_VER
 int WinMain() {
 #else
