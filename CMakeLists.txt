@@ -17,6 +17,10 @@ FetchContent_Declare(
 )
 
 
+
+FetchContent_MakeAvailable(SFML)
+add_executable(EverythingNMM src/main.cpp)
+
 if(MSVC)
   # Microsoft Documentation recommends these two lines
   # for having better debugging experience
@@ -31,6 +35,4 @@ if(MSVC)
   endif()
 endif()
 
-FetchContent_MakeAvailable(SFML)
-add_executable(EverythingNMM src/main.cpp)
 target_link_libraries(EverythingNMM sfml-graphics)
