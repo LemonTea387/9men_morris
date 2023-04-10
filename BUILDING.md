@@ -36,3 +36,8 @@ right click the executable and hit Build/Debug.
 You will need to copy the DLLs from the `out/build/<BUILD_TYPE>/_deps/sfml-build/lib` to the `out/build/<BUILD_TYPE>` directory.
 `BUILD_TYPE` will be something like `x64-Debug` or `x86-Debug` or `x64-Release` (for Release mode).
 Optionally, you can just add the directory containing the DLLs to your PATH environment variable.
+
+# Building Documentation
+We use [Doxygen](https://www.doxygen.nl/index.html) for our documentation. To use it, `cd` into
+the docs directory, run `doxygen Doxyfile`, and in the `docs/html` directory there should be an `index.html`
+file you can open in your preferred web browser.
