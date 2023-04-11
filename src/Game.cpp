@@ -20,6 +20,7 @@ void Game::Loop() const {
 
   if (m_Scenes.size() > 0) {
     Game::GetWindow().clear();
+    Game::GetWindow().draw(m_BackgroundColor);
     m_Scenes.back()->Render();
     Game::GetWindow().display();
   }
@@ -29,6 +30,11 @@ void Game::Run() {
   // Do Future Set Up Work here
   // (Initialise Logging or whatever)
   //
+
+  m_BackgroundColor.setFillColor(sf::Color(0x14, 0x12, 0x18));
+  m_BackgroundColor.setPosition(sf::Vector2f(0.f, 0.f));
+  m_BackgroundColor.setSize(
+      sf::Vector2f(Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT));
 
   // Set first Scene
   // Use emplace_back instead of push_back

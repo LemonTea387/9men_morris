@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "SFML/Graphics/RectangleShape.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
 
 class Scene;
@@ -20,6 +21,12 @@ class Game {
  private:
   typedef std::unique_ptr<Scene> ScenePtr;
   typedef std::vector<ScenePtr> SceneStack;
+
+  /**
+   * Background color of the program. This is to draw the background color of
+   * the program.
+   */
+  sf::RectangleShape m_BackgroundColor;
 
   /**
    * The Stack of Scenes within the game. These Scenes are stored using
