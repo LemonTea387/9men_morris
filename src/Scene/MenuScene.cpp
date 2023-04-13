@@ -21,7 +21,9 @@ void MenuScene::Render() {
   window.draw(m_QuitText);
 }
 
-MenuScene::MenuScene() : m_QuitButton(sf::Vector2f(191.f, 73.f)) {
+MenuScene::MenuScene()
+    : m_QuitButton(sf::Vector2f(191.f, 73.f)),
+      m_DogeVsPepe(sf::Vector2f(235.f, 115.f)) {
   m_QuitButton.setPosition(354.f, 595.f);
   m_QuitText.setPosition(409.f, 610.f);
   if (!m_ButtonFont.loadFromFile(
