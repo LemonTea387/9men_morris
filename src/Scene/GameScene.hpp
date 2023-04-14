@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "../GameBoard.hpp"
 #include "Scene.hpp"
 #include "ui/Button.hpp"
 
@@ -13,8 +14,7 @@ class GameScene : public Scene {
   Button m_QuitButton;
   Button m_SaveButton;
 
-  sf::RectangleShape m_Board;
-  sf::Texture m_BoardTexture;
+  GameBoard m_GameBoard;
 
  public:
   GameScene();

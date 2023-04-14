@@ -26,6 +26,8 @@ add_executable(EverythingNMM
   src/Scene/GameScene.cpp
   src/Game.hpp
   src/Game.cpp
+  src/GameBoard.hpp
+  src/GameBoard.cpp
   src/Scene/ui/Button.hpp
   src/Scene/ui/Button.cpp
 )
