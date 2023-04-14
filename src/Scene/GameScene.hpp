@@ -3,11 +3,16 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "SFML/Graphics/RectangleShape.hpp"
 #include "Scene.hpp"
+#include "ui/Button.hpp"
 
 class GameScene : public Scene {
  private:
+  sf::Texture m_ButtonTexture;
+  sf::Font m_ButtonFont;
+  Button m_QuitButton;
+  Button m_SaveButton;
+
   sf::RectangleShape m_Board;
   sf::Texture m_BoardTexture;
 
