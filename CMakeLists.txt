@@ -19,6 +19,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SFML)
 add_executable(EverythingNMM 
   src/main.cpp
+  src/GameObject.hpp
   src/Scene/Scene.hpp
   src/Scene/MenuScene.hpp
   src/Scene/MenuScene.cpp

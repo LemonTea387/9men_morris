@@ -2,9 +2,9 @@
 #define GAMEBOARD_H
 #include <SFML/Graphics.hpp>
 
-// TO DO: This has an Update and Render function. Maybe
-// repurpose Scene class to a "GameObject" class?
-class GameBoard {
+#include "GameObject.hpp"
+
+class GameBoard : public GameObject {
  private:
   sf::RectangleShape m_Board;
   sf::Texture m_BoardTexture;
