@@ -11,8 +11,6 @@ class GameScene : public Scene {
   sf::RectangleShape m_Board;
   sf::Texture m_BoardTexture;
 
-  sf::Vector2f m_BoardPos;
-
  public:
   GameScene();
   ~GameScene();
