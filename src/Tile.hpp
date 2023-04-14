@@ -21,7 +21,7 @@ struct Tile {
   /**
    * Position within the "Game Board"
    */
-  sf::Vector2i position;
+  TileCoord position;
   Occupation occupation;
 };
 

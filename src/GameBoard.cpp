@@ -22,7 +22,7 @@ void GameBoard::Render() {
   }
 }
 GameBoard::GameBoard() : m_Board(sf::Vector2f(509.f, 542.f)) {
-  m_DebugToken.setRadius(5.f);
+  m_DebugToken.setRadius(20.f);
 
   m_Board.setPosition(sf::Vector2f(184.f, 171.f));
   if (!m_BoardTexture.loadFromFile("assets/ui/Board.png")) {
@@ -38,7 +38,7 @@ void GameBoard::InitialiseTiles() {
     int width = (y == 3) ? 6 : 3;
     for (int x = 0; x < width; x++) {
       m_Tiles[std::make_pair(x, y)] =
-          Tile::Tile{sf::Vector2f(x * 20, y * 20), sf::Vector2i(x, y),
+          Tile::Tile{sf::Vector2f(x * 50, y * 50), std::make_pair(x, y),
                      Tile::Occupation::DOGE};
     }
   }

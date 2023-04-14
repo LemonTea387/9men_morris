@@ -23,6 +23,8 @@ class GameBoard : public GameObject {
   void Render();
   GameBoard();
   ~GameBoard();
+
+  friend class PlaceCommand;
 };
 
 #endif
