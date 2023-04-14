@@ -2,6 +2,7 @@ build
 out
 compile_commands.json
 .vs
+.vscode
 CMakeSettings.json
 .cache
 docs/html
