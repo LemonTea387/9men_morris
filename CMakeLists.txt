@@ -22,8 +22,12 @@ add_executable(EverythingNMM
   src/Scene/Scene.hpp
   src/Scene/MenuScene.hpp
   src/Scene/MenuScene.cpp
+  src/Scene/GameScene.hpp
+  src/Scene/GameScene.cpp
   src/Game.hpp
   src/Game.cpp
+  src/Scene/ui/Button.hpp
+  src/Scene/ui/Button.cpp
 )
 
 if(MSVC)
