@@ -7,17 +7,17 @@
 #include "ui/Button.hpp"
 
 class GameScene : public Scene {
-    private:
-        sf::Texture m_ButtonTexture;
-        sf::Font m_ButtonFont;
-        Button m_QuitButton;
-        Button m_SaveButton;
+ private:
+  sf::Texture m_ButtonTexture;
+  sf::Font m_ButtonFont;
+  Button m_QuitButton;
+  Button m_SaveButton;
 
-    public:
-        GameScene();
-        ~GameScene();
-        virtual void Update(sf::Event event) override;
-        virtual void Render() override;
+ public:
+  GameScene();
+  ~GameScene();
+  virtual void Update(sf::Event event) override;
+  virtual void Render() override;
 };
 
 #endif
