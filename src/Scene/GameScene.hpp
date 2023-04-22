@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "../GameBoard.hpp"
 #include "Scene.hpp"
 #include "ui/Button.hpp"
 
@@ -13,6 +14,7 @@ class GameScene : public Scene {
   Button m_QuitButton;
   Button m_SaveButton;
 
+  GameBoard m_GameBoard;
  public:
   GameScene();
   ~GameScene();

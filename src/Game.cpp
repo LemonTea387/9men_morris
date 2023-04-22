@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-#include "Scene/MenuScene.hpp"
+#include "Scene/GameScene.hpp"
 #include "Scene/Scene.hpp"
 
 Game::Game() {}
@@ -40,7 +40,9 @@ void Game::Run() {
   // Use emplace_back instead of push_back
   // because this way I don't have to convert
   // the argument to a unique_ptr myself.
-  m_Scenes.emplace_back(new MenuScene());
+  // Temporarily set to GameScene first because I'm too lazy to add the button
+  // to the MenuScene
+  m_Scenes.emplace_back(new GameScene());
 
   while (m_Scenes.size() > 0 && Game::GetWindow().isOpen()) {
     this->Loop();

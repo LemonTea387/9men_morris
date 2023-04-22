@@ -19,7 +19,7 @@ GameScene::GameScene() {
   m_QuitButton.setPosition(sf::Vector2f(40.f, 803.f));
 }
 
-void GameScene::Update(sf::Event event) {}
+void GameScene::Update(sf::Event event) { m_GameBoard.Update(event); }
 
 void GameScene::Render() {
   sf::RenderWindow& window = Game::GetWindow();
@@ -29,4 +29,5 @@ void GameScene::Render() {
 
   // TODO Abstract gameboard to its own
   // GameBoard drawing
+  m_GameBoard.Render();
 }
