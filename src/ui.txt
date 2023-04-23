@@ -2,3 +2,43 @@ Game Scene
 	gameboard
 		pos   223x 173y
 		size  554w 554h
+
+	Turn Icon
+		pos   157x 15y
+		size  115w 115h
+
+	Turn Text
+		pos   313x 42y
+		size  48
+
+	Player 1 Icon
+		size  90w  90h
+		pos   213x 790y
+
+	Player 2 Icon
+		size  90w 90h
+		pos   567x 790y
+
+	Player 1 Text
+		size  32
+		pos   332x 815y
+
+	Player 2 Text
+		size  32
+		pos   687x 815y
+
+	Quit Icon
+		pos   39x  900y
+		size  191w 73h
+
+	Quit Text
+		size  32
+		pos   +24 +10
+
+	Save Icon
+		pos   777x 900y
+		size  191w 73h
+
+	Save Text
+		size  32
+		pos   +24 +10
