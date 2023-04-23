@@ -11,8 +11,8 @@ class GameScene : public Scene {
  private:
   sf::Texture m_ButtonTexture;
   sf::Font m_ButtonFont;
-  Button m_QuitButton;
-  Button m_SaveButton;
+  graphics::Button m_QuitButton;
+  graphics::Button m_SaveButton;
 
   GameBoard m_GameBoard;
  public:
