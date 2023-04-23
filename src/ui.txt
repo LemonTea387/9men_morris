@@ -1,0 +1,7 @@
+Game Scene
+	gameboard
+		pos 558w 554h
+
+
+	tile
+		size 72w 78h
