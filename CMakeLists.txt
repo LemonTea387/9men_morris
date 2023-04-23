@@ -19,11 +19,22 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SFML)
 add_executable(EverythingNMM 
   src/main.cpp
+  src/GameObject.hpp
+  src/Tile.hpp
   src/Scene/Scene.hpp
   src/Scene/MenuScene.hpp
   src/Scene/MenuScene.cpp
+  src/Scene/GameScene.hpp
+  src/Scene/GameScene.cpp
+  src/Command/Command.hpp
+  src/Command/PlaceCommand.hpp
+  src/Command/PlaceCommand.cpp
   src/Game.hpp
   src/Game.cpp
+  src/GameBoard.hpp
+  src/GameBoard.cpp
+  src/Scene/ui/Button.hpp
+  src/Scene/ui/Button.cpp
 )
 
 if(MSVC)
