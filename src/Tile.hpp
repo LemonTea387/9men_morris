@@ -21,6 +21,10 @@ class Tile : public graphics::Button {
   TileCoord horizontal_coords;
   TileCoord vertical_coords;
   Occupation occupation;
+  sf::Texture noneTexture;
+  sf::Texture pepeTexture;
+  sf::Texture dogeTexture;
+  
 
  public:
   Tile();
