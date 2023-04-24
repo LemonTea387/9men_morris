@@ -11,7 +11,7 @@ typedef std::vector<AssetFilePair> AssetFilePairList;
 const AssetFilePairList textures = {
     {GameAsset::Texture::DOGE, "assets/ui/buttons/Doge.png"},
     {GameAsset::Texture::PEPE, "assets/ui/buttons/Pepe.png"},
-    {GameAsset::Texture::EMPTY, "assets/ui/buttons/EmptyToken.png"}};
+    {GameAsset::Texture::EMPTY, "assets/ui/buttons/coconut.png"}};
 }  // namespace
 
 std::shared_ptr<sf::Texture> AssetManager::GetTexture(

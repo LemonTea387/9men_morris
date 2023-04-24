@@ -15,7 +15,7 @@ void GameBoard::Update(sf::Event event) {
 
     while (i < 8 && !flag) {
       while (j < 3 && !flag) {
-        tile = &horizontal_board[i][j];
+        tile = horizontal_board[i][j].get();
         if (tile->contains(event.mouseButton.x, event.mouseButton.y)) {
           Notified(std::make_pair(i, j));
           flag = true;
@@ -33,12 +33,17 @@ void GameBoard::Render() {
 
   for (int i = 0; i < 8; i++) {
     for (int j = 0; j < 3; j++) {
-      window.draw(horizontal_board[i][j]);
+      window.draw(*horizontal_board[i][j]);
     }
   }
 }
 GameBoard::GameBoard() : m_Board(sf::Vector2f(554.f, 554.f)) {
   /* m_DebugToken.setRadius(20.f);*/
+  for (int i = 0; i < 8; i++) {
+    for (int j = 0; j < 3; j++) {
+      horizontal_board[i][j] = std::make_unique<Tile::Tile>(this);
+    }
+  }
 
   m_Board.setPosition(sf::Vector2f(223.f, 173.f));
   if (!m_BoardTexture.loadFromFile("assets/ui/gameBoard.png")) {
@@ -71,7 +76,7 @@ void GameBoard::InitialiseTiles() {
   for (int i = 0; i < 8; i++) {
     for (int j = 0; j < 3; j++) {
       k = i * 3 + j;
-      new_tile = &horizontal_board[i][j];
+      new_tile = horizontal_board[i][j].get();
       new_tile->set_horizontal_coords(coordinates[k][0][0],
                                       coordinates[k][0][1]);
       new_tile->set_vertical_coords(coordinates[k][1][0], coordinates[k][1][1]);
@@ -105,17 +110,19 @@ bool GameBoard::is_adjacent() {
 };
 
 void GameBoard::Notified(Tile::TileCoord h_coords) {
+  std::cout << "Notified " << h_coords.first << " , " << h_coords.second
+            << std::endl;
   Tile::Tile *new_tile =
-      &GameBoard::horizontal_board[h_coords.first][h_coords.second];
+      horizontal_board[h_coords.first][h_coords.second].get();
 
   if (xxx.size() == 0) {
-    if (horizontal_board[h_coords.first][h_coords.second].get_occupation() !=
+    if (horizontal_board[h_coords.first][h_coords.second]->get_occupation() !=
         Tile::Occupation::NONE) {
       xxx.push_back(h_coords);
     }
   } else {
     Tile::Tile *prev_tile =
-        &horizontal_board[xxx.at(0).first][xxx.at(0).second];
+        horizontal_board[xxx.at(0).first][xxx.at(0).second].get();
     if (new_tile->get_occupation() != Tile::Occupation::NONE) {
       xxx.pop_back();
       xxx.push_back(h_coords);

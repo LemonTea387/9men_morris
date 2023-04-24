@@ -1,9 +1,12 @@
 #ifndef TILE_H
 #define TILE_H
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 #include "Communicator.hpp"
+#include "GameBoard.hpp"
 #include "Scene/ui/Button.hpp"
+class GameBoard;
 
 namespace Tile {
 
@@ -18,16 +21,17 @@ enum class Occupation { DOGE, PEPE, NONE };
 
 class Tile : public graphics::Button {
  private:
+  typedef GameBoard* GameBoardPtr;
+  GameBoardPtr m_Gameboard;
   TileCoord horizontal_coords;
   TileCoord vertical_coords;
   Occupation occupation;
   sf::Texture noneTexture;
   sf::Texture pepeTexture;
   sf::Texture dogeTexture;
-  
 
  public:
-  Tile();
+  Tile(GameBoardPtr);
   ~Tile();
   void set_horizontal_coords(int, int);
   void set_vertical_coords(int, int);

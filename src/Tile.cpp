@@ -1,9 +1,13 @@
 #include "Tile.hpp"
 
 #include "AssetManager.hpp"
+#include "GameBoard.hpp"
 
 namespace Tile {
-Tile::Tile() : graphics::Button("", [](sf::Event event) {}){};
+Tile::Tile(GameBoard* gb)
+    : m_Gameboard(gb), graphics::Button("", [&](sf::Event event) {
+        gb->Notified(this->horizontal_coords);
+      }){};
 
 Tile::~Tile(){};
 

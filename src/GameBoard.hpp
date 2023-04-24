@@ -1,19 +1,20 @@
 #ifndef GAMEBOARD_H
 #define GAMEBOARD_H
 #include <SFML/Graphics.hpp>
-#include <unordered_map>
+#include <array>
+#include <memory>
 
 #include "GameObject.hpp"
 #include "SFML/Graphics/CircleShape.hpp"
-#include "Tile.hpp"
 
-class GameBoard : public GameObject{
+namespace Tile {
+class Tile;
+typedef std::pair<int, int> TileCoord;
+}  // namespace Tile
+class GameBoard : public GameObject {
  protected:
-  typedef std::map<Tile::TileCoord, Tile::Tile> Tiles;
-  Tiles m_Tiles;
-
-  Tile::Tile horizontal_board[8][3];
-  Tile::Tile vertical_board[8][3];
+  std::array<std::array<std::unique_ptr<Tile::Tile>, 3>, 8> horizontal_board;
+  std::array<std::array<std::unique_ptr<Tile::Tile>, 3>, 8> vertical_board;
 
   sf::RectangleShape m_Board;
   sf::Texture m_BoardTexture;
