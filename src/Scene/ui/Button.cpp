@@ -22,6 +22,7 @@ Button::Button(const std::string& buttonText,
 
 void Button::setTexture(const sf::Texture& texture) {
   m_ButtonShape.setTexture(&texture, true);
+  UI::setSize(sf::Vector2f(texture.getSize().x, texture.getSize().y));
 }
 
 void Button::setFont(const sf::Font& font) { m_ButtonText.setFont(font); }
