@@ -4,20 +4,27 @@
 #include "SFML/System/Vector2.hpp"
 
 namespace graphics {
-Button::Button(const std::string& buttonText,
-               std::function<void(sf::Event)> onAction)
-    : m_clickListener(this, onAction) {
+Button::Button(const std::string& buttonText) {
   m_ButtonText.setString(buttonText);
   m_ButtonText.setCharacterSize(CHAR_SIZE);
   m_ButtonText.setFillColor(sf::Color(0xd0, 0xbc, 0xff));
-
+}
+Button::Button(const std::string& buttonText,
+               std::function<void(sf::Event)> onAction)
+    : Button(buttonText) {
+  m_clickListener = std::make_unique<OnClickEventListener>(this, onAction);
   // TODO : Calculate dynamically
   m_ButtonShape.setSize(
       sf::Vector2f((buttonText.length() - 1) * CHAR_SIZE + Button::MARGIN_X * 2,
                    CHAR_SIZE + Button::MARGIN_Y * 2));
   setSize(m_ButtonShape.getSize());
 
-  addEventListener(&m_clickListener);
+  addEventListener(m_clickListener.get());
+}
+
+void Button::setCallback(std::function<void(sf::Event)> onAction) {
+  m_clickListener = std::make_unique<OnClickEventListener>(this, onAction);
+  addEventListener(m_clickListener.get());
 }
 
 void Button::setTexture(const sf::Texture& texture) {

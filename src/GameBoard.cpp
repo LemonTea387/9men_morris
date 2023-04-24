@@ -6,25 +6,25 @@
 #include "Tile.hpp"
 
 void GameBoard::Update(sf::Event event) {
-  if (event.type == sf::Event::MouseButtonReleased &&
-      event.mouseButton.button == sf::Mouse::Left) {
-    int i = 0;
-    int j = 0;
-    bool flag = false;
-    Tile::Tile *tile;
-
-    while (i < 8 && !flag) {
-      while (j < 3 && !flag) {
-        tile = horizontal_board[i][j].get();
-        if (tile->contains(event.mouseButton.x, event.mouseButton.y)) {
-          Notified(std::make_pair(i, j));
-          flag = true;
-        }
-        j++;
-      }
-      i++;
-    }
-  }
+  // if (event.type == sf::Event::MouseButtonReleased &&
+  //     event.mouseButton.button == sf::Mouse::Left) {
+  //   int i = 0;
+  //   int j = 0;
+  //   bool flag = false;
+  //   Tile::Tile *tile;
+  //
+  //   while (i < 8 && !flag) {
+  //     while (j < 3 && !flag) {
+  //       tile = horizontal_board[i][j].get();
+  //       if (tile->contains(event.mouseButton.x, event.mouseButton.y)) {
+  //         Notified(std::make_pair(i, j));
+  //         flag = true;
+  //       }
+  //       j++;
+  //     }
+  //     i++;
+  //   }
+  // }
 }
 
 void GameBoard::Render() {
@@ -37,6 +37,9 @@ void GameBoard::Render() {
     }
   }
 }
+
+void GameBoard::testFunc() { std::cout << "Hello World " << iii << std::endl; }
+
 GameBoard::GameBoard() : m_Board(sf::Vector2f(554.f, 554.f)) {
   /* m_DebugToken.setRadius(20.f);*/
   for (int i = 0; i < 8; i++) {
@@ -110,6 +113,7 @@ bool GameBoard::is_adjacent() {
 };
 
 void GameBoard::Notified(Tile::TileCoord h_coords) {
+  std::cout << xxx.size() << std::endl;
   std::cout << "Notified " << h_coords.first << " , " << h_coords.second
             << std::endl;
   Tile::Tile *new_tile =
@@ -133,6 +137,8 @@ void GameBoard::Notified(Tile::TileCoord h_coords) {
         xxx.pop_back();
         new_tile->set_occupation(prev_tile->get_occupation());
         prev_tile->set_occupation(Tile::Occupation::NONE);
+      } else {
+        xxx.pop_back();
       }
     }
   }

@@ -3,9 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <functional>
+#include <memory>
 #include <string>
 
-#include "OnClickEventListener.hpp"
 #include "UI.hpp"
 
 /**
@@ -15,11 +15,14 @@
  * the compound UI components.
  */
 namespace graphics {
+class OnClickEventListener;
 class Button : public UI {
  public:
   Button(Button const&) = delete;
   Button(const std::string& buttonText,
          std::function<void(sf::Event)> onAction);
+  Button(const std::string& buttonText);
+
   ~Button();
   void setTexture(const sf::Texture& texture);
   void setFont(const sf::Font& font);
@@ -31,6 +34,7 @@ class Button : public UI {
    */
   void setPosition(const sf::Vector2f& position);
   virtual void setSize(const sf::Vector2f& size) override;
+  void setCallback(std::function<void(sf::Event)> onAction);
 
  private:
   static constexpr float MARGIN_X = 32.f;
@@ -39,7 +43,9 @@ class Button : public UI {
   sf::RectangleShape m_ButtonShape;
   sf::Text m_ButtonText;
   sf::Font m_ButtonFont;
-  OnClickEventListener m_clickListener;
+
+  typedef std::unique_ptr<OnClickEventListener> OCELPtr;
+  OCELPtr m_clickListener;
   virtual void draw(sf::RenderTarget& target,
                     sf::RenderStates states) const override;
 };

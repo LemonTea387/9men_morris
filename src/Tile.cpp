@@ -1,13 +1,17 @@
 #include "Tile.hpp"
 
+#include <iostream>
+
 #include "AssetManager.hpp"
 #include "GameBoard.hpp"
 
 namespace Tile {
-Tile::Tile(GameBoard* gb)
-    : m_Gameboard(gb), graphics::Button("", [&](sf::Event event) {
-        gb->Notified(this->horizontal_coords);
-      }){};
+Tile::Tile(GameBoard* gb) : m_Gameboard(gb), graphics::Button("") {
+  this->setCallback([&](sf::Event event) {
+    std::cout << "CLICK" << std::endl;
+    gb->Notified(this->horizontal_coords);
+  });
+};
 
 Tile::~Tile(){};
 

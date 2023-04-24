@@ -22,10 +22,12 @@ class GameBoard : public GameObject {
   sf::CircleShape m_DebugToken;
   std::vector<Tile::TileCoord> xxx;
   Tile::Tile* new_tile;
+  int iii = 42;
 
   void InitialiseTiles();
 
  public:
+  void testFunc();
   void Update(sf::Event event);
   void Render();
   GameBoard();
@@ -34,6 +36,7 @@ class GameBoard : public GameObject {
   bool is_adjacent();
 
   friend class PlaceCommand;
+  friend class GameScene;
 };
 
 #endif

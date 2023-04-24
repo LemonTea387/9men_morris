@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "../Game.hpp"
+#include "../Tile.hpp"
 
 GameScene::GameScene()
     : m_SaveButton{"Save",
@@ -27,6 +28,11 @@ GameScene::GameScene()
 
   addUI(&m_SaveButton);
   addUI(&m_QuitButton);
+  for (const auto& outer : m_GameBoard.horizontal_board) {
+    for (const auto& inner : outer) {
+      addUI(inner.get());
+    }
+  }
 }
 
 void GameScene::Update(sf::Event event) {
