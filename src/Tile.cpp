@@ -2,7 +2,11 @@
 
 
 namespace Tile{
-Tile::Tile() : graphics::Button("", [](sf::Event event){}){};
+Tile::Tile() : graphics::Button("", [](sf::Event event){}){
+  noneTexture.loadFromFile("assets/ui/buttons/coconut.png");
+  dogeTexture.loadFromFile("assets/ui/buttons/Doge.png");
+  pepeTexture.loadFromFile("assets/ui/buttons/Pepe.png");
+};
 
 Tile::~Tile(){};
 
@@ -18,22 +22,17 @@ Occupation Tile::Tile::get_occupation() { return occupation;}
 
 void Tile::Tile::set_occupation(Occupation my_occupation) {
 	occupation = my_occupation;
-    sf::Texture myTexture;
-    if (occupation == Occupation::DOGE) {
-        if (!myTexture.loadFromFile("assets/ui/buttons/Doge.png")) {
-        std::cerr << "Could not load UI button!" << std::endl;
-        }
-    } else if (occupation == Occupation::PEPE) {
-        if (!myTexture.loadFromFile("assets/ui/buttons/Pepe.png")) {
-        std::cerr << "Could not load UI button!" << std::endl;
-        }
-    } else if (occupation == Occupation::NONE) {
-        if (!myTexture.loadFromFile("assets/ui/buttons/EmptyToken.png")) {
-        std::cerr << "Could not load UI button!" << std::endl;
-        }
+    
+    
+    if (my_occupation == Occupation::DOGE) {
+          setTexture(dogeTexture);
+    } else if (my_occupation == Occupation::PEPE) {
+          setTexture(pepeTexture);
+    } else if (my_occupation == Occupation::NONE) {
+        setTexture(noneTexture);
     }
 
-    setTexture(myTexture);
+    
 }
 
 TileCoord Tile::Tile::get_horizontal_coords() { return horizontal_coords; };
