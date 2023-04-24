@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-option(SHOW_TERMINAL "Displays the terminal on Windows" OFF)
+option(SHOW_TERMINAL "Displays the terminal on Windows" ON)
 
 project(
   EverythingNMM

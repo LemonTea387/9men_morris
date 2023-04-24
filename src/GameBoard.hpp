@@ -7,8 +7,8 @@
 #include "SFML/Graphics/CircleShape.hpp"
 #include "Tile.hpp"
 
-class GameBoard : public GameObject {
- private:
+class GameBoard : public GameObject{
+ protected:
   typedef std::map<Tile::TileCoord, Tile::Tile> Tiles;
   Tiles m_Tiles;
 
@@ -19,6 +19,7 @@ class GameBoard : public GameObject {
   sf::Texture m_BoardTexture;
 
   sf::CircleShape m_DebugToken;
+  std::vector<Tile::TileCoord> xxx;
 
   void InitialiseTiles();
 
@@ -27,6 +28,8 @@ class GameBoard : public GameObject {
   void Render();
   GameBoard();
   ~GameBoard();
+  void Notified(Tile::TileCoord);
+  bool is_adjacent();
 
   friend class PlaceCommand;
 };

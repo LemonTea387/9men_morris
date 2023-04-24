@@ -2,6 +2,7 @@
 #define TILE_H
 #include <SFML/Graphics.hpp>
 #include "Scene/ui/Button.hpp"
+#include "communicator.hpp"
 
 namespace Tile {
 
@@ -12,9 +13,11 @@ namespace Tile {
  */
 typedef std::pair<int, int> TileCoord;
 
+
+
 enum class Occupation { DOGE, PEPE, NONE };
 
-class Tile: public graphics::Button {
+class Tile : public graphics::Button {
  private:
   TileCoord horizontal_coords;
   TileCoord vertical_coords;
@@ -27,7 +30,9 @@ class Tile: public graphics::Button {
   void set_vertical_coords(int, int);
   Occupation get_occupation();
   void set_occupation(Occupation);
-
+  TileCoord get_horizontal_coords();
+  TileCoord get_vertical_coords();
+  bool contains(int, int);
 };
 
 /**
