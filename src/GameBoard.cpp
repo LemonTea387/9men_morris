@@ -38,8 +38,6 @@ void GameBoard::Render() {
   }
 }
 
-void GameBoard::testFunc() { std::cout << "Hello World " << iii << std::endl; }
-
 GameBoard::GameBoard() : m_Board(sf::Vector2f(554.f, 554.f)) {
   /* m_DebugToken.setRadius(20.f);*/
   for (int i = 0; i < 8; i++) {
