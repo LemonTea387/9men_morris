@@ -102,10 +102,20 @@ GameBoard::~GameBoard() {}
 
 bool GameBoard::is_adjacent() {
   bool flag = false;
-  if (xxx.at(0).first == xxx.at(1).first) {
-    flag = abs(xxx.at(0).second - xxx.at(1).second) == 1;
-  } else if (xxx.at(0).first == xxx.at(1).first) {
-    flag = abs(xxx.at(0).second - xxx.at(1).second) == 1;
+  Tile::Tile *tile_one = 
+      horizontal_board[xxx.at(0).first][xxx.at(0).second].get();
+  Tile::Tile *tile_two =
+      horizontal_board[xxx.at(1).first][xxx.at(1).second].get();
+
+  if (tile_one->get_horizontal_coords().first ==
+      tile_two->get_horizontal_coords().first) {
+    flag = abs(tile_one->get_horizontal_coords().second -
+               tile_two->get_horizontal_coords().second) == 1;
+  }
+  else if (tile_one->get_vertical_coords().first ==
+      tile_two->get_vertical_coords().first) {
+    flag = abs(tile_one->get_vertical_coords().second -
+               tile_two->get_vertical_coords().second) == 1;
   }
   return flag;
 };
