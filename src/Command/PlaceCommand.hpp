@@ -5,6 +5,7 @@
 #include "../Tile.hpp"
 #include "Command.hpp"
 
+/**
 class GameBoard;
 class PlaceCommand : public Command {
  private:
@@ -20,5 +21,6 @@ class PlaceCommand : public Command {
   PlaceCommand(GameBoardPtr, Tile::Tile);
   ~PlaceCommand();
 };
+*/
 
 #endif

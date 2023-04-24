@@ -11,6 +11,10 @@ class GameBoard : public GameObject {
  private:
   typedef std::map<Tile::TileCoord, Tile::Tile> Tiles;
   Tiles m_Tiles;
+
+  Tile::Tile horizontal_board[8][3];
+  Tile::Tile vertical_board[8][3];
+
   sf::RectangleShape m_Board;
   sf::Texture m_BoardTexture;
 

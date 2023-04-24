@@ -62,12 +62,12 @@ class Game {
   /**
    * The publicly accessible constant default Window Width.
    */
-  static constexpr int WINDOW_WIDTH = 900;
+  static constexpr int WINDOW_WIDTH = 1000;
 
   /**
    * The publicly accsesible constant default Window Height.
    */
-  static constexpr int WINDOW_HEIGHT = 900;
+  static constexpr int WINDOW_HEIGHT = 1000;
 
   /**
    * Gets the context of the application's window. Retrieves a single Window

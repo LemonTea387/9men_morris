@@ -23,6 +23,11 @@ class Tile: public graphics::Button {
  public:
   Tile();
   ~Tile();
+  void set_horizontal_coords(int, int);
+  void set_vertical_coords(int, int);
+  Occupation get_occupation();
+  void set_occupation(Occupation);
+
 };
 
 /**

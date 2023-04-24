@@ -21,6 +21,7 @@ add_executable(EverythingNMM
   src/main.cpp
   src/GameObject.hpp
   src/Tile.hpp
+  src/Tile.cpp
   src/Scene/Scene.hpp
   src/Scene/MenuScene.hpp
   src/Scene/MenuScene.cpp
@@ -35,7 +36,7 @@ add_executable(EverythingNMM
   src/GameBoard.cpp
   src/Scene/ui/Button.hpp
   src/Scene/ui/Button.cpp
-)
+ "src/Tile.cpp")
 
 if(MSVC)
   # Microsoft Documentation recommends these two lines
