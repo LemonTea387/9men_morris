@@ -9,7 +9,7 @@ enum Texture { DOGE, PEPE, EMPTY };
 }
 class AssetManager {
  private:
-  typedef std::unique_ptr<sf::Texture> TexturePtr;
+  typedef std::shared_ptr<sf::Texture> TexturePtr;
   std::map<GameAsset::Texture, TexturePtr> m_Textures;
   AssetManager();
   ~AssetManager();
@@ -18,6 +18,9 @@ class AssetManager {
 
  public:
   AssetManager(AssetManager const&) = delete;
+
+  std::shared_ptr<sf::Texture> GetTexture(GameAsset::Texture) const;
+
   void operator=(const AssetManager&) = delete;
 
   static AssetManager& GetInstance() {

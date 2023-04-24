@@ -1,8 +1,9 @@
 #ifndef TILE_H
 #define TILE_H
 #include <SFML/Graphics.hpp>
+
+#include "Communicator.hpp"
 #include "Scene/ui/Button.hpp"
-#include "communicator.hpp"
 
 namespace Tile {
 
@@ -12,8 +13,6 @@ namespace Tile {
  * to use std::unordered_map for a tiny bit extra performance.
  */
 typedef std::pair<int, int> TileCoord;
-
-
 
 enum class Occupation { DOGE, PEPE, NONE };
 

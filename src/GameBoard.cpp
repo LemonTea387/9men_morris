@@ -1,16 +1,13 @@
 #include "GameBoard.hpp"
 
-
 #include <iostream>
 
 #include "Game.hpp"
 #include "Tile.hpp"
 
-
 void GameBoard::Update(sf::Event event) {
   if (event.type == sf::Event::MouseButtonReleased &&
       event.mouseButton.button == sf::Mouse::Left) {
-
     int i = 0;
     int j = 0;
     bool flag = false;
@@ -21,20 +18,16 @@ void GameBoard::Update(sf::Event event) {
         tile = &horizontal_board[i][j];
         if (tile->contains(event.mouseButton.x, event.mouseButton.y)) {
           Notified(std::make_pair(i, j));
-          
         }
         j++;
       }
       i++;
-    
     }
   }
-
 }
 
-
 void GameBoard::Render() {
-  sf::RenderWindow& window = Game::GetWindow();
+  sf::RenderWindow &window = Game::GetWindow();
   window.draw(m_Board);
 
   for (int i = 0; i < 8; i++) {
@@ -42,7 +35,6 @@ void GameBoard::Render() {
       window.draw(horizontal_board[i][j]);
     }
   }
-    
 }
 GameBoard::GameBoard() : m_Board(sf::Vector2f(554.f, 554.f)) {
   /* m_DebugToken.setRadius(20.f);*/
@@ -71,68 +63,62 @@ void GameBoard::InitialiseTiles() {
       {{2, 2}, {5, 0}}, {{3, 0}, {0, 1}}, {{3, 1}, {1, 1}}, {{3, 2}, {2, 1}},
       {{4, 0}, {5, 0}}, {{4, 1}, {6, 1}}, {{4, 2}, {7, 1}}, {{5, 0}, {2, 2}},
       {{5, 1}, {4, 0}}, {{5, 2}, {5, 2}}, {{6, 0}, {1, 2}}, {{6, 1}, {4, 1}},
-      {{6, 2}, {6, 2}}, {{7, 0}, {0, 2}}, {{7, 1}, {4, 2}}, {{7, 2}, {7, 2}}
-  };
+      {{6, 2}, {6, 2}}, {{7, 0}, {0, 2}}, {{7, 1}, {4, 2}}, {{7, 2}, {7, 2}}};
 
   int k;
 
   for (int i = 0; i < 8; i++) {
     for (int j = 0; j < 3; j++) {
       k = i * 3 + j;
-        Tile::Tile *new_tile = &horizontal_board[i][j];
+      Tile::Tile *new_tile = &horizontal_board[i][j];
       new_tile->set_horizontal_coords(coordinates[k][0][0],
-                                        coordinates[k][0][1]);
-        new_tile->set_vertical_coords(coordinates[k][1][0], coordinates[k][1][1]);
-        new_tile->setPosition(sf::Vector2f(tile_pos[k][0], tile_pos[k][1]));
-        new_tile->setSize(sf::Vector2f(72, 78));
-        new_tile->set_occupation(Tile::Occupation::NONE);
+                                      coordinates[k][0][1]);
+      new_tile->set_vertical_coords(coordinates[k][1][0], coordinates[k][1][1]);
+      new_tile->setPosition(sf::Vector2f(tile_pos[k][0], tile_pos[k][1]));
+      new_tile->setSize(sf::Vector2f(72, 78));
+      new_tile->set_occupation(Tile::Occupation::NONE);
 
-        if (i < 9) {
-            new_tile->set_occupation(Tile::Occupation::DOGE);
-        } else if (i >= 24 - 9) {
-            new_tile->set_occupation(Tile::Occupation::PEPE);
-        }
+      if (k < 9) {
+        new_tile->set_occupation(Tile::Occupation::DOGE);
+      } else if (k >= 24 - 9) {
+        new_tile->set_occupation(Tile::Occupation::PEPE);
       }
+    }
   }
-
-
 }
 
 GameBoard::~GameBoard() {}
 
-bool GameBoard::is_adjacent(){ 
+bool GameBoard::is_adjacent() {
   bool flag = false;
-  if (xxx.at(0).first ==
-      xxx.at(1).first) {
-    flag = abs(xxx.at(0).second -
-               xxx.at(1).second) == 1;
-  } else if (xxx.at(0).first ==
-             xxx.at(1).first) {
-    flag = abs(xxx.at(0).second -
-               xxx.at(1).second) == 1;
+  if (xxx.at(0).first == xxx.at(1).first) {
+    flag = abs(xxx.at(0).second - xxx.at(1).second) == 1;
+  } else if (xxx.at(0).first == xxx.at(1).first) {
+    flag = abs(xxx.at(0).second - xxx.at(1).second) == 1;
   }
   return flag;
 };
 
 void GameBoard::Notified(Tile::TileCoord h_coords) {
-  Tile::Tile *new_tile = &GameBoard::horizontal_board[h_coords.first][h_coords.second];
-  
+  Tile::Tile *new_tile =
+      &GameBoard::horizontal_board[h_coords.first][h_coords.second];
+
   if (xxx.size() == 0) {
     if (horizontal_board[h_coords.first][h_coords.second].get_occupation() !=
         Tile::Occupation::NONE) {
-        xxx.push_back(h_coords);
+      xxx.push_back(h_coords);
     }
   } else {
-    Tile::Tile *prev_tile = &horizontal_board[xxx.at(0).first][xxx.at(0).second];
+    Tile::Tile *prev_tile =
+        &horizontal_board[xxx.at(0).first][xxx.at(0).second];
     if (new_tile->get_occupation() != Tile::Occupation::NONE) {
-        xxx.pop_back();
-        xxx.push_back(h_coords);
+      xxx.pop_back();
+      xxx.push_back(h_coords);
     } else if (is_adjacent()) {
-        xxx.pop_back();
-        new_tile->set_occupation(prev_tile->get_occupation());
-        prev_tile->set_occupation(Tile::Occupation::NONE);
+      xxx.pop_back();
+      new_tile->set_occupation(prev_tile->get_occupation());
+      prev_tile->set_occupation(Tile::Occupation::NONE);
     }
   }
   Render();
 };
-
