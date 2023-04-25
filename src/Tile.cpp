@@ -35,7 +35,7 @@ void Tile::Tile::setOccupation(Occupation my_occupation) {
       myTexture = GameAsset::Texture::PEPE;
       break;
     case Occupation::NONE:
-      myTexture = GameAsset::Texture::EMPTY;
+      myTexture = GameAsset::Texture::NONE;
       break;
     default:
       break;

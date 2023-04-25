@@ -20,14 +20,54 @@ GameScene::GameScene()
 
   m_SaveButton.setFont(m_ButtonFont);
   m_SaveButton.setTexture(m_ButtonTexture);
-  m_SaveButton.setPosition(sf::Vector2f(695.f, 803.f));
+  m_SaveButton.setPosition(sf::Vector2f(799.f, 916.f));
 
   m_QuitButton.setFont(m_ButtonFont);
   m_QuitButton.setTexture(m_ButtonTexture);
-  m_QuitButton.setPosition(sf::Vector2f(40.f, 803.f));
+  m_QuitButton.setPosition(sf::Vector2f(51.f, 909.f));
+
+  m_PlayerOneText.setFont(m_ButtonFont);
+  m_PlayerOneText.setString("Player 1");
+  m_PlayerOneText.setCharacterSize(32);
+  m_PlayerOneText.setPosition(sf::Vector2f(332.f, 815.f));
+
+  m_PlayerTwoText.setFont(m_ButtonFont);
+  m_PlayerTwoText.setString("Player 2");
+  m_PlayerTwoText.setCharacterSize(32);
+  m_PlayerTwoText.setPosition(sf::Vector2f(687.f, 815.f));
+
+  m_PlayerTwoText.setFont(m_ButtonFont);
+  m_PlayerTwoText.setString("Player 2 Move Token");
+  m_PlayerTwoText.setCharacterSize(48);
+  m_PlayerTwoText.setPosition(sf::Vector2f(313.f, 42.f));
+
+  if (!m_PlayerOneTexture.loadFromFile("assets/ui/buttons/Pepe.png")) {
+    std::cerr << "Could not load UI button!" << std::endl;
+  }
+
+  if (!m_PlayerTwoTexture.loadFromFile("assets/ui/buttons/Doge.png")) {
+    std::cerr << "Could not load UI button!" << std::endl;
+  }
+
+  if (!m_TurnTexture.loadFromFile("assets/ui/buttons/Doge.png")) {
+    std::cerr << "Could not load UI button!" << std::endl;
+  }
+
+  m_PlayerOneIcon.setSize(sf::Vector2f(90, 90));
+  m_PlayerTwoIcon.setSize(sf::Vector2f(90, 90));
+  m_TurnIcon.setSize(sf::Vector2f(115, 115));
+
+
+  m_PlayerOneIcon.setTexture(&m_PlayerOneTexture);
+  m_PlayerTwoIcon.setTexture(&m_PlayerTwoTexture);
+  m_TurnIcon.setTexture(&m_TurnTexture);
+
+  m_PlayerOneIcon.setPosition(sf::Vector2f(213, 790));
+  m_PlayerTwoIcon.setPosition(sf::Vector2f(567, 790));
+  m_TurnIcon.setPosition(sf::Vector2f(157, 15));
 
   addUI(&m_SaveButton);
-  addUI(&m_QuitButton);
+  addUI(&m_QuitButton);  
   for (const auto& outer : m_GameBoard.horizontal_board) {
     for (const auto& inner : outer) {
       addUI(inner.get());
@@ -54,4 +94,11 @@ void GameScene::Render() {
   // TODO Abstract gameboard to its own
   // GameBoard drawing
   m_GameBoard.Render();
+
+  window.draw(m_PlayerOneIcon);
+  window.draw(m_PlayerTwoIcon);
+  window.draw(m_TurnIcon);
+  window.draw(m_PlayerOneText);
+  window.draw(m_PlayerTwoText);
+  window.draw(m_TurnText);
 }

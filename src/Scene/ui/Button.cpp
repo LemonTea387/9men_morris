@@ -43,8 +43,8 @@ void Button::setPosition(const sf::Vector2f& position) {
   // ensure getPosition returns the right thing.
   sf::Transformable::setPosition(position);
   m_ButtonShape.setPosition(position);
-  m_ButtonText.setPosition(sf::Vector2f(position.x + Button::MARGIN_X,
-                                        position.y + Button::MARGIN_Y));
+  m_ButtonText.setPosition(sf::Vector2f(position.x + Button::MARGIN_X + 7,
+                                        position.y + Button::MARGIN_Y - 5));
 }
 
 void Button::setSize(const sf::Vector2f& size) {

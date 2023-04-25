@@ -4,6 +4,7 @@
 
 #include "Game.hpp"
 #include "Tile.hpp"
+#include "AssetManager.hpp"
 
 void GameBoard::Update(sf::Event event) {
 }
@@ -27,6 +28,7 @@ GameBoard::GameBoard() : m_Board(sf::Vector2f(554.f, 554.f)) {
   }
 
   m_Board.setPosition(sf::Vector2f(223.f, 173.f));
+  AssetManager& assMan = AssetManager::GetInstance();
   if (!m_BoardTexture.loadFromFile("assets/ui/gameBoard.png")) {
     std::cerr << "Could not load Board Texture!" << std::endl;
   }
@@ -77,16 +79,7 @@ void GameBoard::InitialiseTiles() {
 
 GameBoard::~GameBoard() {}
 
-
-
 void GameBoard::Notify(Tile::Tile* curr_tile) {
-  //std::cout << xxx.size() << std::endl;
-  //std::cout << "Notified " << h_coords.first << " , " << h_coords.second
-  //          << std::endl;
-
-  //Tile::Tile *new_tile =
-  //    horizontal_board[h_coords.first][h_coords.second].get();
-
   if (tile_q.size() == 0) {
     if (curr_tile->getOccupation() != Tile::Occupation::NONE) {
       tile_q.push_back(curr_tile);
@@ -104,25 +97,25 @@ void GameBoard::Notify(Tile::Tile* curr_tile) {
   Render();
 };
 
-// bool GameBoard::is_adjacent() {
-//   bool flag = false;
-//   Tile::Tile *tile_one =
-//       horizontal_board[xxx.at(0).first][xxx.at(0).second].get();
-//   Tile::Tile *tile_two =
-//       horizontal_board[xxx.at(1).first][xxx.at(1).second].get();
-//
-//   if (tile_one->getHorzCoords().first ==
-//       tile_two->getHorzCoords().first) {
-//     flag = abs(tile_one->getHorzCoords().second -
-//                tile_two->getHorzCoords().second) == 1;
-//   }
-//   else if (tile_one->getVertCoords().first ==
-//       tile_two->getVertCoords().first) {
-//     flag = abs(tile_one->getVertCoords().second -
-//                tile_two->getVertCoords().second) == 1;
-//   }
-//   return flag;
-// };
+ //bool GameBoard::is_adjacent() {
+ //  bool flag = false;
+ //  Tile::Tile *tile_one =
+ //      horizontal_board[xxx.at(0).first][xxx.at(0).second].get();
+ //  Tile::Tile *tile_two =
+ //      horizontal_board[xxx.at(1).first][xxx.at(1).second].get();
+
+ //  if (tile_one->getHorzCoords().first ==
+ //      tile_two->getHorzCoords().first) {
+ //    flag = abs(tile_one->getHorzCoords().second -
+ //               tile_two->getHorzCoords().second) == 1;
+ //  }
+ //  else if (tile_one->getVertCoords().first ==
+ //      tile_two->getVertCoords().first) {
+ //    flag = abs(tile_one->getVertCoords().second -
+ //               tile_two->getVertCoords().second) == 1;
+ //  }
+ //  return flag;
+ //};
 
 //void GameBoard::Notified(Tile::TileCoord h_coords) {
 //  std::cout << xxx.size() << std::endl;

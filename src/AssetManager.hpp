@@ -5,7 +5,7 @@
 #include <string>
 
 namespace GameAsset {
-enum Texture { DOGE, PEPE, EMPTY };
+enum Texture { DOGE, PEPE, NONE };
 }
 class AssetManager {
  private:
