@@ -41,9 +41,9 @@ GameScene::GameScene()
   m_TurnText.setCharacterSize(48);
   m_TurnText.setPosition(sf::Vector2f(313.f, 42.f));
 
-  m_draw.push_back(&m_PlayerOneText);
-  m_draw.push_back(&m_PlayerTwoText);
-  m_draw.push_back(&m_TurnText);
+  addDrawable(&m_PlayerOneText);
+  addDrawable(&m_PlayerTwoText);
+  addDrawable(&m_TurnText);
 
 
 
@@ -72,9 +72,9 @@ GameScene::GameScene()
   m_PlayerTwoIcon.setPosition(sf::Vector2f(567, 790));
   m_TurnIcon.setPosition(sf::Vector2f(157, 15));
 
-  m_draw.push_back(&m_PlayerOneIcon);
-  m_draw.push_back(&m_PlayerTwoIcon);
-  m_draw.push_back(&m_TurnIcon);
+  addDrawable(&m_PlayerOneIcon);
+  addDrawable(&m_PlayerTwoIcon);
+  addDrawable(&m_TurnIcon);
 
   addUI(&m_SaveButton);
   addUI(&m_QuitButton);  

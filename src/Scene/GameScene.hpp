@@ -9,6 +9,7 @@
 
 class GameScene : public Scene {
  private:
+	 // TODO: add them into m_ui and m_drawable
   sf::Texture m_ButtonTexture;
   sf::Font m_ButtonFont;
   graphics::Button m_QuitButton;

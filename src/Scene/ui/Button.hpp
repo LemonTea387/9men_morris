@@ -31,9 +31,6 @@ class Button : public UI {
          std::function<void(sf::Event)> onAction);
   ~Button();
   
-  
-  
-  
 
   /**
    * Setting all the position of the compound UI components to ensure everything
