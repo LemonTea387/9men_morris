@@ -57,7 +57,7 @@ void GameBoard::InitialiseTiles() {
       {{7, 0}, {0, 2}}, {{7, 1}, {4, 2}}, {{7, 2}, {7, 2}}};
 
   int k;
-
+  Tile::Tile* new_tile;
   for (int i = 0; i < 8; i++) {
     for (int j = 0; j < 3; j++) {
       k = i * 3 + j;

@@ -28,17 +28,17 @@ class Tile : public graphics::Button {
   Occupation occupation;
 
  public:
-  Tile(GameBoardPtr);
-  ~Tile();
   void setHorzCoords(int, int);
   void setVertCoords(int, int);
-  Occupation getOccupation();
   void setOccupation(Occupation);
-  TileCoord getHorzCoords();
-  TileCoord getVertCoords();
+  void swapOccupation(Tile*);
   bool contains(int, int);
   bool isAdjacent(Tile*);
-  void swapOccupation(Tile*);
+  Occupation getOccupation();
+  TileCoord getHorzCoords();
+  TileCoord getVertCoords();
+  Tile(GameBoardPtr);
+  ~Tile();
 };
 
 /**
