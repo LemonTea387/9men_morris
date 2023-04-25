@@ -48,15 +48,6 @@ TileCoord Tile::Tile::getHorzCoords() { return horizontal_coords; };
 
 TileCoord Tile::Tile::getVertCoords() { return vertical_coords; };
 
-bool Tile::Tile::contains(int x, int y) {
-  float x_start = getPosition().x;
-  float y_start = getPosition().y;
-  float width = getSize().x;
-  float height = getSize().y;
-
-  return x >= x_start && x <= x_start + width && y >= y_start &&
-         y <= y_start + height;
-}
 bool Tile::isAdjacent(Tile* other) {
   bool flag = false;
 

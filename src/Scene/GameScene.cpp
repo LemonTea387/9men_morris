@@ -45,8 +45,6 @@ GameScene::GameScene()
   addDrawable(&m_PlayerTwoText);
   addDrawable(&m_TurnText);
 
-
-
   if (!m_PlayerOneTexture.loadFromFile("assets/ui/buttons/Pepe.png")) {
     std::cerr << "Could not load UI button!" << std::endl;
   }
@@ -62,7 +60,6 @@ GameScene::GameScene()
   m_PlayerOneIcon.setSize(sf::Vector2f(90, 90));
   m_PlayerTwoIcon.setSize(sf::Vector2f(90, 90));
   m_TurnIcon.setSize(sf::Vector2f(115, 115));
-
 
   m_PlayerOneIcon.setTexture(&m_PlayerOneTexture);
   m_PlayerTwoIcon.setTexture(&m_PlayerTwoTexture);

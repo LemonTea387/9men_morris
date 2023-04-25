@@ -32,7 +32,6 @@ class Tile : public graphics::Button {
   void setVertCoords(int, int);
   void setOccupation(Occupation);
   void swapOccupation(Tile*);
-  bool contains(int, int);
   bool isAdjacent(Tile*);
   Occupation getOccupation();
   TileCoord getHorzCoords();
