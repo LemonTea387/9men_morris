@@ -10,6 +10,7 @@ class Scene : public GameObject {
 
  protected:
   std::vector<graphics::UI*> m_ui{};
+  std::vector<sf::Drawable*> m_draw{};
 };
 
 #endif

@@ -36,10 +36,16 @@ GameScene::GameScene()
   m_PlayerTwoText.setCharacterSize(32);
   m_PlayerTwoText.setPosition(sf::Vector2f(687.f, 815.f));
 
-  m_PlayerTwoText.setFont(m_ButtonFont);
-  m_PlayerTwoText.setString("Player 2 Move Token");
-  m_PlayerTwoText.setCharacterSize(48);
-  m_PlayerTwoText.setPosition(sf::Vector2f(313.f, 42.f));
+  m_TurnText.setFont(m_ButtonFont);
+  m_TurnText.setString("Player 2 Move Token");
+  m_TurnText.setCharacterSize(48);
+  m_TurnText.setPosition(sf::Vector2f(313.f, 42.f));
+
+  m_draw.push_back(&m_PlayerOneText);
+  m_draw.push_back(&m_PlayerTwoText);
+  m_draw.push_back(&m_TurnText);
+
+
 
   if (!m_PlayerOneTexture.loadFromFile("assets/ui/buttons/Pepe.png")) {
     std::cerr << "Could not load UI button!" << std::endl;
@@ -66,6 +72,10 @@ GameScene::GameScene()
   m_PlayerTwoIcon.setPosition(sf::Vector2f(567, 790));
   m_TurnIcon.setPosition(sf::Vector2f(157, 15));
 
+  m_draw.push_back(&m_PlayerOneIcon);
+  m_draw.push_back(&m_PlayerTwoIcon);
+  m_draw.push_back(&m_TurnIcon);
+
   addUI(&m_SaveButton);
   addUI(&m_QuitButton);  
   for (const auto& outer : m_GameBoard.horizontal_board) {
@@ -91,14 +101,11 @@ void GameScene::Render() {
     window.draw(*e);
   }
 
+  for (auto& e : m_draw) {
+    window.draw(*e);
+  }
+
   // TODO Abstract gameboard to its own
   // GameBoard drawing
   m_GameBoard.Render();
-
-  window.draw(m_PlayerOneIcon);
-  window.draw(m_PlayerTwoIcon);
-  window.draw(m_TurnIcon);
-  window.draw(m_PlayerOneText);
-  window.draw(m_PlayerTwoText);
-  window.draw(m_TurnText);
 }
