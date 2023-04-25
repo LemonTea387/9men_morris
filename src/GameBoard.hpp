@@ -21,6 +21,7 @@ class GameBoard : public GameObject {
 
   sf::CircleShape m_DebugToken;
   std::vector<Tile::TileCoord> xxx;
+  std::vector<Tile::Tile*> tile_q;
   Tile::Tile* new_tile;
 
   void InitialiseTiles();
@@ -30,7 +31,8 @@ class GameBoard : public GameObject {
   void Render();
   GameBoard();
   ~GameBoard();
-  void Notified(Tile::TileCoord);
+  //void Notified(Tile::TileCoord);
+  void Notify(Tile::Tile*);
   bool is_adjacent();
 
   friend class PlaceCommand;

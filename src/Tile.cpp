@@ -8,22 +8,22 @@
 namespace Tile {
 Tile::Tile(GameBoard* gb) : m_Gameboard(gb), graphics::Button("") {
   this->setCallback(
-      [&](sf::Event event) { m_Gameboard->Notified(this->horizontal_coords); });
+      [&](sf::Event event) { m_Gameboard->Notify(this); });
 };
 
 Tile::~Tile(){};
 
-void Tile::Tile::set_horizontal_coords(int x, int y) {
+void Tile::Tile::setHorzCoords(int x, int y) {
   horizontal_coords = std::make_pair(x, y);
 }
 
-void Tile::Tile::set_vertical_coords(int x, int y) {
+void Tile::Tile::setVertCoords(int x, int y) {
   vertical_coords = std::make_pair(x, y);
 }
 
-Occupation Tile::Tile::get_occupation() { return occupation; }
+Occupation Tile::Tile::getOccupation() { return occupation; }
 
-void Tile::Tile::set_occupation(Occupation my_occupation) {
+void Tile::Tile::setOccupation(Occupation my_occupation) {
   AssetManager& assMan = AssetManager::GetInstance();
   occupation = my_occupation;
   GameAsset::Texture myTexture;
@@ -44,9 +44,9 @@ void Tile::Tile::set_occupation(Occupation my_occupation) {
   setTexture(*assMan.GetTexture(myTexture));
 }
 
-TileCoord Tile::Tile::get_horizontal_coords() { return horizontal_coords; };
+TileCoord Tile::Tile::getHorzCoords() { return horizontal_coords; };
 
-TileCoord Tile::Tile::get_vertical_coords() { return vertical_coords; };
+TileCoord Tile::Tile::getVertCoords() { return vertical_coords; };
 
 bool Tile::Tile::contains(int x, int y) {
   float x_start = getPosition().x;
@@ -57,4 +57,25 @@ bool Tile::Tile::contains(int x, int y) {
   return x >= x_start && x <= x_start + width && y >= y_start &&
          y <= y_start + height;
 }
+bool Tile::isAdjacent(Tile* other) {
+  bool flag = false;
+
+  if (this->getHorzCoords().first == other->getHorzCoords().first) {
+    flag = abs(this->getHorzCoords().second -
+               other->getHorzCoords().second) == 1;
+  } else if (this->getVertCoords().first == other->getVertCoords().first) {
+    flag = abs(this->getVertCoords().second -
+               other->getVertCoords().second) == 1;
+  }
+  
+  return flag;
+}
+
+void Tile::swapOccupation(Tile* other) {
+  Occupation temp = this->getOccupation();
+  this->setOccupation(other->getOccupation());
+  other->setOccupation(temp);
+}
+
+
 }  // namespace Tile
