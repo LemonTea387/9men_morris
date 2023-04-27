@@ -37,6 +37,26 @@ You will need to copy the DLLs from the `out/build/<BUILD_TYPE>/_deps/sfml-build
 `BUILD_TYPE` will be something like `x64-Debug` or `x86-Debug` or `x64-Release` (for Release mode).
 Optionally, you can just add the directory containing the DLLs to your PATH environment variable.
 
+# Docker (Windows)
+An easy way to build on Windows just using Docker. Note that this method is slower (since it creates an entire Linux VM and compiles
+in the VM instead of the host!), so it should only be used as a last resort, and ideally just for creating the executable; not for
+rapid development.
+
+To build on Windows with docker, first ensure you have Docker installed. Then, run the following commands in the root
+directory of this project.
+```
+mkdir build
+docker build --network=host -t nmm .
+docker run --network=host -v ./build:/game/build nmm
+```
+
+The `docker build <snip>` instruction creates the Docker container. The `docker run <snip>` compiles and creates the resulting exe file.
+The resulting executable should be able to be found in `build/clean_build/EverythingNMM.exe`. Launch it to start the game.
+
+Note that the `docker build` command is needed to be ran again if you make changes to the code and wish to see it reflected.
+The first time running the commands will take a while, but after that, running the commands should be faster as most things
+like the Linux VM and installed packages and libraries would be cached. 
+
 # Building Documentation
 We use [Doxygen](https://www.doxygen.nl/index.html) for our documentation. To use it, `cd` into
 the docs directory, run `doxygen Doxyfile`, and in the `docs/html` directory there should be an `index.html`
