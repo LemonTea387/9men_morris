@@ -1,8 +1,7 @@
 #ifndef SCENE_H
 #define SCENE_H
-#include "../GameObject.hpp"
 #include "ui/UI.hpp"
-class Scene : public GameObject {
+class Scene{
  public:
   virtual void Update(sf::Event event) = 0;
   virtual void Render() = 0;
