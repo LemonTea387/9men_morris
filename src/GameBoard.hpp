@@ -4,14 +4,11 @@
 #include <array>
 #include <memory>
 
-#include "GameObject.hpp"
-#include "SFML/Graphics/CircleShape.hpp"
-
 namespace Tile {
 class Tile;
 typedef std::pair<int, int> TileCoord;
 }  // namespace Tile
-class GameBoard : public GameObject {
+class GameBoard {
  protected:
   std::array<std::array<std::unique_ptr<Tile::Tile>, 3>, 8> horizontal_board;
   std::array<std::array<std::unique_ptr<Tile::Tile>, 3>, 8> vertical_board;
@@ -25,10 +22,9 @@ class GameBoard : public GameObject {
   void Render();
   GameBoard();
   ~GameBoard();
-  //void Notified(Tile::TileCoord);
+  // void Notified(Tile::TileCoord);
   void Notify(Tile::Tile*);
 
-  friend class PlaceCommand;
   friend class GameScene;
 };
 
