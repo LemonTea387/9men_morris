@@ -4,39 +4,33 @@
 
 #include "../Game.hpp"
 #include "../Tile.hpp"
+#include "../AssetManager.hpp"
 
 GameScene::GameScene()
     : m_SaveButton{"Save",
                    [&](sf::Event e) { m_SaveButton.setText("Test Save"); }},
       m_QuitButton{"Quit",
-                   [&](sf::Event e) { m_QuitButton.setText("Test Quit"); }} {
-  if (!m_ButtonFont.loadFromFile(
-          "assets/fonts/Comfortaa/static/Comfortaa-SemiBold.ttf")) {
-    std::cerr << "Could not load font!" << std::endl;
-  }
-  if (!m_ButtonTexture.loadFromFile("assets/ui/buttons/Exit.png")) {
-    std::cerr << "Could not load UI button!" << std::endl;
-  }
-
-  m_SaveButton.setFont(m_ButtonFont);
-  m_SaveButton.setTexture(m_ButtonTexture);
+                   [&](sf::Event e) { Game::GetInstance().PopScene(); }} {
+  AssetManager& assMan = AssetManager::GetInstance();
+  // m_SaveButton.setFont(*assMan.GetFont(GameAsset::COMFORTAA));
+  m_SaveButton.setTexture(*assMan.GetTexture(GameAsset::BUTTON));
   m_SaveButton.setPosition(sf::Vector2f(799.f, 916.f));
 
-  m_QuitButton.setFont(m_ButtonFont);
-  m_QuitButton.setTexture(m_ButtonTexture);
+  // m_QuitButton.setFont(*assMan.GetFont(GameAsset::COMFORTAA));
+  m_QuitButton.setTexture(*assMan.GetTexture(GameAsset::BUTTON));
   m_QuitButton.setPosition(sf::Vector2f(51.f, 909.f));
 
-  m_PlayerOneText.setFont(m_ButtonFont);
+  m_PlayerOneText.setFont(*assMan.GetFont(GameAsset::COMFORTAA));
   m_PlayerOneText.setString("Player 1");
   m_PlayerOneText.setCharacterSize(32);
   m_PlayerOneText.setPosition(sf::Vector2f(332.f, 815.f));
 
-  m_PlayerTwoText.setFont(m_ButtonFont);
+  m_PlayerTwoText.setFont(*assMan.GetFont(GameAsset::COMFORTAA).get());
   m_PlayerTwoText.setString("Player 2");
   m_PlayerTwoText.setCharacterSize(32);
   m_PlayerTwoText.setPosition(sf::Vector2f(687.f, 815.f));
 
-  m_TurnText.setFont(m_ButtonFont);
+  m_TurnText.setFont(*assMan.GetFont(GameAsset::COMFORTAA));
   m_TurnText.setString("Player 2 Move Token");
   m_TurnText.setCharacterSize(48);
   m_TurnText.setPosition(sf::Vector2f(313.f, 42.f));
@@ -45,6 +39,7 @@ GameScene::GameScene()
   addDrawable(&m_PlayerTwoText);
   addDrawable(&m_TurnText);
 
+  // TODO : Have these use Assetmanager
   if (!m_PlayerOneTexture.loadFromFile("assets/ui/buttons/Pepe.png")) {
     std::cerr << "Could not load UI button!" << std::endl;
   }
