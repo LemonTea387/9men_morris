@@ -5,21 +5,26 @@
 #include <string>
 
 namespace GameAsset {
-enum Texture { DOGE, PEPE, NONE };
+enum Texture { DOGE, PEPE, NONE, BUTTON };
+enum Font {COMFORTAA};
 }
 class AssetManager {
  private:
   typedef std::shared_ptr<sf::Texture> TexturePtr;
   std::map<GameAsset::Texture, TexturePtr> m_Textures;
+  typedef std::shared_ptr<sf::Font> FontPtr;
+  std::map<GameAsset::Font, FontPtr> m_Fonts;
   AssetManager();
   ~AssetManager();
 
   void LoadTextures();
+  void LoadFonts();
 
  public:
   AssetManager(AssetManager const&) = delete;
 
   std::shared_ptr<sf::Texture> GetTexture(GameAsset::Texture) const;
+  std::shared_ptr<sf::Font> GetFont(GameAsset::Font) const;
 
   void operator=(const AssetManager&) = delete;
 
