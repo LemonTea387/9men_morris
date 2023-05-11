@@ -70,7 +70,7 @@ GameScene::GameScene()
 
   addUI(&m_SaveButton);
   addUI(&m_QuitButton);  
-  for (const auto& outer : m_GameBoard.horizontal_board) {
+  for (const auto& outer : m_GameBoard.horz_board) {
     for (const auto& inner : outer) {
       addUI(inner.get());
     }

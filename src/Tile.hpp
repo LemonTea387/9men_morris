@@ -17,7 +17,7 @@ namespace Tile {
  */
 typedef std::pair<int, int> TileCoord;
 
-enum class Occupation { DOGE, PEPE, NONE };
+enum class Occupation;
 
 class Tile : public graphics::Button {
  private:
