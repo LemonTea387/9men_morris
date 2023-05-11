@@ -74,7 +74,7 @@ void GameBoard::InitialiseTiles() {
       new_tile->setPosition(sf::Vector2f(tile_pos[k][0], tile_pos[k][1]));
       new_tile->setSize(sf::Vector2f(72, 78));
       new_tile->setOccupation(Tile::Occupation::NONE);
-      vert_board[coordinates[k][1][0]][coordinates[k][1][1]].reset(new_tile);
+      vert_board[coordinates[k][1][0]][coordinates[k][1][1]] = new_tile ;
 
       //if (k < 9) {
       //  new_tile->setOccupation(Tile::Occupation::DOGE);

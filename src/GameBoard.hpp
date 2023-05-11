@@ -15,7 +15,7 @@ enum class GameState { PLACE, MOVE, CAPTURE, FLY };
 class GameBoard {
  private:
   std::array<std::array<std::unique_ptr<Tile::Tile>, 3>, 8> horz_board;
-  std::array<std::array<std::unique_ptr<Tile::Tile>, 3>, 8> vert_board;
+  std::array<std::array<Tile::Tile*, 3>, 8> vert_board;
   sf::RectangleShape m_Board;
   sf::Texture m_BoardTexture;
   std::vector<Tile::Tile*> tile_q;
