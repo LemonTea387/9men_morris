@@ -8,6 +8,7 @@ namespace Tile {
 class Tile;
 typedef std::pair<int, int> TileCoord;
 enum class Occupation { DOGE, PEPE, NONE };
+enum class TokenState {NORMAL, SCREAM, SUNGLASSES};
 }  // namespace Tile
 
 enum class GameState { PLACE, MOVE, CAPTURE, FLY };

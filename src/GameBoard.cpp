@@ -75,12 +75,6 @@ void GameBoard::InitialiseTiles() {
       new_tile->setSize(sf::Vector2f(72, 78));
       new_tile->setOccupation(Tile::Occupation::NONE);
       vert_board[coordinates[k][1][0]][coordinates[k][1][1]] = new_tile ;
-
-      //if (k < 9) {
-      //  new_tile->setOccupation(Tile::Occupation::DOGE);
-      //} else if (k >= 15) {
-      //  new_tile->setOccupation(Tile::Occupation::PEPE);
-      //} 
     }
   }
 }
@@ -109,8 +103,7 @@ void GameBoard::move() {
   } else {
     Tile::Tile* prev_tile = tile_q.at(0);
     if (curr_tile->getOccupation() == turn) {
-      tile_q.pop_back();
-      tile_q.push_back(curr_tile);
+      tile_q[0] = curr_tile;
     } else if (curr_tile->getOccupation() ==
                Tile::Occupation::NONE && curr_tile->isAdjacent(prev_tile)) {
       tile_q.pop_back();
@@ -128,8 +121,7 @@ void GameBoard::fly() {
   } else {
     Tile::Tile* prev_tile = tile_q.at(0);
     if (curr_tile->getOccupation() == turn) {
-      tile_q.pop_back();
-      tile_q.push_back(curr_tile);
+      tile_q[0] = curr_tile;
     } else if (curr_tile->getOccupation() == Tile::Occupation::NONE) {
       tile_q.pop_back();
       curr_tile->swapOccupation(prev_tile);
@@ -148,8 +140,8 @@ void GameBoard::place() {
       p2_placed++;
       p2_left++;
     }
-    curr_tile->setText(std::to_string(p1_placed) + ' ' +
-                       std::to_string(p2_placed));
+    //curr_tile->setText(std::to_string(p1_placed) + ' ' +
+    //                   std::to_string(p2_placed));
     nextRound();
   }
 }
@@ -235,81 +227,3 @@ void GameBoard::nextRound() {
     switch_turn();
   }
 }
-
-
-
- //bool GameBoard::is_adjacent() {
- //  bool flag = false;
- //  Tile::Tile *tile_one =
- //      horizontal_board[xxx.at(0).first][xxx.at(0).second].get();
- //  Tile::Tile *tile_two =
- //      horizontal_board[xxx.at(1).first][xxx.at(1).second].get();
-
- //  if (tile_one->getHorzCoords().first ==
- //      tile_two->getHorzCoords().first) {
- //    flag = abs(tile_one->getHorzCoords().second -
- //               tile_two->getHorzCoords().second) == 1;
- //  }
- //  else if (tile_one->getVertCoords().first ==
- //      tile_two->getVertCoords().first) {
- //    flag = abs(tile_one->getVertCoords().second -
- //               tile_two->getVertCoords().second) == 1;
- //  }
- //  return flag;
- //};
-
-//void GameBoard::Notified(Tile::TileCoord h_coords) {
-//  std::cout << xxx.size() << std::endl;
-//  std::cout << "Notified " << h_coords.first << " , " << h_coords.second
-//            << std::endl;
-//
-//  Tile::Tile *new_tile =
-//      horizontal_board[h_coords.first][h_coords.second].get();
-//
-//  if (xxx.size() == 0) {
-//    if (horizontal_board[h_coords.first][h_coords.second]->getOccupation() !=
-//        Tile::Occupation::NONE) {
-//      xxx.push_back(h_coords);
-//    }
-//  } else {
-//    Tile::Tile *prev_tile =
-//        horizontal_board[xxx.at(0).first][xxx.at(0).second].get();
-//    if (new_tile->getOccupation() != Tile::Occupation::NONE) {
-//      xxx.pop_back();
-//      xxx.push_back(h_coords);
-//    } else {
-//      xxx.push_back(h_coords);
-//      if (is_adjacent()) {
-//        xxx.pop_back();
-//        xxx.pop_back();
-//        new_tile->setOccupation(prev_tile->getOccupation());
-//        prev_tile->setOccupation(Tile::Occupation::NONE);
-//      } else {
-//        xxx.pop_back();
-//      }
-//    }
-//  }
-//  Render();
-//};
-
-// void GameBoard::Update(sf::Event event) {
-//   // if (event.type == sf::Event::MouseButtonReleased &&
-//   //     event.mouseButton.button == sf::Mouse::Left) {
-//   //   int i = 0;
-//   //   int j = 0;
-//   //   bool flag = false;
-//   //   Tile::Tile *tile;
-//   //
-//   //   while (i < 8 && !flag) {
-//   //     while (j < 3 && !flag) {
-//   //       tile = horizontal_board[i][j].get();
-//   //       if (tile->contains(event.mouseButton.x, event.mouseButton.y)) {
-//   //         Notified(std::make_pair(i, j));
-//   //         flag = true;
-//   //       }
-//   //       j++;
-//   //     }
-//   //     i++;
-//   //   }
-//   // }
-// }

@@ -18,6 +18,7 @@ namespace Tile {
 typedef std::pair<int, int> TileCoord;
 
 enum class Occupation;
+enum class TokenState;
 
 class Tile : public graphics::Button {
  private:
@@ -26,12 +27,16 @@ class Tile : public graphics::Button {
   TileCoord horizontal_coords;
   TileCoord vertical_coords;
   Occupation occupation;
+  TokenState state;
 
  public:
   void setHorzCoords(int, int);
   void setVertCoords(int, int);
   void setOccupation(Occupation);
   void swapOccupation(Tile*);
+  void setScream();
+  void setNormal();
+  void setSunglasses();
   bool isAdjacent(Tile*);
   Occupation getOccupation();
   TileCoord getHorzCoords();
