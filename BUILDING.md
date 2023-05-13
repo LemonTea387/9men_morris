@@ -47,8 +47,10 @@ directory of this project.
 ```
 mkdir build
 docker build --network=host -t nmm .
-docker run --network=host -v ./build:/game/build nmm
+docker run --network=host -v <path_to_build_directory_on_host_machine>:/game/build nmm
 ```
+
+Note: `<path_to_build_directory_on_host_machine>` should be the path to the build directory you want the exe to be in. For example, `C:/Users/User/Documents/EverythingNMM`. Ensure that the directory exists before running the command.
 
 The `docker build <snip>` instruction creates the Docker container. The `docker run <snip>` compiles and creates the resulting exe file.
 The resulting executable should be able to be found in `build/clean_build/EverythingNMM.exe`. Launch it to start the game.
