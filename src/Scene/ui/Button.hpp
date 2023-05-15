@@ -30,6 +30,8 @@ class Button : public UI {
   Button(const std::string& buttonText,
          std::function<void(sf::Event)> onAction);
   ~Button();
+  virtual void draw(sf::RenderTarget& target,
+                    sf::RenderStates states) const override;
   
 
   /**
@@ -51,8 +53,6 @@ class Button : public UI {
 
   typedef std::unique_ptr<OnClickEventListener> OCELPtr;
   OCELPtr m_clickListener;
-  virtual void draw(sf::RenderTarget& target,
-                    sf::RenderStates states) const override;
 };
 }  // namespace graphics
 #endif
