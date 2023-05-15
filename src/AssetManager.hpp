@@ -5,9 +5,9 @@
 #include <string>
 
 namespace GameAsset {
-enum Texture { DOGE, PEPE, NONE, BUTTON , BOARD};
-enum Font {COMFORTAA};
-}
+enum Texture { DOGE, PEPE, BUTTON, BOARD, TILE, HIGHLIGHT_TILE };
+enum Font { COMFORTAA };
+}  // namespace GameAsset
 class AssetManager {
  private:
   typedef std::shared_ptr<sf::Texture> TexturePtr;
