@@ -21,6 +21,8 @@ add_executable(EverythingNMM
   src/main.cpp
   src/Tile.hpp
   src/Tile.cpp
+  src/Token.hpp
+  src/Token.cpp
   src/Scene/Scene.hpp
   src/Scene/MenuScene.hpp
   src/Scene/MenuScene.cpp
