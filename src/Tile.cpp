@@ -3,66 +3,57 @@
 #include <iostream>
 
 #include "AssetManager.hpp"
+#include "Command/PlaceCommand.hpp"
 #include "GameBoard.hpp"
 
-Tile::Tile(GameBoard* gb) : m_Gameboard(gb), graphics::Button("") {
-  this->setCallback(
-      [&](sf::Event event) { m_Gameboard->Notify(this); });
+Tile::Tile(GameBoard* gb, TileCoord coord)
+    : m_Gameboard{gb}, graphics::Button(""), m_Coord{coord} {
+  // Textures
+  AssetManager& assMan = AssetManager::GetInstance();
+  m_DefaultTexture = assMan.GetTexture(GameAsset::Texture::TILE).get();
+  m_HighlightTexture =
+      assMan.GetTexture(GameAsset::Texture::HIGHLIGHT_TILE).get();
+  setTexture(*m_DefaultTexture);
+
+  this->setCallback([&](sf::Event event) {
+    // Perform command
+    if (m_Highlight) {
+      switch (m_Gameboard->GetState()) {
+        case GameBoard::PLACE:
+          m_Gameboard->ExecuteCommand(
+              new PlaceCommand{this, m_Gameboard->GetCurrTurn()});
+          m_Gameboard->Placed(m_Gameboard->GetCurrTurn());
+          break;
+        case GameBoard::CAPTURE:
+          break;
+        case GameBoard::MOVE:
+          break;
+      }
+    }
+    // Highlight Avail after token select
+    else if (HasToken() &&
+             GetToken()->GetOccupation() == m_Gameboard->GetCurrTurn()) {
+        m_Gameboard->CalculateValidMove(this);
+    }
+  });
 };
 
 Tile::~Tile(){};
 
-void Tile::setHorzCoords(int x, int y) {
-  horizontal_coords = std::make_pair(x, y);
-}
+void Tile::SetHighlight(bool highlight) {
+  if (m_Highlight == highlight) return;
 
-void Tile::setVertCoords(int x, int y) {
-  vertical_coords = std::make_pair(x, y);
-}
-
-Tile::Occupation Tile::getOccupation() { return occupation; }
-
-void Tile::setOccupation(Occupation my_occupation) {
-  AssetManager& assMan = AssetManager::GetInstance();
-  occupation = my_occupation;
-  GameAsset::Texture myTexture;
-  switch (occupation) {
-    case Occupation::DOGE:
-      myTexture = GameAsset::Texture::DOGE;
-      break;
-    case Occupation::PEPE:
-      myTexture = GameAsset::Texture::PEPE;
-      break;
-    case Occupation::NONE:
-      myTexture = GameAsset::Texture::NONE;
-      break;
-    default:
-      break;
+  m_Highlight = highlight;
+  if (highlight) {
+    setTexture(*m_HighlightTexture);
+  } else {
+    setTexture(*m_DefaultTexture);
   }
-
-  setTexture(*assMan.GetTexture(myTexture));
 }
 
-TileCoord Tile::getHorzCoords() { return horizontal_coords; };
-
-TileCoord Tile::getVertCoords() { return vertical_coords; };
-
-bool Tile::isAdjacent(Tile* other) {
-  bool flag = false;
-
-  if (this->getHorzCoords().first == other->getHorzCoords().first) {
-    flag = abs(this->getHorzCoords().second -
-               other->getHorzCoords().second) == 1;
-  } else if (this->getVertCoords().first == other->getVertCoords().first) {
-    flag = abs(this->getVertCoords().second -
-               other->getVertCoords().second) == 1;
+void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+  Button::draw(target, states);
+  if (m_Token != nullptr) {
+    target.draw(*m_Token);
   }
-  
-  return flag;
-}
-
-void Tile::swapOccupation(Tile* other) {
-  Occupation temp = this->getOccupation();
-  this->setOccupation(other->getOccupation());
-  other->setOccupation(temp);
 }

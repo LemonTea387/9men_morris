@@ -4,40 +4,38 @@
 #include <memory>
 
 #include "Scene/ui/Button.hpp"
+#include "Token.hpp"
 
 class GameBoard;
 /**
- * TO-DO: Create class for TileCoord with proper bounds checkings.
+ * TODO: Create class for TileCoord with proper bounds checkings.
  * Can  also possibly overload the hash function () operator / equality check
  * to use std::unordered_map for a tiny bit extra performance.
  */
 
-typedef GameBoard* GameBoardPtr;
 typedef std::pair<int, int> TileCoord;
 
 class Tile : public graphics::Button {
  public:
-  enum Occupation { DOGE, PEPE, NONE };
-  enum TokenState { NORMAL, SCREAM, SUNGLASSES };
-  void setHorzCoords(int, int);
-  void setVertCoords(int, int);
-  void setOccupation(Occupation);
-  void swapOccupation(Tile*);
-  void setScream();
-  void setNormal();
-  void setSunglasses();
-  bool isAdjacent(Tile*);
-  Occupation getOccupation();
-  TileCoord getHorzCoords();
-  TileCoord getVertCoords();
-  Tile(GameBoardPtr);
+  Tile(GameBoard*, TileCoord coord);
   ~Tile();
+  void SetHighlight(bool highlight);
+  bool HasToken() const { return m_Token != nullptr; };
+  Token* GetToken() const { return m_Token.get();};
+  void SetToken(std::unique_ptr<Token> token) {
+    m_Token = std::move(token);
+  };
+
+  // TO-DO: Friend class MillObserver?
+  TileCoord GetTileCoord() const { return m_Coord;}
 
  private:
-  GameBoardPtr m_Gameboard;
-  TileCoord horizontal_coords;
-  TileCoord vertical_coords;
-  Occupation occupation;
-  TokenState state;
+  const sf::Texture* m_DefaultTexture;
+  const sf::Texture* m_HighlightTexture;
+  GameBoard* m_Gameboard;
+  std::unique_ptr<Token> m_Token {nullptr};
+  const TileCoord m_Coord;
+  bool m_Highlight{false};
+  virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
 #endif
