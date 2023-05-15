@@ -3,7 +3,6 @@
 #include <iostream>
 
 #include "../Game.hpp"
-#include "../Tile.hpp"
 #include "../AssetManager.hpp"
 
 GameScene::GameScene()
@@ -70,20 +69,15 @@ GameScene::GameScene()
 
   addUI(&m_SaveButton);
   addUI(&m_QuitButton);  
-  for (const auto& outer : m_GameBoard.horz_board) {
-    for (const auto& inner : outer) {
-      addUI(inner.get());
-    }
-  }
 }
 
 void GameScene::Update(sf::Event event) {
-  m_GameBoard.Update(event);
   if (event.type == sf::Event::MouseButtonReleased) {
     for (auto& e : m_ui) {
       e->notifyListeners(event);
     }
   }
+  m_GameBoard.Update(event);
 }
 
 void GameScene::Render() {
@@ -97,7 +91,5 @@ void GameScene::Render() {
     window.draw(*e);
   }
 
-  // TODO Abstract gameboard to its own
-  // GameBoard drawing
   m_GameBoard.Render(window);
 }
