@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-#include "Communicator.hpp"
 #include "GameBoard.hpp"
 #include "Scene/ui/Button.hpp"
 class GameBoard;
