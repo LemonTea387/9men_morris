@@ -27,7 +27,7 @@ void WinScene::Render() {
   }
 }
 
-WinScene::WinScene(PlayerType pt)
+WinScene::WinScene(WinnerType wt)
     : m_MenuButton("Main Menu", [&](sf::Event e) {
         Game::GetInstance().PopScene();
         Game::GetInstance().PushScene(std::make_unique<MenuScene>());
@@ -38,21 +38,38 @@ WinScene::WinScene(PlayerType pt)
   m_WinMessage.setFillColor(sf::Color(0xD0, 0xBC, 0xFF));
   m_WinMessage.setCharacterSize(64);
 
-  m_WinMessage.setPosition(
-      sf::Vector2f(Game::WINDOW_WIDTH / 4.f, Game::WINDOW_HEIGHT / 10.f));
-  m_WinMessage.setString(pt == PlayerType::PEPE ? "Player 1 Wins!"
-                                                : "Player 2 Wins!");
-  const auto winTexture = pt == PlayerType::DOGE
-                              ? assMan.GetTexture(GameAsset::DOGEWIN)
-                              : assMan.GetTexture(GameAsset::PEPEWIN);
-  m_WinImage.setTexture(winTexture.get());
-  m_WinImage.setSize(
-      sf::Vector2f(winTexture->getSize().x, winTexture->getSize().y));
+  sf::Texture* texture;
   const auto dogePos =
       sf::Vector2f(Game::WINDOW_WIDTH / 6.f, Game::WINDOW_HEIGHT / 3.f);
   const auto pepePos =
       sf::Vector2f(Game::WINDOW_WIDTH / 4.f, Game::WINDOW_HEIGHT / 4.f);
-  m_WinImage.setPosition(pt == PlayerType::DOGE ? dogePos : pepePos);
+  const auto tiePos =
+      sf::Vector2f(Game::WINDOW_WIDTH / 6.f, Game::WINDOW_HEIGHT / 3.f);
+
+  switch (wt) {
+    case WinnerType::DOGE:
+      m_WinMessage.setString("Player 1 Wins!");
+      texture = assMan.GetTexture(GameAsset::Texture::DOGEWIN).get();
+      m_WinImage.setPosition(dogePos);
+      break;
+    case WinnerType::PEPE:
+      m_WinMessage.setString("Player 2 Wins!");
+      texture = assMan.GetTexture(GameAsset::Texture::PEPEWIN).get();
+      m_WinImage.setPosition(pepePos);
+      break;
+    case WinnerType::TIE:
+      m_WinMessage.setString("It's a Tie!!!!");
+      texture = assMan.GetTexture(GameAsset::Texture::TIEWIN).get();
+      m_WinImage.setPosition(tiePos);
+      break;
+    default:
+      break;
+  }
+
+  m_WinMessage.setPosition(
+      sf::Vector2f(Game::WINDOW_WIDTH / 4.f, Game::WINDOW_HEIGHT / 10.f));
+  m_WinImage.setTexture(texture);
+  m_WinImage.setSize(sf::Vector2f(texture->getSize().x, texture->getSize().y));
   m_MenuButton.setTexture(*assMan.GetTexture(GameAsset::BUTTON));
   m_MenuButton.setPosition(
       sf::Vector2f(Game::WINDOW_WIDTH / 7.f,

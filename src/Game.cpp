@@ -43,7 +43,7 @@ void Game::Run() {
   // the argument to a unique_ptr myself.
   // Temporarily set to GameScene first because I'm too lazy to add the button
   // to the MenuScene
-  m_Scenes.emplace_back(new WinScene(PlayerType::PEPE));
+  m_Scenes.emplace_back(new WinScene(WinnerType::TIE));
 
   while (m_Scenes.size() > 0 && Game::GetWindow().isOpen()) {
     this->Loop();

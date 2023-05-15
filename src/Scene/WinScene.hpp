@@ -4,7 +4,7 @@
 #include "Scene.hpp"
 #include "ui/Button.hpp"
 
-enum PlayerType { DOGE, PEPE };
+enum WinnerType { DOGE, PEPE, TIE };
 
 class WinScene : public Scene {
  private:
@@ -13,7 +13,7 @@ class WinScene : public Scene {
   sf::Text m_WinMessage;
 
  public:
-  WinScene(PlayerType);
+  WinScene(WinnerType wt);
   ~WinScene();
   virtual void Update(sf::Event event) override;
   virtual void Render() override;
