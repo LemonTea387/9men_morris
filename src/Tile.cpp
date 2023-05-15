@@ -5,7 +5,6 @@
 #include "AssetManager.hpp"
 #include "GameBoard.hpp"
 
-namespace Tile {
 Tile::Tile(GameBoard* gb) : m_Gameboard(gb), graphics::Button("") {
   this->setCallback(
       [&](sf::Event event) { m_Gameboard->Notify(this); });
@@ -13,17 +12,17 @@ Tile::Tile(GameBoard* gb) : m_Gameboard(gb), graphics::Button("") {
 
 Tile::~Tile(){};
 
-void Tile::Tile::setHorzCoords(int x, int y) {
+void Tile::setHorzCoords(int x, int y) {
   horizontal_coords = std::make_pair(x, y);
 }
 
-void Tile::Tile::setVertCoords(int x, int y) {
+void Tile::setVertCoords(int x, int y) {
   vertical_coords = std::make_pair(x, y);
 }
 
-Occupation Tile::Tile::getOccupation() { return occupation; }
+Tile::Occupation Tile::getOccupation() { return occupation; }
 
-void Tile::Tile::setOccupation(Occupation my_occupation) {
+void Tile::setOccupation(Occupation my_occupation) {
   AssetManager& assMan = AssetManager::GetInstance();
   occupation = my_occupation;
   GameAsset::Texture myTexture;
@@ -44,9 +43,9 @@ void Tile::Tile::setOccupation(Occupation my_occupation) {
   setTexture(*assMan.GetTexture(myTexture));
 }
 
-TileCoord Tile::Tile::getHorzCoords() { return horizontal_coords; };
+TileCoord Tile::getHorzCoords() { return horizontal_coords; };
 
-TileCoord Tile::Tile::getVertCoords() { return vertical_coords; };
+TileCoord Tile::getVertCoords() { return vertical_coords; };
 
 bool Tile::isAdjacent(Tile* other) {
   bool flag = false;
@@ -67,6 +66,3 @@ void Tile::swapOccupation(Tile* other) {
   this->setOccupation(other->getOccupation());
   other->setOccupation(temp);
 }
-
-
-}  // namespace Tile
