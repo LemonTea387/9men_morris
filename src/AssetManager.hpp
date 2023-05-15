@@ -5,7 +5,7 @@
 #include <string>
 
 namespace GameAsset {
-enum Texture { DOGE, PEPE, NONE, BUTTON };
+enum Texture { DOGE, PEPE, NONE, BUTTON , BOARD};
 enum Font {COMFORTAA};
 }
 class AssetManager {
