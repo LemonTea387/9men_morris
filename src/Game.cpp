@@ -21,7 +21,8 @@ void Game::Loop() const {
   if (m_Scenes.size() > 0) {
     Game::GetWindow().clear();
     Game::GetWindow().draw(m_BackgroundColor);
-    m_Scenes.back()->Render();
+    m_Scenes.back()->Update();
+    m_Scenes.back()->Render(Game::GetWindow());
     Game::GetWindow().display();
   }
 }
