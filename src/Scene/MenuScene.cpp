@@ -15,8 +15,7 @@ void MenuScene::Update(sf::Event event) {
   }
 }
 
-void MenuScene::Render() {
-  sf::RenderWindow& window = Game::GetWindow();
+void MenuScene::Render(sf::RenderWindow& window) {
   window.draw(m_NewGameButton);
   window.draw(m_ConGameButton);
   window.draw(m_CreditsButton);

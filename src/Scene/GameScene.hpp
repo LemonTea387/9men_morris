@@ -30,7 +30,8 @@ class GameScene : public Scene {
   GameScene();
   ~GameScene();
   virtual void Update(sf::Event event) override;
-  virtual void Render() override;
+  virtual void Update() override;
+  virtual void Render(sf::RenderWindow& window) override;
 };
 
 #endif

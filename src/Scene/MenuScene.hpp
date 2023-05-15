@@ -30,7 +30,7 @@ class MenuScene : public Scene {
   MenuScene();
   ~MenuScene();
   virtual void Update(sf::Event event) override;
-  virtual void Render() override;
+  virtual void Render(sf::RenderWindow& window) override;
 };
 
 #endif
