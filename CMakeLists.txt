@@ -31,6 +31,11 @@ add_executable(EverythingNMM
   src/Command/Command.hpp
   src/Command/PlaceCommand.hpp
   src/Command/PlaceCommand.cpp
+  src/Command/MoveCommand.cpp
+  src/Command/MoveCommand.hpp
+  src/Observer/Observer.hpp
+  src/Observer/MillObserver.hpp
+  src/Observer/MillObserver.cpp
   src/Game.hpp
   src/Game.cpp
   src/GameBoard.hpp
