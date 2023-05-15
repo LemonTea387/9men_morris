@@ -4,23 +4,26 @@
 #include <array>
 #include <memory>
 
-namespace Tile {
-class Tile;
-typedef std::pair<int, int> TileCoord;
-enum class Occupation { DOGE, PEPE, NONE };
-enum class TokenState {NORMAL, SCREAM, SUNGLASSES};
-}  // namespace Tile
+#include "Tile.hpp"
 
 enum class GameState { PLACE, MOVE, CAPTURE, FLY };
 
 class GameBoard {
+ public:
+  void Update(sf::Event event);
+  void Render(sf::RenderWindow& window);
+  GameBoard();
+  ~GameBoard();
+  void Notify(Tile*);
+
  private:
-  std::array<std::array<std::unique_ptr<Tile::Tile>, 3>, 8> horz_board;
-  std::array<std::array<Tile::Tile*, 3>, 8> vert_board;
-  sf::RectangleShape m_Board;
+  std::array<std::array<std::unique_ptr<Tile>, 3>, 8> horz_board;
+  std::array<std::array<Tile*, 3>, 8> vert_board;
+  std::array<std::array<std::unique_ptr<Tile>, 8>, 8> m_board;
+  sf::RectangleShape m_BoardShape;
   sf::Texture m_BoardTexture;
-  std::vector<Tile::Tile*> tile_q;
-  Tile::Tile* curr_tile;
+  std::vector<Tile*> tile_q;
+  Tile* curr_tile;
   void InitialiseTiles();
 
   int p1_placed;
@@ -39,17 +42,6 @@ class GameBoard {
   void fly();
   void capture();
   void switch_turn();
-
-  //bool isWin(int);
-  //bool isMill(int, Tile::Tile*);
-
- public:
-  void Update(sf::Event event);
-  void Render();
-  GameBoard();
-  ~GameBoard();
-  // void Notified(Tile::TileCoord);
-  void Notify(Tile::Tile*);
 
   friend class GameScene;
 };

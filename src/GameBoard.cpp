@@ -1,16 +1,12 @@
 #include "GameBoard.hpp"
 
 #include <iostream>
-
-#include "Game.hpp"
-#include "Tile.hpp"
 #include "AssetManager.hpp"
 
 void GameBoard::Update(sf::Event event) {}
 
-void GameBoard::Render() {
-  sf::RenderWindow &window = Game::GetWindow();
-  window.draw(m_Board);
+void GameBoard::Render(sf::RenderWindow& window) {
+  window.draw(m_BoardShape);
 
   for (int i = 0; i < 8; i++) {
     for (int j = 0; j < 3; j++) {
@@ -19,22 +15,21 @@ void GameBoard::Render() {
   }
 }
 
-GameBoard::GameBoard() : m_Board(sf::Vector2f(554.f, 554.f)) {
+GameBoard::GameBoard() : m_BoardShape(sf::Vector2f(554.f, 554.f)) {
   for (int i = 0; i < 8; i++) {
     for (int j = 0; j < 3; j++) {
-      horz_board[i][j] = std::make_unique<Tile::Tile>(this);
+      horz_board[i][j] = std::make_unique<Tile>(this);
     }
   }
 
-  m_Board.setPosition(sf::Vector2f(223.f, 173.f));
+  m_BoardShape.setPosition(sf::Vector2f(223.f, 173.f));
   AssetManager& assMan = AssetManager::GetInstance();
   if (!m_BoardTexture.loadFromFile("assets/ui/gameBoard.png")) {
     std::cerr << "Could not load Board Texture!" << std::endl;
   }
-  m_Board.setTexture(&m_BoardTexture);
+  m_BoardShape.setTexture(&m_BoardTexture);
 
   InitialiseTiles();
-  Render();
 
   p1_left = 0;
   p2_left = 0;
@@ -64,7 +59,7 @@ void GameBoard::InitialiseTiles() {
       {{7, 0}, {0, 2}}, {{7, 1}, {4, 2}}, {{7, 2}, {7, 2}}};
 
   int k;
-  Tile::Tile* new_tile;
+  Tile* new_tile;
   for (int i = 0; i < 8; i++) {
     for (int j = 0; j < 3; j++) {
       k = i * 3 + j;
@@ -81,7 +76,7 @@ void GameBoard::InitialiseTiles() {
 
 GameBoard::~GameBoard() {}
 
-void GameBoard::Notify(Tile::Tile* tile) {
+void GameBoard::Notify(Tile* tile) {
   curr_tile = tile;
   if (curr_state == GameState::PLACE) {
     place(); 
@@ -92,7 +87,6 @@ void GameBoard::Notify(Tile::Tile* tile) {
   } else if (curr_state == GameState::CAPTURE) {
     capture();
   }
-  Render();
 }
 
 void GameBoard::move() {
@@ -101,7 +95,7 @@ void GameBoard::move() {
       tile_q.push_back(curr_tile);
     }
   } else {
-    Tile::Tile* prev_tile = tile_q.at(0);
+    Tile* prev_tile = tile_q.at(0);
     if (curr_tile->getOccupation() == turn) {
       tile_q[0] = curr_tile;
     } else if (curr_tile->getOccupation() ==
@@ -119,7 +113,7 @@ void GameBoard::fly() {
       tile_q.push_back(curr_tile);
     }
   } else {
-    Tile::Tile* prev_tile = tile_q.at(0);
+    Tile* prev_tile = tile_q.at(0);
     if (curr_tile->getOccupation() == turn) {
       tile_q[0] = curr_tile;
     } else if (curr_tile->getOccupation() == Tile::Occupation::NONE) {
@@ -140,8 +134,6 @@ void GameBoard::place() {
       p2_placed++;
       p2_left++;
     }
-    //curr_tile->setText(std::to_string(p1_placed) + ' ' +
-    //                   std::to_string(p2_placed));
     nextRound();
   }
 }

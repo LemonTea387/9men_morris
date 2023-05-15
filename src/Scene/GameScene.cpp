@@ -99,5 +99,5 @@ void GameScene::Render() {
 
   // TODO Abstract gameboard to its own
   // GameBoard drawing
-  m_GameBoard.Render();
+  m_GameBoard.Render(window);
 }
