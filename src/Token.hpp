@@ -12,6 +12,7 @@ class Token : public sf::Drawable, public sf::Transformable {
   enum TokenState { NORMAL, SCREAM, SUNGLASSES };
   Token(Token::Occupation occupation, const sf::Vector2f& position);
   ~Token();
+  Occupation GetOccupation() {return m_Occupation;};
   void setState(TokenState state) { m_State = state; }
 
  private:
