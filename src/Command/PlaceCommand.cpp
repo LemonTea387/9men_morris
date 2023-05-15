@@ -1,14 +1,17 @@
 #include "PlaceCommand.hpp"
 
-#include "../GameBoard.hpp"
+#include <memory>
 
-/**
+#include "../Token.hpp"
+
 void PlaceCommand::execute() {
-  zm_GameBoard->m_Tiles[m_ToPlace.position] = m_ToPlace;
+  m_AffectedTile->SetToken(std::move(
+      std::make_unique<Token>(m_Occupation, m_AffectedTile->getPosition())));
 }
 
-PlaceCommand::PlaceCommand(GameBoardPtr gb, Tile::Tile tile)
-    : m_GameBoard(gb), m_ToPlace(tile) {}
-PlaceCommand::~PlaceCommand() {}
+PlaceCommand::PlaceCommand(TilePtr tile, Token::Occupation occupation)
+    : Command::Command(tile), m_Occupation{occupation} {
 
-*/
+    }
+
+PlaceCommand::~PlaceCommand() {}
