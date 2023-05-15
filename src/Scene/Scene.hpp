@@ -5,7 +5,6 @@
 class Scene{
  public:
   virtual void Update(sf::Event event) = 0;
-  virtual void Update() = 0;
   virtual void Render(sf::RenderWindow& window) = 0;
   void addUI(graphics::UI* ui) { m_ui.emplace_back(ui); }
   void addDrawable(sf::Drawable* drawable) { m_draw.emplace_back(drawable); }

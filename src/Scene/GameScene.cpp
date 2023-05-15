@@ -80,10 +80,6 @@ void GameScene::Update(sf::Event event) {
   m_GameBoard.Update(event);
 }
 
-void GameScene::Update() {
-  m_GameBoard.Update();
-}
-
 void GameScene::Render(sf::RenderWindow& window) {
   for (auto& e : m_ui) {
     window.draw(*e);
