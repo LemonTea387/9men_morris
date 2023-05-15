@@ -4,46 +4,46 @@
 #include <array>
 #include <memory>
 
+#include "Command/Command.hpp"
+#include "Game.hpp"
 #include "Tile.hpp"
-
-enum class GameState { PLACE, MOVE, CAPTURE, FLY };
+#include "Observer/Observer.hpp"
 
 class GameBoard {
+  static constexpr float BOARD_X{554.};
+  static constexpr float BOARD_Y{554.};
+  static constexpr float TILE_DIM{90.};
+  const float TILE_X_PAD{(Game::WINDOW_WIDTH - BOARD_X) / 2};
+  const float TILE_Y_PAD{(Game::WINDOW_HEIGHT - BOARD_Y) / 2};
+
  public:
-  void Update(sf::Event event);
-  void Render(sf::RenderWindow& window);
+  enum GameState { PLACE, MOVE, CAPTURE };
   GameBoard();
   ~GameBoard();
-  void Notify(Tile*);
+  void Update(sf::Event event);
+  void Render(sf::RenderWindow& window);
+  void ExecuteCommand(Command* command);
+  void Placed(Token::Occupation occupation);
+  GameState GetState() const { return m_State; };
+  Token::Occupation GetCurrTurn() const {return m_Turn;};
+  void SetMillFlag(bool flag) { m_HasMill = flag; }
+  Tile* GetTile(int x, int y) const {return m_Board[x][y].get();}
+  
 
  private:
-  std::array<std::array<std::unique_ptr<Tile>, 3>, 8> horz_board;
-  std::array<std::array<Tile*, 3>, 8> vert_board;
-  std::array<std::array<std::unique_ptr<Tile>,7>, 7> m_Board;
+  std::array<std::array<std::unique_ptr<Tile>, 7>, 7> m_Board;
   sf::RectangleShape m_BoardShape;
-  sf::Texture m_BoardTexture;
-  std::vector<Tile*> tile_q;
-  Tile* curr_tile;
   void InitialiseTiles();
+  std::vector<Observer*> m_Observers;
 
-  int p1_placed;
-  int p2_placed;
-  int p1_left;
-  int p2_left;
-  Tile::Occupation turn;
-  GameState curr_state;
-  void nextRound();
-
-  bool isWin();
-  bool isMill();
-
-  void place();
-  void move();
-  void fly();
-  void capture();
-  void switch_turn();
-
-  friend class GameScene;
+  Token::Occupation m_Turn{Token::Occupation::PEPE};
+  bool m_HasMill{false};
+  bool m_ProgressTurn{false};
+  int m_P1Placed{0};
+  int m_P2Placed{0};
+  int m_P1Left{9};
+  int m_P2Left{9};
+  GameState m_State;
 };
 
 #endif
