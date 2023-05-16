@@ -5,6 +5,8 @@
 #include "../Game.hpp"
 #include "../AssetManager.hpp"
 
+#include "../Token.hpp"
+
 GameScene::GameScene()
     : m_SaveButton{"Save",
                    [&](sf::Event e) { m_SaveButton.setText("Test Save"); }},
@@ -78,6 +80,8 @@ void GameScene::Update(sf::Event event) {
     }
   }
   m_GameBoard.Update(event);
+  //TODO : Make dynamic string for this
+  m_TurnText.setString(m_GameBoard.GetCurrPlayer()->occupation == Token::Occupation::PEPE? "Player Pepe": "Player Doge");
 }
 
 void GameScene::Render(sf::RenderWindow& window) {
