@@ -4,6 +4,7 @@
 
 #include "AssetManager.hpp"
 #include "Observer/MillObserver.hpp"
+#include "GameBoardUtils.hpp"
 
 GameBoard::GameBoard()
     : m_BoardShape(sf::Vector2f(BOARD_X, BOARD_Y)),
@@ -36,12 +37,8 @@ void GameBoard::Update(sf::Event event) {
 
   // Handle turns
   if (!m_HasMill) {
-    if (m_P1.placed < 9 || m_P2.placed < 9) {
-      // Continue Placing Phase
-      m_State = PLACE;
-    } else {
-      m_State = MOVE;
-    }
+    // Either Place or Move based on if it's done placing or not
+    m_State = (m_P1.placed < 9 || m_P2.placed < 9) ? PLACE : MOVE;
     // Change Turn
     m_Turn = m_Turn == &m_P1 ? &m_P2 : &m_P1;
   } else {
@@ -112,7 +109,12 @@ void GameBoard::CalculateValidMoves() {
     // Display possible moves from that active tile
     // Case 1 : > 3 pieces left, Highlight adjacent empty tiles
     if (m_Turn->left > 3) {
-      
+      for (const auto& tileCoord : Util::GetNeighbours(m_ActiveTile->GetTileCoord()))
+      {
+        auto tile{GetTile(tileCoord.first, tileCoord.second)};
+        if(tile->HasToken()) continue;
+        tile->SetHighlight(true);
+      }
       return;
     }
     // Case 2 : 3 pieces left, fly (highlight all empty tiles)
