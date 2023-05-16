@@ -4,9 +4,12 @@
 #include "Command.hpp"
 
 class MoveCommand : public Command {
-    public:
-    virtual void execute() override;
-    MoveCommand();
-    ~MoveCommand();
+ public:
+  virtual void Execute() override;
+  MoveCommand(TilePtr srcTile, TilePtr dstTile);
+  ~MoveCommand();
+
+ private:
+  TilePtr m_SrcTile;
 };
 #endif
