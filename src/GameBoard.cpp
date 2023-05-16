@@ -6,7 +6,11 @@
 #include "Observer/MillObserver.hpp"
 
 GameBoard::GameBoard()
-    : m_BoardShape(sf::Vector2f(BOARD_X, BOARD_Y)), m_State{PLACE} {
+    : m_BoardShape(sf::Vector2f(BOARD_X, BOARD_Y)),
+      m_State{PLACE},
+      m_P1{Token::Occupation::PEPE},
+      m_P2{Token::Occupation::DOGE},
+      m_Turn{&m_P1} {
   AssetManager& assMan = AssetManager::GetInstance();
   m_BoardShape.setTexture(assMan.GetTexture(GameAsset::Texture::BOARD).get());
   m_BoardShape.setPosition(sf::Vector2f((Game::WINDOW_WIDTH - BOARD_X) / 2,
@@ -16,13 +20,8 @@ GameBoard::GameBoard()
 
   m_Observers.push_back(new MillObserver(this));
 
-  // Start the game at placing phase, all tiles are clickable
-  for (const auto& tile_rows : m_Board) {
-    for (const auto& tile : tile_rows)
-      if (tile != nullptr) {
-        tile->SetHighlight(true);
-      }
-  }
+  // Start the game at placing phase
+  CalculateValidMoves();
 }
 
 void GameBoard::Update(sf::Event event) {
@@ -37,27 +36,21 @@ void GameBoard::Update(sf::Event event) {
 
   // Handle turns
   if (!m_HasMill) {
-    if (m_P1Placed < 9 || m_P2Placed < 9) {
+    if (m_P1.placed < 9 || m_P2.placed < 9) {
       // Continue Placing Phase
       m_State = PLACE;
-      for (const auto& tile_rows : m_Board) {
-        for (const auto& tile : tile_rows)
-          if (tile != nullptr && !(tile->HasToken())) {
-            tile->SetHighlight(true);
-          }
-      }
-    } else{
-        m_State = MOVE;
+    } else {
+      m_State = MOVE;
     }
     // Change Turn
-    m_Turn = m_Turn == Token::Occupation::PEPE ? Token::Occupation::DOGE
-                                               : Token::Occupation::PEPE;
+    m_Turn = m_Turn == &m_P1 ? &m_P2 : &m_P1;
   } else {
     // Capture Phase
     m_State = CAPTURE;
-    // TODO:Highlight opponent tokens
   }
   m_ProgressTurn = false;
+
+  CalculateValidMoves();
 }
 
 void GameBoard::Render(sf::RenderWindow& window) {
@@ -71,7 +64,7 @@ void GameBoard::Render(sf::RenderWindow& window) {
 }
 
 void GameBoard::ExecuteCommand(Command* command) {
-  command->execute();
+  command->Execute();
   // TO-DO: Change to smart pointers, and store previously executed commands so
   // they can be undone
 
@@ -84,22 +77,13 @@ void GameBoard::ExecuteCommand(Command* command) {
   }
 
   // Pass to observers
-  for(const auto& observer: m_Observers) {
+  for (const auto& observer : m_Observers) {
     observer->Notify(command->GetAffectedTile());
   }
-  delete command;
-  m_ProgressTurn = true;
-}
 
-void GameBoard::Placed(Token::Occupation occupation) {
-  switch (occupation) {
-    case Token::Occupation::PEPE:
-      m_P1Placed++;
-      break;
-    case Token::Occupation::DOGE:
-      m_P2Placed++;
-      break;
-  }
+  delete command;
+  m_ActiveTile = nullptr;
+  m_ProgressTurn = true;
 }
 
 void GameBoard::InitialiseTiles() {
@@ -116,148 +100,32 @@ void GameBoard::InitialiseTiles() {
   }
 }
 
+void GameBoard::CalculateValidMoves() {
+  if (m_State == GameBoard::PLACE) {
+    // All empty tiles should be placeable
+    for (const auto& tile_rows : m_Board) {
+      for (const auto& tile : tile_rows)
+        if (tile != nullptr && !(tile->HasToken())) {
+          tile->SetHighlight(true);
+        }
+    }
+  } else if (m_State == GameBoard::MOVE && m_ActiveTile != nullptr) {
+    // Display possible moves from that active tile
+    // Case 1 : > 3 pieces left, Highlight adjacent empty tiles
+    if (m_Turn->left > 3) {
+      
+      return;
+    }
+    // Case 2 : 3 pieces left, fly (highlight all empty tiles)
+    for (const auto& tile_rows : m_Board) {
+      for (const auto& tile : tile_rows)
+        if (tile != nullptr && !(tile->HasToken())) {
+          tile->SetHighlight(true);
+        }
+    }
+  } else if (m_State == GameBoard::CAPTURE) {
+    // Highlight all capturable tiles
+  }
+}
+
 GameBoard::~GameBoard() {}
-
-// void GameBoard::Notify(Tile* tile) {
-//   curr_tile = tile;
-//   if (curr_state == GameState::PLACE) {
-//     place();
-//   } else if (curr_state == GameState::MOVE) {
-//     move();
-//   } else if (curr_state == GameState::FLY) {
-//     fly();
-//   } else if (curr_state == GameState::CAPTURE) {
-//     capture();
-//   }
-// }
-
-// void GameBoard::move() {
-//   if (tile_q.size() == 0) {
-//     if (curr_tile->getOccupation() == turn) {
-//       tile_q.push_back(curr_tile);
-//     }
-//   } else {
-//     Tile* prev_tile = tile_q.at(0);
-//     if (curr_tile->getOccupation() == turn) {
-//       tile_q[0] = curr_tile;
-//     } else if (curr_tile->getOccupation() == Tile::Occupation::NONE &&
-//                curr_tile->isAdjacent(prev_tile)) {
-//       tile_q.pop_back();
-//       curr_tile->swapOccupation(prev_tile);
-//       nextRound();
-//     }
-//   }
-// }
-
-// void GameBoard::fly() {
-//   if (tile_q.size() == 0) {
-//     if (curr_tile->getOccupation() == turn) {
-//       tile_q.push_back(curr_tile);
-//     }
-//   } else {
-//     Tile* prev_tile = tile_q.at(0);
-//     if (curr_tile->getOccupation() == turn) {
-//       tile_q[0] = curr_tile;
-//     } else if (curr_tile->getOccupation() == Tile::Occupation::NONE) {
-//       tile_q.pop_back();
-//       curr_tile->swapOccupation(prev_tile);
-//       nextRound();
-//     }
-//   }
-// }
-
-// void GameBoard::place() {
-//   if (curr_tile->getOccupation() == Tile::Occupation::NONE) {
-//     curr_tile->setOccupation(turn);
-//     if (turn == Tile::Occupation::PEPE) {
-//       p1_placed++;
-//       p1_left++;
-//     } else if (turn == Tile::Occupation::DOGE) {
-//       p2_placed++;
-//       p2_left++;
-//     }
-//     nextRound();
-//   }
-// }
-
-// void GameBoard::capture() {
-//   if (turn == Tile::Occupation::DOGE &&
-//       curr_tile->getOccupation() == Tile::Occupation::PEPE) {
-//     curr_tile->setOccupation(Tile::Occupation::NONE);
-//     p2_left--;
-//   } else if (turn == Tile::Occupation::PEPE &&
-//              curr_tile->getOccupation() == Tile::Occupation::DOGE) {
-//     curr_tile->setOccupation(Tile::Occupation::NONE);
-//     p1_left--;
-//   }
-
-//   nextRound();
-// }
-
-// bool GameBoard::isWin() {
-//   bool flag = false;
-//   if (turn == Tile::Occupation::DOGE) {
-//     flag = p1_placed == 9 && p1_left == 2;
-//   } else if (turn == Tile::Occupation::PEPE) {
-//     flag = p2_placed == 9 && p2_left == 2;
-//   }
-//   return flag;
-// };
-
-// bool GameBoard::isMill() {
-//   bool flag = false;
-//   int i = 0;
-//   int horz_match = 0;
-//   int vert_match = 0;
-
-//   int horz_line = curr_tile->getHorzCoords().first;
-//   int vert_line = curr_tile->getVertCoords().first;
-
-//   for (i = 0; i < 3; i++) {
-//     if (horz_board[horz_line][i]->getOccupation() == turn) {
-//       horz_match++;
-//     }
-//     if (vert_board[vert_line][i]->getOccupation() == turn) {
-//       vert_match++;
-//     }
-//   }
-
-//   return horz_match == 3 || vert_match == 3;
-// }
-
-// void GameBoard::switch_turn() {
-//   if (turn == Tile::Occupation::PEPE) {
-//     turn = Tile::Occupation::DOGE;
-//   } else if (turn == Tile::Occupation::DOGE) {
-//     turn = Tile::Occupation::PEPE;
-//   }
-// }
-
-// void GameBoard::nextRound() {
-//   if (curr_state == GameState::CAPTURE && isWin()) {
-//     // .......
-
-//   } else if (isMill()) {
-//     curr_state = GameState::CAPTURE;
-
-//   } else {
-//     if (turn == Tile::Occupation::PEPE) {
-//       if (p2_placed < 9) {
-//         curr_state = GameState::PLACE;
-//       } else if (p2_left > 3) {
-//         curr_state = GameState::MOVE;
-//       } else if (p2_left == 3) {
-//         curr_state = GameState::FLY;
-//       }
-//     } else if (turn == Tile::Occupation::DOGE) {
-//       if (p1_placed < 9) {
-//         curr_state = GameState::PLACE;
-//       } else if (p1_left > 3) {
-//         curr_state = GameState::MOVE;
-//       } else if (p1_left == 3) {
-//         curr_state = GameState::FLY;
-//       }
-//     }
-//     switch_turn();
-//   }
-// }
