@@ -136,7 +136,7 @@ void GameBoard::CalculateValidMoves() {
           highlighted++;
         }
     }
-
+    if(highlighted > 0) return;
     // None highlighted, highlight every opponent's tokens'
     for (const auto& tile_rows : m_Board) {
       for (const auto& tile : tile_rows)
