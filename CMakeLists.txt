@@ -33,6 +33,8 @@ add_executable(EverythingNMM
   src/Command/PlaceCommand.cpp
   src/Command/MoveCommand.cpp
   src/Command/MoveCommand.hpp
+  src/Command/CaptureCommand.cpp
+  src/Command/CaptureCommand.hpp
   src/Observer/Observer.hpp
   src/Observer/MillObserver.hpp
   src/Observer/MillObserver.cpp
