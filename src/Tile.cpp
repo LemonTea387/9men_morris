@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "AssetManager.hpp"
+#include "Command/CaptureCommand.hpp"
 #include "Command/MoveCommand.hpp"
 #include "Command/PlaceCommand.hpp"
 #include "GameBoard.hpp"
@@ -22,15 +23,16 @@ Tile::Tile(GameBoard* gb, TileCoord coord)
       switch (m_Gameboard->GetState()) {
         case GameBoard::PLACE:
           m_Gameboard->ExecuteCommand(
-              new PlaceCommand{this, m_Gameboard->GetCurrPlayer()->occupation});
-          m_Gameboard->GetCurrPlayer()->placed++;
+              new PlaceCommand{this, m_Gameboard->GetCurrPlayer()});
           break;
         case GameBoard::CAPTURE:
-
+          m_Gameboard->ExecuteCommand(
+              new CaptureCommand{this, m_Gameboard->GetCurrPlayer()});
           break;
         case GameBoard::MOVE:
           m_Gameboard->ExecuteCommand(
-              new MoveCommand{m_Gameboard->GetActiveTile(), this});
+              new MoveCommand{m_Gameboard->GetActiveTile(), this,
+                              m_Gameboard->GetCurrPlayer()});
           break;
       }
     }

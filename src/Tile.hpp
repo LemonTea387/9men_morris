@@ -28,6 +28,7 @@ class Tile : public graphics::Button {
     dstTile->SetToken(std::move(m_Token));
     m_Token = nullptr;
   };
+  void RemoveToken() { m_Token = nullptr; };
 
   // TO-DO: Friend class MillObserver?
   TileCoord GetTileCoord() const { return m_Coord; }
