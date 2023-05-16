@@ -6,7 +6,7 @@
 class MoveCommand : public Command {
  public:
   virtual void Execute() override;
-  MoveCommand(TilePtr srcTile, TilePtr dstTile);
+  MoveCommand(TilePtr srcTile, TilePtr dstTile, Player* player);
   ~MoveCommand();
 
  private:
