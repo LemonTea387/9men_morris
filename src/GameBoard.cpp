@@ -69,12 +69,7 @@ void GameBoard::ExecuteCommand(Command* command) {
   // they can be undone
 
   // Cancel all highlights
-  for (const auto& tile_rows : m_Board) {
-    for (const auto& tile : tile_rows)
-      if (tile != nullptr) {
-        tile->SetHighlight(false);
-      }
-  }
+  CancelHighlight();
 
   // Pass to observers
   for (const auto& observer : m_Observers) {
@@ -101,6 +96,10 @@ void GameBoard::InitialiseTiles() {
 }
 
 void GameBoard::CalculateValidMoves() {
+  // Remove previous highlighting first
+  CancelHighlight();
+
+  // Highlighting based on gamestates
   if (m_State == GameBoard::PLACE) {
     // All empty tiles should be placeable
     for (const auto& tile_rows : m_Board) {

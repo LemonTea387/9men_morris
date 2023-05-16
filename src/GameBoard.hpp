@@ -37,6 +37,14 @@ class GameBoard {
  private:
   void CalculateValidMoves();
   void InitialiseTiles();
+  void CancelHighlight() {
+    for (const auto& tile_rows : m_Board) {
+      for (const auto& tile : tile_rows)
+        if (tile != nullptr) {
+          tile->SetHighlight(false);
+        }
+    }
+  };
   std::array<std::array<std::unique_ptr<Tile>, 7>, 7> m_Board;
   sf::RectangleShape m_BoardShape;
   std::vector<Observer*> m_Observers;
