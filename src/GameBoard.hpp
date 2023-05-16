@@ -31,30 +31,24 @@ class GameBoard {
   Tile* GetActiveTile() { return m_ActiveTile; };
   GameState GetState() const { return m_State; };
   Player* GetCurrPlayer() const { return m_Turn; };
-  void SetMillFlag(bool flag) { m_HasMill = flag; }
+  Player* GetOpponentPlayer() { return &m_P1 == m_Turn ? &m_P2 : &m_P1; };
+  void SetMillFlag(bool flag) { m_HasMillCapture = flag; }
   Tile* GetTile(int x, int y) const { return m_Board[x][y].get(); }
 
  private:
   void CalculateValidMoves();
   void InitialiseTiles();
-  void CancelHighlight() {
-    for (const auto& tile_rows : m_Board) {
-      for (const auto& tile : tile_rows)
-        if (tile != nullptr) {
-          tile->SetHighlight(false);
-        }
-    }
-  };
+  void CancelHighlight();
   std::array<std::array<std::unique_ptr<Tile>, 7>, 7> m_Board;
   sf::RectangleShape m_BoardShape;
   std::vector<Observer*> m_Observers;
 
   Player* m_Turn;
-  bool m_HasMill{false};
-  bool m_ProgressTurn{false};
-  Tile* m_ActiveTile{nullptr};
   Player m_P1;
   Player m_P2;
+  bool m_HasMillCapture{false};
+  bool m_ProgressTurn{false};
+  Tile* m_ActiveTile{nullptr};
   GameState m_State;
 };
 

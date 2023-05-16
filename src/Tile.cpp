@@ -27,7 +27,7 @@ Tile::Tile(GameBoard* gb, TileCoord coord)
           break;
         case GameBoard::CAPTURE:
           m_Gameboard->ExecuteCommand(
-              new CaptureCommand{this, m_Gameboard->GetCurrPlayer()});
+              new CaptureCommand{this, m_Gameboard->GetOpponentPlayer()});
           break;
         case GameBoard::MOVE:
           m_Gameboard->ExecuteCommand(

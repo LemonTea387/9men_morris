@@ -1,10 +1,8 @@
 #include "GameBoard.hpp"
 
-#include <iostream>
-
 #include "AssetManager.hpp"
-#include "Observer/MillObserver.hpp"
 #include "GameBoardUtils.hpp"
+#include "Observer/MillObserver.hpp"
 
 GameBoard::GameBoard()
     : m_BoardShape(sf::Vector2f(BOARD_X, BOARD_Y)),
@@ -36,7 +34,7 @@ void GameBoard::Update(sf::Event event) {
   if (!m_ProgressTurn) return;
 
   // Handle turns
-  if (!m_HasMill) {
+  if (!m_HasMillCapture) {
     // Either Place or Move based on if it's done placing or not
     m_State = (m_P1.placed < 9 || m_P2.placed < 9) ? PLACE : MOVE;
     // Change Turn
@@ -44,6 +42,7 @@ void GameBoard::Update(sf::Event event) {
   } else {
     // Capture Phase
     m_State = CAPTURE;
+    m_HasMillCapture = false;
   }
   m_ProgressTurn = false;
 
@@ -109,10 +108,10 @@ void GameBoard::CalculateValidMoves() {
     // Display possible moves from that active tile
     // Case 1 : > 3 pieces left, Highlight adjacent empty tiles
     if (m_Turn->left > 3) {
-      for (const auto& tileCoord : Util::GetNeighbours(m_ActiveTile->GetTileCoord()))
-      {
+      for (const auto& tileCoord :
+           Util::GetNeighbours(m_ActiveTile->GetTileCoord())) {
         auto tile{GetTile(tileCoord.first, tileCoord.second)};
-        if(tile->HasToken()) continue;
+        if (tile->HasToken()) continue;
         tile->SetHighlight(true);
       }
       return;
@@ -126,6 +125,35 @@ void GameBoard::CalculateValidMoves() {
     }
   } else if (m_State == GameBoard::CAPTURE) {
     // Highlight all capturable tiles
+    // If it's in a mill, don't highlight, unless none highlighted
+    int highlighted = 0;
+    for (const auto& tile_rows : m_Board) {
+      for (const auto& tile : tile_rows)
+        if (tile != nullptr && tile->HasToken() &&
+            tile->GetToken()->GetOccupation() != m_Turn->occupation &&
+            !Util::isMill(this, tile.get())) {
+          tile->SetHighlight(true);
+          highlighted++;
+        }
+    }
+
+    // None highlighted, highlight every opponent's tokens'
+    for (const auto& tile_rows : m_Board) {
+      for (const auto& tile : tile_rows)
+        if (tile != nullptr && tile->HasToken() &&
+            tile->GetToken()->GetOccupation() != m_Turn->occupation) {
+          tile->SetHighlight(true);
+        }
+    }
+  }
+}
+
+void GameBoard::CancelHighlight() {
+  for (const auto& tile_rows : m_Board) {
+    for (const auto& tile : tile_rows)
+      if (tile != nullptr) {
+        tile->SetHighlight(false);
+      }
   }
 }
 
