@@ -7,7 +7,7 @@
 
 class PlaceCommand : public Command {
  public:
-  virtual void execute() override;
+  virtual void Execute() override;
   PlaceCommand(TilePtr tile, Token::Occupation occupation);
   ~PlaceCommand();
  private:

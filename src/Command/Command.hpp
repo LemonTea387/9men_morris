@@ -7,7 +7,7 @@ class Command {
   typedef Tile* TilePtr;
   Command(TilePtr tile) : m_AffectedTile{tile} {};
   TilePtr GetAffectedTile() { return m_AffectedTile; };
-  virtual void execute() = 0;
+  virtual void Execute() = 0;
 
  protected:
   TilePtr m_AffectedTile{nullptr};

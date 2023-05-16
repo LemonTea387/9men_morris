@@ -4,7 +4,7 @@
 
 #include "../Token.hpp"
 
-void PlaceCommand::execute() {
+void PlaceCommand::Execute() {
   m_AffectedTile->SetToken(std::move(
       std::make_unique<Token>(m_Occupation, m_AffectedTile->getPosition())));
 }
