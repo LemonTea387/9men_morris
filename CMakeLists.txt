@@ -42,6 +42,8 @@ add_executable(EverythingNMM
   src/GameBoard.cpp
   src/Scene/ui/Button.hpp
   src/Scene/ui/Button.cpp
+  src/GameBoardUtils.hpp
+  src/GameBoardUtils.cpp
   src/AssetManager.hpp
   src/AssetManager.cpp
   src/Tile.cpp)
