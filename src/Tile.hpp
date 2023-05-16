@@ -21,21 +21,25 @@ class Tile : public graphics::Button {
   ~Tile();
   void SetHighlight(bool highlight);
   bool HasToken() const { return m_Token != nullptr; };
-  Token* GetToken() const { return m_Token.get();};
-  void SetToken(std::unique_ptr<Token> token) {
-    m_Token = std::move(token);
+  Token* GetToken() const { return m_Token.get(); };
+  void SetToken(std::unique_ptr<Token> token) { m_Token = std::move(token); };
+  void MoveToken(Tile* dstTile) {
+    m_Token->SetPosition(dstTile->getPosition());
+    dstTile->SetToken(std::move(m_Token));
+    m_Token = nullptr;
   };
 
   // TO-DO: Friend class MillObserver?
-  TileCoord GetTileCoord() const { return m_Coord;}
+  TileCoord GetTileCoord() const { return m_Coord; }
 
  private:
   const sf::Texture* m_DefaultTexture;
   const sf::Texture* m_HighlightTexture;
   GameBoard* m_Gameboard;
-  std::unique_ptr<Token> m_Token {nullptr};
+  std::unique_ptr<Token> m_Token{nullptr};
   const TileCoord m_Coord;
   bool m_Highlight{false};
-  virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+  virtual void draw(sf::RenderTarget& target,
+                    sf::RenderStates states) const override;
 };
 #endif
