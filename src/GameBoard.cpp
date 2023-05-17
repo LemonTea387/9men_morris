@@ -17,7 +17,7 @@ GameBoard::GameBoard()
 
   InitialiseTiles();
 
-  m_Observers.push_back(new MillObserver(this));
+  m_Observers.push_back(std::make_unique<MillObserver>(this));
 
   // Start the game at placing phase
   CalculateValidMoves();

@@ -34,7 +34,7 @@ class GameBoard {
 
  private:
   std::array<std::array<std::unique_ptr<Tile>, 7>, 7> m_Board;
-  std::vector<Observer*> m_Observers;
+  std::vector<std::unique_ptr<Observer>> m_Observers;
   sf::RectangleShape m_BoardShape;
   bool m_HasMillCapture{false};
   bool m_ProgressTurn{false};
