@@ -5,6 +5,7 @@
 
 Token::Token(Occupation occupation, const sf::Vector2f& position)
     : m_Occupation{occupation} {
+  // Obtain texture from AssetManager based on the occupation
   AssetManager& assMan = AssetManager::GetInstance();
   sf::Texture* texture = nullptr;
   switch (occupation) {
@@ -16,7 +17,9 @@ Token::Token(Occupation occupation, const sf::Vector2f& position)
       break;
   }
   if (texture != nullptr) {
+    // Only if texture is not a nullptr, prevent nullptr referencing.
     m_Rectangle.setTexture(texture);
+    // Size of the rectangle be set to size of texture.
     m_Rectangle.setSize(
         sf::Vector2f(texture->getSize().x, texture->getSize().y));
     m_Rectangle.setPosition(sf::Vector2f{position.x, position.y});
@@ -32,6 +35,7 @@ void Token::SetPosition(const sf::Vector2f& position) {
 }
 
 void Token::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+  // Draw the texture which is set on Rectangle
   target.draw(m_Rectangle);
 };
 
