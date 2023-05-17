@@ -2,27 +2,30 @@
 
 #include "Scene/GameScene.hpp"
 #include "Scene/Scene.hpp"
-#include "Scene/WinScene.hpp"
 
-Game::Game() {}
+Game::Game() { Game::GetWindow().setFramerateLimit(30); }
 Game::~Game() {}
 
 void Game::PopScene() { m_Scenes.pop_back(); }
 void Game::PushScene(ScenePtr&& scene) { m_Scenes.push_back(std::move(scene)); }
 
-void Game::Loop() const {
+void Game::Loop() {
   sf::Event event;
   while (Game::GetWindow().pollEvent(event)) {
     if (event.type == sf::Event::Closed) {
-      Game::GetWindow().close();
+      m_Scenes.clear();
     }
-    m_Scenes.back()->Update(event);
+    if (m_Scenes.size() > 0) {
+      m_Scenes.back()->Update(event);
+    }
   }
 
   if (m_Scenes.size() > 0) {
     Game::GetWindow().clear();
     Game::GetWindow().draw(m_BackgroundColor);
-    m_Scenes.back()->Render(Game::GetWindow());
+    if (m_Scenes.size() > 0) {
+      m_Scenes.back()->Render(Game::GetWindow());
+    }
     Game::GetWindow().display();
   }
 }
@@ -43,7 +46,7 @@ void Game::Run() {
   // the argument to a unique_ptr myself.
   // Temporarily set to GameScene first because I'm too lazy to add the button
   // to the MenuScene
-  m_Scenes.emplace_back(new WinScene(WinnerType::TIE));
+  m_Scenes.emplace_back(new GameScene());
 
   while (m_Scenes.size() > 0 && Game::GetWindow().isOpen()) {
     this->Loop();

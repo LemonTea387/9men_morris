@@ -18,10 +18,10 @@ GameBoard::GameBoard()
 
   InitialiseTiles();
 
-  m_Observers.push_back(new MillObserver(this));
+  m_Observers.push_back(std::make_unique<MillObserver>(this));
   // Win Observer has to be last, as it may require previous observing's
   // information
-  m_Observers.push_back(new WinObserver(this));
+  m_Observers.push_back(std::make_unique<WinObserver>(this));
 
   // Start the game at placing phase
   HighlightValidMoves();

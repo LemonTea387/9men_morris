@@ -3,6 +3,7 @@
 #include "../AssetManager.hpp"
 #include "../Game.hpp"
 #include "../Scene/MenuScene.hpp"
+#include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
 
 void WinScene::Update(sf::Event event) {
@@ -12,9 +13,7 @@ void WinScene::Update(sf::Event event) {
     }
   }
 }
-void WinScene::Render() {
-  sf::RenderWindow& window = Game::GetWindow();
-
+void WinScene::Render(sf::RenderWindow& window) {
   window.draw(m_WinImage);
   window.draw(m_WinMessage);
 
@@ -70,7 +69,7 @@ WinScene::WinScene(WinnerType wt)
       sf::Vector2f(Game::WINDOW_WIDTH / 4.f, Game::WINDOW_HEIGHT / 10.f));
   m_WinImage.setTexture(texture);
   m_WinImage.setSize(sf::Vector2f(texture->getSize().x, texture->getSize().y));
-  m_MenuButton.setTexture(*assMan.GetTexture(GameAsset::BUTTON));
+  m_MenuButton.setTexture(assMan.GetTexture(GameAsset::BUTTON).get());
   m_MenuButton.setPosition(
       sf::Vector2f(Game::WINDOW_WIDTH / 7.f,
                    Game::WINDOW_HEIGHT - Game::WINDOW_HEIGHT / 6.f));

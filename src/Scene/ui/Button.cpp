@@ -9,7 +9,8 @@ Button::Button(const std::string& buttonText) {
   m_ButtonText.setCharacterSize(CHAR_SIZE);
   m_ButtonText.setFillColor(sf::Color(0xd0, 0xbc, 0xff));
 
-  // TODO : Remove this expensive workaround to fix SFML width = 0 bug with AssetManager
+  // TODO : Remove this expensive workaround to fix SFML width = 0 bug with
+  // AssetManager
   if (!m_ButtonFont.loadFromFile(
           "assets/fonts/Comfortaa/static/Comfortaa-SemiBold.ttf")) {
     std::cerr << "Could not load ButtonFont" << std::endl;
@@ -30,14 +31,14 @@ Button::Button(const std::string& buttonText,
 
 Button::~Button() {}
 
-void Button::setFont(const sf::Font& font) { m_ButtonText.setFont(font); };
+void Button::setTexture(const sf::Texture* texture) {
+  m_ButtonShape.setTexture(texture, true);
+  UI::setSize(sf::Vector2f(texture->getSize().x, texture->getSize().y));
+}
 
-void Button::setText(const std::string& text) { m_ButtonText.setString(text); };
+void Button::setFont(const sf::Font* font) { m_ButtonText.setFont(*font); }
 
-void Button::setTexture(const sf::Texture& texture) {
-  m_ButtonShape.setTexture(&texture, true);
-  UI::setSize(sf::Vector2f(texture.getSize().x, texture.getSize().y));
-};
+void Button::setText(const std::string& text) { m_ButtonText.setString(text); }
 
 void Button::setPosition(const sf::Vector2f& position) {
   // Might need to set position of actual Button from sf::Transformable to

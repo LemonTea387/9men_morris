@@ -7,11 +7,6 @@
 #include "Token.hpp"
 
 class GameBoard;
-/**
- * TODO: Create class for TileCoord with proper bounds checkings.
- * Can  also possibly overload the hash function () operator / equality check
- * to use std::unordered_map for a tiny bit extra performance.
- */
 
 typedef std::pair<int, int> TileCoord;
 
@@ -26,7 +21,6 @@ class Tile : public graphics::Button {
   void SetToken(std::unique_ptr<Token> token);
   void MoveToken(Tile* dstTile);
 
-  // TO-DO: Friend class MillObserver?
   TileCoord GetTileCoord() const;
 
  private:
@@ -35,7 +29,7 @@ class Tile : public graphics::Button {
   const TileCoord m_Coord;
   const sf::Texture* m_DefaultTexture;
   const sf::Texture* m_HighlightTexture;
-  std::unique_ptr<Token> m_Token{nullptr};  
+  std::unique_ptr<Token> m_Token{nullptr};
   virtual void draw(sf::RenderTarget& target,
                     sf::RenderStates states) const override;
 };

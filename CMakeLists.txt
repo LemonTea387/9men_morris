@@ -24,6 +24,7 @@ add_executable(EverythingNMM
   src/Token.hpp
   src/Token.cpp
   src/Scene/Scene.hpp
+  src/Scene/Scene.cpp
   src/Scene/MenuScene.hpp
   src/Scene/MenuScene.cpp
   src/Scene/GameScene.hpp

@@ -18,17 +18,17 @@ namespace graphics {
 class OnClickEventListener;
 class Button : public UI {
  public:
+  void setFont(const sf::Font* font);
+  void setText(const std::string& text);
+  void setTexture(const sf::Texture* texture);
+  void setPosition(const sf::Vector2f& position);
+  void setCallback(std::function<void(sf::Event)> onAction);
+  virtual void setSize(const sf::Vector2f& size) override;
   Button(Button const&) = delete;
   Button(const std::string& buttonText);
   Button(const std::string& buttonText,
          std::function<void(sf::Event)> onAction);
-  ~Button();
-  void setFont(const sf::Font& font);
-  void setText(const std::string& text);
-  void setTexture(const sf::Texture& texture);
-  void setPosition(const sf::Vector2f& position);
-  void setCallback(std::function<void(sf::Event)> onAction);
-  virtual void setSize(const sf::Vector2f& size) override;
+  virtual ~Button();
   virtual void draw(sf::RenderTarget& target,
                     sf::RenderStates states) const override;
 

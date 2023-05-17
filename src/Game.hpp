@@ -56,7 +56,7 @@ class Game {
    * the scene at the back of the stack, as well as does some checking if the
    * window is closed and terminate if needed.
    */
-  void Loop() const;
+  void Loop();
 
  public:
   /**

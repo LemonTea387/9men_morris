@@ -2,14 +2,15 @@
 #define GAMESCENE_H
 
 #include <SFML/Graphics.hpp>
+#include <memory>
 
-#include "../GameBoard.hpp"
 #include "Scene.hpp"
 #include "ui/Button.hpp"
+class GameBoard;
 
 class GameScene : public Scene {
  private:
-	 // TODO: add them into m_ui and m_drawable
+  // TODO: add them into m_ui and m_drawable
   graphics::Button m_QuitButton;
   graphics::Button m_SaveButton;
 
@@ -25,7 +26,8 @@ class GameScene : public Scene {
   sf::RectangleShape m_PlayerTwoIcon;
   sf::RectangleShape m_TurnIcon;
 
-  GameBoard m_GameBoard;
+  std::unique_ptr<GameBoard> m_GameBoard;
+
  public:
   GameScene();
   ~GameScene();
