@@ -3,6 +3,7 @@
 #include "../AssetManager.hpp"
 #include "../Game.hpp"
 #include "../Scene/MenuScene.hpp"
+#include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
 
 void WinScene::Update(sf::Event event) {
@@ -12,9 +13,7 @@ void WinScene::Update(sf::Event event) {
     }
   }
 }
-void WinScene::Render() {
-  sf::RenderWindow& window = Game::GetWindow();
-
+void WinScene::Render(sf::RenderWindow& window) {
   window.draw(m_WinImage);
   window.draw(m_WinMessage);
 
