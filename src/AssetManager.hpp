@@ -5,7 +5,17 @@
 #include <string>
 
 namespace GameAsset {
-enum Texture { DOGE, PEPE, BUTTON, BOARD, TILE, HIGHLIGHT_TILE };
+enum Texture {
+  DOGE,
+  PEPE,
+  BUTTON,
+  BOARD,
+  TILE,
+  HIGHLIGHT_TILE,
+  PEPEWIN,
+  DOGEWIN,
+  TIEWIN
+};
 enum Font { COMFORTAA };
 }  // namespace GameAsset
 class AssetManager {
@@ -18,7 +28,7 @@ class AssetManager {
   std::map<GameAsset::Font, FontPtr> m_Fonts;
   void LoadFonts();
   void LoadTextures();
-  
+
  public:
   AssetManager(AssetManager const&) = delete;
   void operator=(const AssetManager&) = delete;

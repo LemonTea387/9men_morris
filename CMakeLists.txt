@@ -28,6 +28,8 @@ add_executable(EverythingNMM
   src/Scene/MenuScene.cpp
   src/Scene/GameScene.hpp
   src/Scene/GameScene.cpp
+  src/Scene/WinScene.hpp
+  src/Scene/WinScene.cpp
   src/Command/Command.hpp
   src/Command/PlaceCommand.hpp
   src/Command/PlaceCommand.cpp

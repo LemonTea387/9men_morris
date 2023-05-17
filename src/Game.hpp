@@ -77,7 +77,8 @@ class Game {
    */
   static sf::RenderWindow& GetWindow() {
     static sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
-                                   "EverythingNMM", sf::Style::Titlebar | sf::Style::Close);
+                                   "EverythingNMM",
+                                   sf::Style::Titlebar | sf::Style::Close);
 
     return window;
   }

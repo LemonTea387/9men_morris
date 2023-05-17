@@ -13,7 +13,11 @@ const std::vector<AssetFilePair> textures = {
     {GameAsset::Texture::HIGHLIGHT_TILE, "assets/ui/buttons/coconut.png"},
     {GameAsset::Texture::TILE, "assets/ui/buttons/trns.png"},
     {GameAsset::Texture::BUTTON, "assets/ui/buttons/Exit.png"},
-    {GameAsset::Texture::BOARD, "assets/ui/gameBoard.png"}};
+    {GameAsset::Texture::BOARD, "assets/ui/gameBoard.png"},
+    {GameAsset::Texture::PEPEWIN, "assets/ui/PepeWin.png"},
+    {GameAsset::Texture::DOGEWIN, "assets/ui/DogeWin.png"},
+    {GameAsset::Texture::TIEWIN, "assets/ui/Tie.png"},
+};
 const std::vector<AssetFilePair> fonts = {
     {GameAsset::Font::COMFORTAA,
      "assets/fonts/Comfortaa/static/Comfortaa-SemiBold.ttf"}};
