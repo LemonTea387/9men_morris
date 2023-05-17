@@ -2,7 +2,6 @@
 
 #include "../AssetManager.hpp"
 #include "../Game.hpp"
-#include "../Scene/MenuScene.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
 
@@ -29,7 +28,7 @@ void WinScene::Render(sf::RenderWindow& window) {
 WinScene::WinScene(WinnerType wt)
     : m_MenuButton("Main Menu", [&](sf::Event e) {
         Game::GetInstance().PopScene();
-        Game::GetInstance().PushScene(std::make_unique<MenuScene>());
+        Game::GetInstance().PopScene();
       }) {
   AssetManager& assMan = AssetManager::GetInstance();
   addUI(&m_MenuButton);

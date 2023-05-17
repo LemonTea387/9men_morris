@@ -7,7 +7,6 @@
 
 namespace {
 void Win(Player* player) {
-  Game::GetInstance().PopScene();
   Game::GetInstance().PushScene(std::make_unique<WinScene>(
       player->occupation == Token::Occupation::PEPE ? WinnerType::PEPE
                                                     : WinnerType::DOGE));
