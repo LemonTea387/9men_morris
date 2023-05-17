@@ -20,12 +20,10 @@ GameBoard::GameBoard()
   m_Observers.push_back(new MillObserver(this));
 
   // Start the game at placing phase
-  CalculateValidMoves();
+  HighlightValidMoves();
 }
 
 GameBoard::~GameBoard() {}
-
-void GameBoard::SetMillFlag(bool flag) { m_HasMillCapture = flag; };
 
 void GameBoard::Update(sf::Event event) {
   for (const auto& tile_rows : m_Board) {
@@ -65,12 +63,6 @@ void GameBoard::Render(sf::RenderWindow& window) {
 
 void GameBoard::ExecuteCommand(Command* command) {
   command->Execute();
-  // TO-DO: Change to smart pointers, and store previously executed commands so
-  // they can be undone
-
-  // Cancel all highlights
-  CancelHighlight();
-
   // Pass to observers
   for (const auto& observer : m_Observers) {
     observer->Notify(command->GetAffectedTile());
@@ -178,14 +170,18 @@ void GameBoard::CancelHighlight() {
   }
 }
 
+void GameBoard::SetMillFlag(bool flag) { m_HasMillCapture = flag; }
+
 Tile* GameBoard::GetActiveTile() { return m_ActiveTile; }
 
-Tile* GameBoard::GetTile(int x, int y) const { return m_Board[x][y].get(); };
+Tile* GameBoard::GetTile(int x, int y) const { return m_Board[x][y].get(); }
 
-Player* GameBoard::GetCurrPlayer() const { return m_Turn; };
+Player* GameBoard::GetCurrPlayer() { return m_Turn; }
 
 Player* GameBoard::GetOpponentPlayer() {
   return &m_P1 == m_Turn ? &m_P2 : &m_P1;
-};
+}
 
-GameBoard::GameState GameBoard::GetState() const { return m_State; };
+bool GameBoard::GetMillCapture() const { return m_HasMillCapture; }
+
+GameBoard::GameState GameBoard::GetState() const { return m_State; }
