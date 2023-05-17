@@ -30,7 +30,6 @@ class Tile : public graphics::Button {
 
   Tile(GameBoard*, TileCoord coord);
   ~Tile();
-  
 
   // TO-DO: Friend class MillObserver?
   TileCoord GetTileCoord() const { return m_Coord; }
@@ -41,7 +40,7 @@ class Tile : public graphics::Button {
   const sf::Texture* m_DefaultTexture;
   const sf::Texture* m_HighlightTexture;
   GameBoard* m_Gameboard;
-  std::unique_ptr<Token> m_Token{nullptr};  
+  std::unique_ptr<Token> m_Token{nullptr};
   virtual void draw(sf::RenderTarget& target,
                     sf::RenderStates states) const override;
 };

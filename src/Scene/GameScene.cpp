@@ -6,6 +6,8 @@
 #include "../Game.hpp"
 #include "../Token.hpp"
 
+GameScene::~GameScene() {}
+
 GameScene::GameScene()
     : m_SaveButton{"Save",
                    [&](sf::Event e) { m_SaveButton.setText("Test Save"); }},

@@ -28,7 +28,7 @@ class Button : public UI {
   Button(const std::string& buttonText);
   Button(const std::string& buttonText,
          std::function<void(sf::Event)> onAction);
-  ~Button();
+  virtual ~Button();
   virtual void draw(sf::RenderTarget& target,
                     sf::RenderStates states) const override;
 
