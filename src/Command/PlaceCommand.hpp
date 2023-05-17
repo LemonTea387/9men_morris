@@ -4,10 +4,24 @@
 
 #include "Command.hpp"
 
+/**
+ * PlaceCommand places a new Token into an empty Tile.
+ */
 class PlaceCommand : public Command {
  public:
+  /**
+  * Make a new Token and place it in m_AffectedTile
+  */
   virtual void Execute() override;
+
+  /**
+  * PlaceCommand Constructor
+  */
   PlaceCommand(TilePtr tile, Player* player);
+
+  /**
+  * PlaceCommand Destructor
+  */
   ~PlaceCommand();
 };
 
