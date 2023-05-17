@@ -17,9 +17,13 @@ Tile::Tile(GameBoard* gb, TileCoord coord)
       assMan.GetTexture(GameAsset::Texture::HIGHLIGHT_TILE).get();
   setTexture(m_DefaultTexture);
 
+  // The main functionality of the Tile (Button)
   this->setCallback([&](sf::Event event) {
     // Perform command
     if (m_Highlight) {
+      // Performs whichever command based on the current gameboard's state, the
+      // gameboard's state may be delegated to player based on future
+      // requirements.
       switch (m_Gameboard->GetState()) {
         case GameBoard::PLACE:
           m_Gameboard->ExecuteCommand(
@@ -37,6 +41,8 @@ Tile::Tile(GameBoard* gb, TileCoord coord)
       }
     }
     // Activate the tile in gameboard
+    // This should only work if it has a Token and the Token is the same as the
+    // current clicking player's occupation
     else if (HasToken() && GetToken()->GetOccupation() ==
                                m_Gameboard->GetCurrPlayer()->occupation) {
       m_Gameboard->SetActiveTile(this);
@@ -53,15 +59,22 @@ bool Tile::HasToken() const { return m_Token != nullptr; };
 void Tile::RemoveToken() { m_Token = nullptr; };
 
 void Tile::SetHighlight(bool highlight) {
+  // If it is the same, don't waste time resetting Textures (Expensive)
   if (m_Highlight == highlight) return;
 
   m_Highlight = highlight;
+  // If it has Tokens, we want to directly set the token's state, and not
+  // highlight the Tile.
   if (HasToken()) {
     if (highlight)
+      // The only possible Token state when getting highlighted is when the
+      // Token is getting captured, hence it should SCREAM
       GetToken()->SetState(Token::TokenState::SCREAM);
     else
       GetToken()->SetState(Token::TokenState::NORMAL);
   } else {
+    // It does not have tokens, therefore, we change the textures of the Tile
+    // directly
     if (highlight)
       setTexture(m_HighlightTexture);
     else
@@ -70,7 +83,7 @@ void Tile::SetHighlight(bool highlight) {
 }
 
 void Tile::SetToken(std::unique_ptr<Token> token) {
-  // Dirty fix for cancelling prior empty tile highlight textures when setting a
+  // For cancelling prior empty tile highlight textures when setting a
   // token.
   setTexture(m_DefaultTexture);
   m_Token = std::move(token);
@@ -87,6 +100,7 @@ void Tile::MoveToken(Tile* dstTile) {
 
 void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   Button::draw(target, states);
+  // We draw the Token after (on top of) the Tile
   if (m_Token != nullptr) {
     target.draw(*m_Token);
   }
