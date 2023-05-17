@@ -23,12 +23,11 @@ class AssetManager {
 
  public:
   AssetManager(AssetManager const&) = delete;
-
-  std::shared_ptr<sf::Texture> GetTexture(GameAsset::Texture) const;
-  std::shared_ptr<sf::Font> GetFont(GameAsset::Font) const;
-
   void operator=(const AssetManager&) = delete;
 
+  std::shared_ptr<sf::Font> GetFont(GameAsset::Font) const;
+  std::shared_ptr<sf::Texture> GetTexture(GameAsset::Texture) const;
+  
   static AssetManager& GetInstance() {
     static AssetManager instance;
     return instance;
