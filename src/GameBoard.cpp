@@ -110,15 +110,16 @@ void GameBoard::CalculateValidMoves() {
           tile->SetHighlight(true);
         }
       }
-      return;
+    } else {
+      // Case 2 : 3 pieces left, fly (highlight all empty tiles)
+      for (const auto& tile_rows : m_Board) {
+        for (const auto& tile : tile_rows)
+          if (tile != nullptr && !(tile->HasToken())) {
+            tile->SetHighlight(true);
+          }
+      }
     }
-    // Case 2 : 3 pieces left, fly (highlight all empty tiles)
-    for (const auto& tile_rows : m_Board) {
-      for (const auto& tile : tile_rows)
-        if (tile != nullptr && !(tile->HasToken())) {
-          tile->SetHighlight(true);
-        }
-    }
+    
   } else if (m_State == GameBoard::CAPTURE) {
     // Highlight all capturable tiles
     // If it's in a mill, don't highlight, unless none highlighted
@@ -132,14 +133,15 @@ void GameBoard::CalculateValidMoves() {
           highlighted++;
         }
     }
-    if(highlighted > 0) return;
-    // None highlighted, highlight every opponent's tokens'
-    for (const auto& tile_rows : m_Board) {
-      for (const auto& tile : tile_rows)
-        if (tile != nullptr && tile->HasToken() &&
-            tile->GetToken()->GetOccupation() != m_Turn->occupation) {
-          tile->SetHighlight(true);
-        }
+    if (highlighted == 0) {
+      // None highlighted, highlight every opponent's tokens'
+      for (const auto& tile_rows : m_Board) {
+        for (const auto& tile : tile_rows)
+          if (tile != nullptr && tile->HasToken() &&
+              tile->GetToken()->GetOccupation() != m_Turn->occupation) {
+            tile->SetHighlight(true);
+          }
+      }
     }
   }
 }
