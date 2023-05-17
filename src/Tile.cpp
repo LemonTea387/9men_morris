@@ -56,10 +56,16 @@ void Tile::SetHighlight(bool highlight) {
   if (m_Highlight == highlight) return;
 
   m_Highlight = highlight;
-  if (highlight) {
-    setTexture(m_HighlightTexture);
+  if (HasToken()) {
+    if (highlight)
+      GetToken()->SetState(Token::TokenState::SCREAM);
+    else
+      GetToken()->SetState(Token::TokenState::NORMAL);
   } else {
-    setTexture(m_DefaultTexture);
+    if (highlight)
+      setTexture(m_HighlightTexture);
+    else
+      setTexture(m_DefaultTexture);
   }
 }
 
