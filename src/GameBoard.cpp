@@ -35,22 +35,22 @@ void GameBoard::Update(sf::Event event) {
       }
   }
   // No command executed
-  if (!m_ProgressTurn) return;
+  if (!m_ProgressTurn) {
+    // Handle turns
+    if (!m_HasMillCapture) {
+      // Either Place or Move based on if it's done placing or not
+      m_State = (m_P1.placed < 9 || m_P2.placed < 9) ? PLACE : MOVE;
+      // Change Turn
+      m_Turn = m_Turn == &m_P1 ? &m_P2 : &m_P1;
+    } else {
+      // Capture Phase
+      m_State = CAPTURE;
+      m_HasMillCapture = false;
+    }
+    m_ProgressTurn = false;
 
-  // Handle turns
-  if (!m_HasMillCapture) {
-    // Either Place or Move based on if it's done placing or not
-    m_State = (m_P1.placed < 9 || m_P2.placed < 9) ? PLACE : MOVE;
-    // Change Turn
-    m_Turn = m_Turn == &m_P1 ? &m_P2 : &m_P1;
-  } else {
-    // Capture Phase
-    m_State = CAPTURE;
-    m_HasMillCapture = false;
+    CalculateValidMoves();
   }
-  m_ProgressTurn = false;
-
-  CalculateValidMoves();
 }
 
 void GameBoard::Render(sf::RenderWindow& window) {
