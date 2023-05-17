@@ -23,6 +23,10 @@ GameBoard::GameBoard()
   CalculateValidMoves();
 }
 
+GameBoard::~GameBoard() {}
+
+void GameBoard::SetMillFlag(bool flag) { m_HasMillCapture = flag; };
+
 void GameBoard::Update(sf::Event event) {
   for (const auto& tile_rows : m_Board) {
     for (const auto& tile : tile_rows)
@@ -77,19 +81,15 @@ void GameBoard::ExecuteCommand(Command* command) {
   m_ProgressTurn = true;
 }
 
-void GameBoard::InitialiseTiles() {
-  constexpr int coordinates[24][2]{
-      {0, 0}, {3, 0}, {6, 0}, {1, 1}, {3, 1}, {5, 1}, {2, 2}, {3, 2},
-      {4, 2}, {0, 3}, {1, 3}, {2, 3}, {4, 3}, {5, 3}, {6, 3}, {2, 4},
-      {3, 4}, {4, 4}, {1, 5}, {3, 5}, {5, 5}, {0, 6}, {3, 6}, {6, 6}};
-  for (const auto& coord : coordinates) {
-    m_Board[coord[0]][coord[1]] =
-        std::make_unique<Tile>(this, TileCoord{coord[0], coord[1]});
-    m_Board[coord[0]][coord[1]]->setPosition(
-        {TILE_X_PAD + coord[0] * TILE_DIM - TILE_DIM / 3,
-         TILE_Y_PAD + coord[1] * TILE_DIM - TILE_DIM / 3});
-  }
-}
+void GameBoard::SetActiveTile(Tile* tile) {
+  m_ActiveTile = tile;
+  CalculateValidMoves();
+};
+
+void GameBoard::SetActiveTile(Tile* tile) {
+  m_ActiveTile = tile;
+  CalculateValidMoves();
+};
 
 void GameBoard::CalculateValidMoves() {
   // Remove previous highlighting first
@@ -148,6 +148,20 @@ void GameBoard::CalculateValidMoves() {
   }
 }
 
+void GameBoard::InitialiseTiles() {
+  constexpr int coordinates[24][2]{
+      {0, 0}, {3, 0}, {6, 0}, {1, 1}, {3, 1}, {5, 1}, {2, 2}, {3, 2},
+      {4, 2}, {0, 3}, {1, 3}, {2, 3}, {4, 3}, {5, 3}, {6, 3}, {2, 4},
+      {3, 4}, {4, 4}, {1, 5}, {3, 5}, {5, 5}, {0, 6}, {3, 6}, {6, 6}};
+  for (const auto& coord : coordinates) {
+    m_Board[coord[0]][coord[1]] =
+        std::make_unique<Tile>(this, TileCoord{coord[0], coord[1]});
+    m_Board[coord[0]][coord[1]]->setPosition(
+        {TILE_X_PAD + coord[0] * TILE_DIM - TILE_DIM / 3,
+         TILE_Y_PAD + coord[1] * TILE_DIM - TILE_DIM / 3});
+  }
+}
+
 void GameBoard::CancelHighlight() {
   for (const auto& tile_rows : m_Board) {
     for (const auto& tile : tile_rows)
@@ -157,4 +171,14 @@ void GameBoard::CancelHighlight() {
   }
 }
 
-GameBoard::~GameBoard() {}
+Tile* GameBoard::GetActiveTile() { return m_ActiveTile; }
+
+Tile* GameBoard::GetTile(int x, int y) const { return m_Board[x][y].get(); };
+
+Player* GameBoard::GetCurrPlayer() const { return m_Turn; };
+
+Player* GameBoard::GetOpponentPlayer() {
+  return &m_P1 == m_Turn ? &m_P2 : &m_P1;
+};
+
+GameBoard::GameState GameBoard::GetState() const { return m_State; };

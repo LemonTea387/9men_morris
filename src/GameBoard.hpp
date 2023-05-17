@@ -21,35 +21,32 @@ class GameBoard {
   enum GameState { PLACE, MOVE, CAPTURE };
   GameBoard();
   ~GameBoard();
+  void SetMillFlag(bool flag);
   void Update(sf::Event event);
   void Render(sf::RenderWindow& window);
   void ExecuteCommand(Command* command);
-  void SetActiveTile(Tile* tile) {
-    m_ActiveTile = tile;
-    CalculateValidMoves();
-  };
-  Tile* GetActiveTile() { return m_ActiveTile; };
-  GameState GetState() const { return m_State; };
-  Player* GetCurrPlayer() const { return m_Turn; };
-  Player* GetOpponentPlayer() { return &m_P1 == m_Turn ? &m_P2 : &m_P1; };
-  void SetMillFlag(bool flag) { m_HasMillCapture = flag; }
-  Tile* GetTile(int x, int y) const { return m_Board[x][y].get(); }
+  void SetActiveTile(Tile* tile);
+  Tile* GetActiveTile();
+  Tile* GetTile(int x, int y) const;
+  Player* GetCurrPlayer() const;
+  Player* GetOpponentPlayer();
+  GameState GetState() const;
 
  private:
-  void CalculateValidMoves();
-  void InitialiseTiles();
-  void CancelHighlight();
   std::array<std::array<std::unique_ptr<Tile>, 7>, 7> m_Board;
-  sf::RectangleShape m_BoardShape;
   std::vector<Observer*> m_Observers;
-
-  Player* m_Turn;
-  Player m_P1;
-  Player m_P2;
+  sf::RectangleShape m_BoardShape;
   bool m_HasMillCapture{false};
   bool m_ProgressTurn{false};
   Tile* m_ActiveTile{nullptr};
+  Player m_P1;
+  Player m_P2;
+  Player* m_Turn;
   GameState m_State;
+
+  void CalculateValidMoves();
+  void InitialiseTiles();
+  void CancelHighlight();
 };
 
 #endif
