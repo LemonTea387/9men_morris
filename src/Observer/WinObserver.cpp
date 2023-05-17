@@ -24,12 +24,15 @@ void WinObserver::Notify(Tile* tileAffected) {
   }
   // Case 2 : It is currently move phase for opponent, and opponent can't move
   if (!(m_Gameboard->GetMillCapture()) &&
-      m_Gameboard->GetState() == GameBoard::MOVE) {
+          m_Gameboard->GetState() == GameBoard::MOVE ||
+      m_Gameboard->GetState() == GameBoard::CAPTURE) {
     // Check until found at least 1 valid move
     bool validMoves = false;
-    for (const auto& tile :
+    for (const auto tile :
          m_Gameboard->GetPlayerTiles(m_Gameboard->GetOpponentPlayer())) {
-      if (m_Gameboard->CalculateValidMoves(m_Gameboard->GetState(), tile)
+      if (m_Gameboard
+              ->CalculateValidMoves(GameBoard::MOVE,
+                                    m_Gameboard->GetOpponentPlayer(), tile)
               .size() > 0) {
         validMoves = true;
         break;
