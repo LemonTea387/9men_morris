@@ -82,7 +82,7 @@ void GameBoard::SetActiveTile(Tile* tile) {
   HighlightValidMoves();
 };
 
-std::vector<Tile*> GameBoard::CalculateValidMoves(GameState state,
+std::vector<Tile*> GameBoard::CalculateValidMoves(GameState state, Player* turn,
                                                   Tile* activeTile) {
   std::vector<Tile*> tiles{};
   std::vector<Tile*> validTiles{};
@@ -101,12 +101,12 @@ std::vector<Tile*> GameBoard::CalculateValidMoves(GameState state,
       if (!(tile->HasToken())) {
         validTiles.push_back(tile);
       }
-  } else if (state == GameBoard::MOVE && m_ActiveTile != nullptr) {
+  } else if (state == GameBoard::MOVE && activeTile != nullptr) {
     // Display possible moves from that active tile
     // Case 1 : > 3 pieces left, Highlight adjacent empty tiles
-    if (m_Turn->left > 3) {
+    if (turn->left > 3) {
       for (const auto& tileCoord :
-           Util::GetNeighbours(m_ActiveTile->GetTileCoord())) {
+           Util::GetNeighbours(activeTile->GetTileCoord())) {
         auto tile{GetTile(tileCoord.first, tileCoord.second)};
         if (!tile->HasToken()) {
           validTiles.push_back(tile);
@@ -125,7 +125,7 @@ std::vector<Tile*> GameBoard::CalculateValidMoves(GameState state,
     int validCount = 0;
     for (const auto& tile : tiles)
       if (tile->HasToken() &&
-          tile->GetToken()->GetOccupation() != m_Turn->occupation &&
+          tile->GetToken()->GetOccupation() != turn->occupation &&
           !Util::isMill(this, tile)) {
         validTiles.push_back(tile);
         validCount++;
@@ -134,7 +134,7 @@ std::vector<Tile*> GameBoard::CalculateValidMoves(GameState state,
       // No other tiles not in mill, every opponent's tokens' is valid
       for (const auto& tile : tiles)
         if (tile->HasToken() &&
-            tile->GetToken()->GetOccupation() != m_Turn->occupation) {
+            tile->GetToken()->GetOccupation() != turn->occupation) {
           validTiles.push_back(tile);
         }
     }
@@ -160,7 +160,7 @@ void GameBoard::InitialiseTiles() {
 void GameBoard::HighlightValidMoves() {
   // Remove previous highlighting first
   CancelHighlight();
-  for (const auto& tile : CalculateValidMoves(m_State, m_ActiveTile)) {
+  for (const auto& tile : CalculateValidMoves(m_State, m_Turn, m_ActiveTile)) {
     tile->SetHighlight(true);
   }
 }

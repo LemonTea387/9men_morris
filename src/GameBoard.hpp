@@ -24,7 +24,8 @@ class GameBoard {
   void Update(sf::Event event);
   void Render(sf::RenderWindow& window);
   void ExecuteCommand(Command* command);
-  std::vector<Tile*> CalculateValidMoves(GameState state, Tile* activeTile);
+  std::vector<Tile*> CalculateValidMoves(GameState state, Player* turn,
+                                         Tile* activeTile);
   void SetActiveTile(Tile* tile);
   Tile* GetActiveTile();
   Tile* GetTile(int x, int y) const;
