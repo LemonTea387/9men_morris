@@ -50,7 +50,7 @@ void GameBoard::Update(sf::Event event) {
   }
   m_ProgressTurn = false;
 
-  CalculateValidMoves();
+  HighlightValidMoves();
 }
 
 void GameBoard::Render(sf::RenderWindow& window) {
@@ -83,23 +83,29 @@ void GameBoard::ExecuteCommand(Command* command) {
 
 void GameBoard::SetActiveTile(Tile* tile) {
   m_ActiveTile = tile;
-  CalculateValidMoves();
+  HighlightValidMoves();
 };
 
-void GameBoard::CalculateValidMoves() {
-  // Remove previous highlighting first
-  CancelHighlight();
+std::vector<Tile*> GameBoard::CalculateValidMoves(GameState state,
+                                                  Tile* activeTile) {
+  std::vector<Tile*> tiles{};
+  std::vector<Tile*> validTiles{};
+
+  // Get the tiles first
+  for (const auto& tile_rows : m_Board) {
+    for (const auto& tile : tile_rows) {
+      if (tile != nullptr) tiles.push_back(tile.get());
+    }
+  }
 
   // Highlighting based on gamestates
-  if (m_State == GameBoard::PLACE) {
+  if (state == GameBoard::PLACE) {
     // All empty tiles should be placeable
-    for (const auto& tile_rows : m_Board) {
-      for (const auto& tile : tile_rows)
-        if (tile != nullptr && !(tile->HasToken())) {
-          tile->SetHighlight(true);
-        }
-    }
-  } else if (m_State == GameBoard::MOVE && m_ActiveTile != nullptr) {
+    for (const auto& tile : tiles)
+      if (!(tile->HasToken())) {
+        validTiles.push_back(tile);
+      }
+  } else if (state == GameBoard::MOVE && m_ActiveTile != nullptr) {
     // Display possible moves from that active tile
     // Case 1 : > 3 pieces left, Highlight adjacent empty tiles
     if (m_Turn->left > 3) {
@@ -107,43 +113,38 @@ void GameBoard::CalculateValidMoves() {
            Util::GetNeighbours(m_ActiveTile->GetTileCoord())) {
         auto tile{GetTile(tileCoord.first, tileCoord.second)};
         if (!tile->HasToken()) {
-          tile->SetHighlight(true);
+          validTiles.push_back(tile);
         }
       }
     } else {
-      // Case 2 : 3 pieces left, fly (highlight all empty tiles)
-      for (const auto& tile_rows : m_Board) {
-        for (const auto& tile : tile_rows)
-          if (tile != nullptr && !(tile->HasToken())) {
-            tile->SetHighlight(true);
-          }
-      }
-    }
-    
-  } else if (m_State == GameBoard::CAPTURE) {
-    // Highlight all capturable tiles
-    // If it's in a mill, don't highlight, unless none highlighted
-    int highlighted = 0;
-    for (const auto& tile_rows : m_Board) {
-      for (const auto& tile : tile_rows)
-        if (tile != nullptr && tile->HasToken() &&
-            tile->GetToken()->GetOccupation() != m_Turn->occupation &&
-            !Util::isMill(this, tile.get())) {
-          tile->SetHighlight(true);
-          highlighted++;
+      // Case 2 : 3 pieces left, fly (All empty tiles are valid)
+      for (const auto& tile : tiles)
+        if (tile != nullptr && !(tile->HasToken())) {
+          validTiles.push_back(tile);
         }
     }
-    if (highlighted == 0) {
-      // None highlighted, highlight every opponent's tokens'
-      for (const auto& tile_rows : m_Board) {
-        for (const auto& tile : tile_rows)
-          if (tile != nullptr && tile->HasToken() &&
-              tile->GetToken()->GetOccupation() != m_Turn->occupation) {
-            tile->SetHighlight(true);
-          }
+  } else if (state == GameBoard::CAPTURE) {
+    // Highlight all capturable tiles
+    // If it's in a mill, not valid unless no other tiles not in mill
+    int validCount = 0;
+    for (const auto& tile : tiles)
+      if (tile->HasToken() &&
+          tile->GetToken()->GetOccupation() != m_Turn->occupation &&
+          !Util::isMill(this, tile)) {
+        validTiles.push_back(tile);
+        validCount++;
       }
+    if (validCount == 0) {
+      // No other tiles not in mill, every opponent's tokens' is valid
+      for (const auto& tile : tiles)
+        if (tile->HasToken() &&
+            tile->GetToken()->GetOccupation() != m_Turn->occupation) {
+          validTiles.push_back(tile);
+        }
     }
   }
+
+  return validTiles;
 }
 
 void GameBoard::InitialiseTiles() {
@@ -157,6 +158,14 @@ void GameBoard::InitialiseTiles() {
     m_Board[coord[0]][coord[1]]->setPosition(
         {TILE_X_PAD + coord[0] * TILE_DIM - TILE_DIM / 3,
          TILE_Y_PAD + coord[1] * TILE_DIM - TILE_DIM / 3});
+  }
+}
+
+void GameBoard::HighlightValidMoves() {
+  // Remove previous highlighting first
+  CancelHighlight();
+  for (const auto& tile : CalculateValidMoves(m_State, m_ActiveTile)) {
+    tile->SetHighlight(true);
   }
 }
 
