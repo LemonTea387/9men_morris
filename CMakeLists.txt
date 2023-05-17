@@ -40,6 +40,8 @@ add_executable(EverythingNMM
   src/Observer/Observer.hpp
   src/Observer/MillObserver.hpp
   src/Observer/MillObserver.cpp
+  src/Observer/WinObserver.hpp
+  src/Observer/WinObserver.cpp
   src/Game.hpp
   src/Game.cpp
   src/GameBoard.hpp
