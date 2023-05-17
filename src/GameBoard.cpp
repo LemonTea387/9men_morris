@@ -106,8 +106,9 @@ void GameBoard::CalculateValidMoves() {
       for (const auto& tileCoord :
            Util::GetNeighbours(m_ActiveTile->GetTileCoord())) {
         auto tile{GetTile(tileCoord.first, tileCoord.second)};
-        if (tile->HasToken()) continue;
-        tile->SetHighlight(true);
+        if (!tile->HasToken()) {
+          tile->SetHighlight(true);
+        }
       }
       return;
     }
