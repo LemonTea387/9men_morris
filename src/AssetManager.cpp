@@ -9,7 +9,11 @@ namespace {
 typedef std::pair<int, std::string> AssetFilePair;
 const std::vector<AssetFilePair> textures = {
     {GameAsset::Texture::DOGE, "assets/ui/buttons/Doge.png"},
+    {GameAsset::Texture::DOGE_SUNGLASSES, "assets/ui/buttons/DogeSunglasses.png"},
+    {GameAsset::Texture::DOGE_SCREAM, "assets/ui/buttons/DogeScream.png"},
     {GameAsset::Texture::PEPE, "assets/ui/buttons/Pepe.png"},
+    {GameAsset::Texture::PEPE_SUNGLASSES, "assets/ui/buttons/PepeSunglasses.png"},
+    {GameAsset::Texture::PEPE_SCREAM, "assets/ui/buttons/PepeCry.png"},
     {GameAsset::Texture::HIGHLIGHT_TILE, "assets/ui/buttons/coconut.png"},
     {GameAsset::Texture::TILE, "assets/ui/buttons/trns.png"},
     {GameAsset::Texture::BUTTON, "assets/ui/buttons/Exit.png"},

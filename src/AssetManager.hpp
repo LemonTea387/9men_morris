@@ -7,7 +7,11 @@
 namespace GameAsset {
 enum Texture {
   DOGE,
+  DOGE_SUNGLASSES,
+  DOGE_SCREAM,
   PEPE,
+  PEPE_SUNGLASSES,
+  PEPE_SCREAM,
   BUTTON,
   BOARD,
   TILE,
