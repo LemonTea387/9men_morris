@@ -21,16 +21,18 @@ class GameBoard {
   enum GameState { PLACE, MOVE, CAPTURE };
   GameBoard();
   ~GameBoard();
-  void SetMillFlag(bool flag);
   void Update(sf::Event event);
   void Render(sf::RenderWindow& window);
   void ExecuteCommand(Command* command);
+  std::vector<Tile*> CalculateValidMoves(GameState state, Tile* activeTile);
   void SetActiveTile(Tile* tile);
   Tile* GetActiveTile();
   Tile* GetTile(int x, int y) const;
-  Player* GetCurrPlayer() const;
+  void SetMillFlag(bool flag);
+  Player* GetCurrPlayer();
   Player* GetOpponentPlayer();
   GameState GetState() const;
+  bool GetMillCapture() const;
 
  private:
   std::array<std::array<std::unique_ptr<Tile>, 7>, 7> m_Board;
@@ -44,8 +46,8 @@ class GameBoard {
   Player* m_Turn;
   GameState m_State;
 
-  void CalculateValidMoves();
   void InitialiseTiles();
+  void HighlightValidMoves();
   void CancelHighlight();
 };
 
