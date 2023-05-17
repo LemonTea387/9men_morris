@@ -70,6 +70,9 @@ void Tile::SetHighlight(bool highlight) {
 }
 
 void Tile::SetToken(std::unique_ptr<Token> token) {
+  // Dirty fix for cancelling prior empty tile highlight textures when setting a
+  // token.
+  setTexture(m_DefaultTexture);
   m_Token = std::move(token);
 };
 
