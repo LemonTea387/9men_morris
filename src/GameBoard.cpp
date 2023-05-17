@@ -3,6 +3,7 @@
 #include "AssetManager.hpp"
 #include "GameBoardUtils.hpp"
 #include "Observer/MillObserver.hpp"
+#include "Observer/WinObserver.hpp"
 
 GameBoard::GameBoard()
     : m_BoardShape(sf::Vector2f(BOARD_X, BOARD_Y)),
@@ -18,6 +19,9 @@ GameBoard::GameBoard()
   InitialiseTiles();
 
   m_Observers.push_back(new MillObserver(this));
+  // Win Observer has to be last, as it may require previous observing's
+  // information
+  m_Observers.push_back(new WinObserver(this));
 
   // Start the game at placing phase
   HighlightValidMoves();
