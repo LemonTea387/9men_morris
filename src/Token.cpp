@@ -29,6 +29,7 @@ Token::~Token(){};
 
 void Token::SetState(TokenState state) {
   m_State = state;
+  // React to the state change by changing textures.
   switch (state) {
     case NORMAL:
       m_Rectangle.setTexture(m_NormalTexture);
