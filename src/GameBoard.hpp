@@ -28,6 +28,7 @@ class GameBoard {
   void SetActiveTile(Tile* tile);
   Tile* GetActiveTile();
   Tile* GetTile(int x, int y) const;
+  std::vector<Tile*> GetPlayerTiles(Player* player);
   void SetMillFlag(bool flag);
   Player* GetCurrPlayer();
   Player* GetOpponentPlayer();

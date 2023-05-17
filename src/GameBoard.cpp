@@ -51,8 +51,8 @@ void GameBoard::Update(sf::Event event) {
     }
     m_ProgressTurn = false;
 
-  HighlightValidMoves();
-}
+    HighlightValidMoves();
+  }
 }
 
 void GameBoard::Render(sf::RenderWindow& window) {
@@ -172,6 +172,18 @@ void GameBoard::CancelHighlight() {
         tile->SetHighlight(false);
       }
   }
+}
+
+std::vector<Tile*> GameBoard::GetPlayerTiles(Player* player) {
+  std::vector<Tile*> tiles{};
+  for (const auto& tile_rows : m_Board) {
+    for (const auto& tile : tile_rows)
+      if (tile != nullptr && tile->HasToken() &&
+          tile->GetToken()->GetOccupation() == player->occupation) {
+        tiles.push_back(tile.get());
+      }
+  }
+  return tiles;
 }
 
 void GameBoard::SetMillFlag(bool flag) { m_HasMillCapture = flag; }
