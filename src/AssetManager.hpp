@@ -10,15 +10,16 @@ enum Font { COMFORTAA };
 }  // namespace GameAsset
 class AssetManager {
  private:
+  typedef std::shared_ptr<sf::Font> FontPtr;
   typedef std::shared_ptr<sf::Texture> TexturePtr;
   std::map<GameAsset::Texture, TexturePtr> m_Textures;
-  typedef std::shared_ptr<sf::Font> FontPtr;
   std::map<GameAsset::Font, FontPtr> m_Fonts;
+  void LoadFonts();
+  void LoadTextures();
   AssetManager();
   ~AssetManager();
-
-  void LoadTextures();
-  void LoadFonts();
+  
+  
 
  public:
   AssetManager(AssetManager const&) = delete;
