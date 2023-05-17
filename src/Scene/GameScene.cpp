@@ -2,9 +2,8 @@
 
 #include <iostream>
 
-#include "../Game.hpp"
 #include "../AssetManager.hpp"
-
+#include "../Game.hpp"
 #include "../Token.hpp"
 
 GameScene::GameScene()
@@ -13,15 +12,13 @@ GameScene::GameScene()
       m_QuitButton{"Quit",
                    [&](sf::Event e) { Game::GetInstance().PopScene(); }} {
   AssetManager& assMan = AssetManager::GetInstance();
-  // m_SaveButton.setFont(*assMan.GetFont(GameAsset::COMFORTAA));
-  m_SaveButton.setTexture(*assMan.GetTexture(GameAsset::BUTTON));
+  m_SaveButton.setTexture(assMan.GetTexture(GameAsset::BUTTON).get());
   m_SaveButton.setPosition(sf::Vector2f(799.f, 916.f));
 
-  // m_QuitButton.setFont(*assMan.GetFont(GameAsset::COMFORTAA));
-  m_QuitButton.setTexture(*assMan.GetTexture(GameAsset::BUTTON));
+  m_QuitButton.setTexture(assMan.GetTexture(GameAsset::BUTTON).get());
   m_QuitButton.setPosition(sf::Vector2f(51.f, 909.f));
 
-  m_PlayerOneText.setFont(*assMan.GetFont(GameAsset::COMFORTAA));
+  m_PlayerOneText.setFont(*assMan.GetFont(GameAsset::COMFORTAA).get());
   m_PlayerOneText.setString("Player 1");
   m_PlayerOneText.setCharacterSize(32);
   m_PlayerOneText.setPosition(sf::Vector2f(332.f, 815.f));
@@ -31,7 +28,7 @@ GameScene::GameScene()
   m_PlayerTwoText.setCharacterSize(32);
   m_PlayerTwoText.setPosition(sf::Vector2f(687.f, 815.f));
 
-  m_TurnText.setFont(*assMan.GetFont(GameAsset::COMFORTAA));
+  m_TurnText.setFont(*assMan.GetFont(GameAsset::COMFORTAA).get());
   m_TurnText.setString("Player 2 Move Token");
   m_TurnText.setCharacterSize(48);
   m_TurnText.setPosition(sf::Vector2f(313.f, 42.f));
@@ -70,7 +67,7 @@ GameScene::GameScene()
   addDrawable(&m_TurnIcon);
 
   addUI(&m_SaveButton);
-  addUI(&m_QuitButton);  
+  addUI(&m_QuitButton);
 }
 
 void GameScene::Update(sf::Event event) {
@@ -80,8 +77,11 @@ void GameScene::Update(sf::Event event) {
     }
   }
   m_GameBoard.Update(event);
-  //TODO : Make dynamic string for this
-  m_TurnText.setString(m_GameBoard.GetCurrPlayer()->occupation == Token::Occupation::PEPE? "Player Pepe": "Player Doge");
+  // TODO : Make dynamic string for this
+  m_TurnText.setString(m_GameBoard.GetCurrPlayer()->occupation ==
+                               Token::Occupation::PEPE
+                           ? "Player Pepe"
+                           : "Player Doge");
 }
 
 void GameScene::Render(sf::RenderWindow& window) {

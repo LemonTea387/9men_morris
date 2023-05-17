@@ -3,7 +3,7 @@
 #include "Scene/GameScene.hpp"
 #include "Scene/Scene.hpp"
 
-Game::Game() {}
+Game::Game() { Game::GetWindow().setFramerateLimit(30); }
 Game::~Game() {}
 
 void Game::PopScene() { m_Scenes.pop_back(); }

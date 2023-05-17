@@ -15,7 +15,7 @@ Tile::Tile(GameBoard* gb, TileCoord coord)
   m_DefaultTexture = assMan.GetTexture(GameAsset::Texture::TILE).get();
   m_HighlightTexture =
       assMan.GetTexture(GameAsset::Texture::HIGHLIGHT_TILE).get();
-  setTexture(*m_DefaultTexture);
+  setTexture(m_DefaultTexture);
 
   this->setCallback([&](sf::Event event) {
     // Perform command
@@ -51,9 +51,9 @@ void Tile::SetHighlight(bool highlight) {
 
   m_Highlight = highlight;
   if (highlight) {
-    setTexture(*m_HighlightTexture);
+    setTexture(m_HighlightTexture);
   } else {
-    setTexture(*m_DefaultTexture);
+    setTexture(m_DefaultTexture);
   }
 }
 
