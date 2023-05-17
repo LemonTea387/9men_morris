@@ -12,11 +12,9 @@ class Token : public sf::Drawable, public sf::Transformable {
   enum TokenState { NORMAL, SCREAM, SUNGLASSES };
   Token(Token::Occupation occupation, const sf::Vector2f& position);
   ~Token();
-  Occupation GetOccupation() { return m_Occupation; };
-  void SetState(TokenState state) { m_State = state; }
-  void SetPosition(const sf::Vector2f& position) {
-    m_Rectangle.setPosition(position);
-  }
+  void SetState(TokenState state);
+  void SetPosition(const sf::Vector2f& position);
+  Occupation GetOccupation();
 
  private:
   sf::RectangleShape m_Rectangle;
