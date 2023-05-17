@@ -61,6 +61,14 @@ class Token : public sf::Drawable, public sf::Transformable {
   sf::RectangleShape m_Rectangle;
 
   /**
+   * The diffeent textures a token can have, normal state, scream state, and happy state. 
+   * If there are more, would consider a lookup table/map
+   */
+  sf::Texture* m_NormalTexture;
+  sf::Texture* m_ScreamTexture;
+  sf::Texture* m_HappyTexture;
+
+  /**
    * Occupation attribute of Token. This can technically be marked as const, but
    * may be reserved for any changes that may bring in differing game rules that
    * wants a job change.
