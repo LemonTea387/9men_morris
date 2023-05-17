@@ -77,9 +77,12 @@ void Tile::SetToken(std::unique_ptr<Token> token) {
 };
 
 void Tile::MoveToken(Tile* dstTile) {
-  m_Token->SetPosition(dstTile->getPosition());
-  dstTile->SetToken(std::move(m_Token));
-  m_Token = nullptr;
+  // Nullptr check for a valid destination
+  if (dstTile != nullptr) {
+    m_Token->SetPosition(dstTile->getPosition());
+    dstTile->SetToken(std::move(m_Token));
+    m_Token = nullptr;
+  }
 };
 
 void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
