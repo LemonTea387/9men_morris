@@ -20,6 +20,7 @@ Button::Button(const std::string& buttonText) {
       sf::Vector2f(m_ButtonText.getLocalBounds().width + Button::MARGIN_X * 2,
                    CHAR_SIZE + Button::MARGIN_Y * 2));
 }
+
 Button::Button(const std::string& buttonText,
                std::function<void(sf::Event)> onAction)
     : Button(buttonText) {
@@ -27,21 +28,16 @@ Button::Button(const std::string& buttonText,
   addEventListener(m_clickListener.get());
 }
 
-void Button::setCallback(std::function<void(sf::Event)> onAction) {
-  m_clickListener = std::make_unique<OnClickEventListener>(this, onAction);
-  addEventListener(m_clickListener.get());
-}
+Button::~Button() {}
+
+void Button::setFont(const sf::Font& font) { m_ButtonText.setFont(font); };
+
+void Button::setText(const std::string& text) { m_ButtonText.setString(text); };
 
 void Button::setTexture(const sf::Texture& texture) {
   m_ButtonShape.setTexture(&texture, true);
   UI::setSize(sf::Vector2f(texture.getSize().x, texture.getSize().y));
-}
-
-void Button::setFont(const sf::Font& font) { m_ButtonText.setFont(font); }
-
-void Button::setText(const std::string& text) { m_ButtonText.setString(text); }
-
-Button::~Button() {}
+};
 
 void Button::setPosition(const sf::Vector2f& position) {
   // Might need to set position of actual Button from sf::Transformable to
@@ -50,6 +46,11 @@ void Button::setPosition(const sf::Vector2f& position) {
   m_ButtonShape.setPosition(position);
   m_ButtonText.setPosition(sf::Vector2f(position.x + Button::MARGIN_X,
                                         position.y + Button::MARGIN_Y));
+}
+
+void Button::setCallback(std::function<void(sf::Event)> onAction) {
+  m_clickListener = std::make_unique<OnClickEventListener>(this, onAction);
+  addEventListener(m_clickListener.get());
 }
 
 void Button::setSize(const sf::Vector2f& size) {

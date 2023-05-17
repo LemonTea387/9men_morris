@@ -18,21 +18,19 @@ namespace graphics {
 class OnClickEventListener;
 class Button : public UI {
  public:
-  
+  Button(Button const&) = delete;
+  Button(const std::string& buttonText);
+  Button(const std::string& buttonText,
+         std::function<void(sf::Event)> onAction);
+  ~Button();
   void setFont(const sf::Font& font);
   void setText(const std::string& text);
   void setTexture(const sf::Texture& texture);
   void setPosition(const sf::Vector2f& position);
   void setCallback(std::function<void(sf::Event)> onAction);
   virtual void setSize(const sf::Vector2f& size) override;
-  Button(Button const&) = delete;
-  Button(const std::string& buttonText);
-  Button(const std::string& buttonText,
-         std::function<void(sf::Event)> onAction);
-  ~Button();
   virtual void draw(sf::RenderTarget& target,
                     sf::RenderStates states) const override;
-  
 
   /**
    * Setting all the position of the compound UI components to ensure everything
@@ -43,15 +41,13 @@ class Button : public UI {
   // void setCallback(std::function<void(sf::Event)> onAction);
 
  private:
+  typedef std::unique_ptr<OnClickEventListener> OCELPtr;
   static constexpr float MARGIN_X = 32.f;
   static constexpr float MARGIN_Y = 16.f;
   static constexpr int CHAR_SIZE = 32;
-  
   sf::Text m_ButtonText;
   sf::Font m_ButtonFont;
   sf::RectangleShape m_ButtonShape;
-
-  typedef std::unique_ptr<OnClickEventListener> OCELPtr;
   OCELPtr m_clickListener;
 };
 }  // namespace graphics
