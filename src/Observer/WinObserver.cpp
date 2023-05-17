@@ -23,8 +23,7 @@ void WinObserver::Notify(Tile* tileAffected) {
   }
   // Case 2 : It is currently move phase for opponent, and opponent can't move
   if (!(m_Gameboard->GetMillCapture()) &&
-          m_Gameboard->GetState() == GameBoard::MOVE ||
-      m_Gameboard->GetState() == GameBoard::CAPTURE) {
+      m_Gameboard->GetOpponentPlayer()->placed == 9) {
     // Check until found at least 1 valid move
     bool validMoves = false;
     for (const auto tile :
