@@ -17,30 +17,24 @@ typedef std::pair<int, int> TileCoord;
 
 class Tile : public graphics::Button {
  public:
-  Token* GetToken() const { return m_Token.get(); };
-  bool HasToken() const { return m_Token != nullptr; };
-  void RemoveToken() { m_Token = nullptr; };
-  void SetHighlight(bool highlight);
-  void SetToken(std::unique_ptr<Token> token) { m_Token = std::move(token); };
-  void MoveToken(Tile* dstTile) {
-    m_Token->SetPosition(dstTile->getPosition());
-    dstTile->SetToken(std::move(m_Token));
-    m_Token = nullptr;
-  };
-
   Tile(GameBoard*, TileCoord coord);
   ~Tile();
-  
+  Token* GetToken() const;
+  bool HasToken() const;
+  void RemoveToken();
+  void SetHighlight(bool highlight);
+  void SetToken(std::unique_ptr<Token> token);
+  void MoveToken(Tile* dstTile);
 
   // TO-DO: Friend class MillObserver?
-  TileCoord GetTileCoord() const { return m_Coord; }
+  TileCoord GetTileCoord() const;
 
  private:
   bool m_Highlight{false};
+  GameBoard* m_Gameboard;
   const TileCoord m_Coord;
   const sf::Texture* m_DefaultTexture;
   const sf::Texture* m_HighlightTexture;
-  GameBoard* m_Gameboard;
   std::unique_ptr<Token> m_Token{nullptr};  
   virtual void draw(sf::RenderTarget& target,
                     sf::RenderStates states) const override;

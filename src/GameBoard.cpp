@@ -86,11 +86,6 @@ void GameBoard::SetActiveTile(Tile* tile) {
   CalculateValidMoves();
 };
 
-void GameBoard::SetActiveTile(Tile* tile) {
-  m_ActiveTile = tile;
-  CalculateValidMoves();
-};
-
 void GameBoard::CalculateValidMoves() {
   // Remove previous highlighting first
   CancelHighlight();
