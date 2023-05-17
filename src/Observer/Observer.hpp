@@ -4,11 +4,12 @@
 #include "../Tile.hpp"
 
 class Observer {
-public:
-Observer(GameBoard* gameboard) : m_Gameboard{gameboard} {};
-~Observer() = default;
-virtual void Notify(Tile* tileAffected) = 0;
-protected:
-GameBoard* m_Gameboard;
+ public:
+  Observer(GameBoard* gameboard) : m_Gameboard{gameboard} {};
+  ~Observer() = default;
+  virtual void Notify(Tile* tileAffected) = 0;
+
+ protected:
+  GameBoard* m_Gameboard;
 };
 #endif

@@ -56,7 +56,7 @@ class Game {
    * the scene at the back of the stack, as well as does some checking if the
    * window is closed and terminate if needed.
    */
-  void Loop() const;
+  void Loop();
 
  public:
   /**
@@ -77,7 +77,8 @@ class Game {
    */
   static sf::RenderWindow& GetWindow() {
     static sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
-                                   "EverythingNMM", sf::Style::Titlebar | sf::Style::Close);
+                                   "EverythingNMM",
+                                   sf::Style::Titlebar | sf::Style::Close);
 
     return window;
   }

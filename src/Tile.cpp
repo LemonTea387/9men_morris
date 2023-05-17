@@ -46,6 +46,12 @@ Tile::Tile(GameBoard* gb, TileCoord coord)
 
 Tile::~Tile(){};
 
+Token* Tile::GetToken() const { return m_Token.get(); };
+
+bool Tile::HasToken() const { return m_Token != nullptr; };
+
+void Tile::RemoveToken() { m_Token = nullptr; };
+
 void Tile::SetHighlight(bool highlight) {
   if (m_Highlight == highlight) return;
 
@@ -57,9 +63,21 @@ void Tile::SetHighlight(bool highlight) {
   }
 }
 
+void Tile::SetToken(std::unique_ptr<Token> token) {
+  m_Token = std::move(token);
+};
+
+void Tile::MoveToken(Tile* dstTile) {
+  m_Token->SetPosition(dstTile->getPosition());
+  dstTile->SetToken(std::move(m_Token));
+  m_Token = nullptr;
+};
+
 void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   Button::draw(target, states);
   if (m_Token != nullptr) {
     target.draw(*m_Token);
   }
 }
+
+TileCoord Tile::GetTileCoord() const { return m_Coord; };

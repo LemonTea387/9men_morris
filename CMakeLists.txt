@@ -29,6 +29,8 @@ add_executable(EverythingNMM
   src/Scene/MenuScene.cpp
   src/Scene/GameScene.hpp
   src/Scene/GameScene.cpp
+  src/Scene/WinScene.hpp
+  src/Scene/WinScene.cpp
   src/Command/Command.hpp
   src/Command/PlaceCommand.hpp
   src/Command/PlaceCommand.cpp
@@ -39,6 +41,8 @@ add_executable(EverythingNMM
   src/Observer/Observer.hpp
   src/Observer/MillObserver.hpp
   src/Observer/MillObserver.cpp
+  src/Observer/WinObserver.hpp
+  src/Observer/WinObserver.cpp
   src/Game.hpp
   src/Game.cpp
   src/GameBoard.hpp

@@ -1,9 +1,11 @@
 #include "GameScene.hpp"
 
 #include <iostream>
+#include <memory>
 
 #include "../AssetManager.hpp"
 #include "../Game.hpp"
+#include "../GameBoard.hpp"
 #include "../Token.hpp"
 
 GameScene::~GameScene() {}
@@ -11,8 +13,8 @@ GameScene::~GameScene() {}
 GameScene::GameScene()
     : m_SaveButton{"Save",
                    [&](sf::Event e) { m_SaveButton.setText("Test Save"); }},
-      m_QuitButton{"Quit",
-                   [&](sf::Event e) { Game::GetInstance().PopScene(); }} {
+      m_QuitButton{"Quit", [&](sf::Event e) { m_IsKilled = true; }},
+      m_GameBoard(std::make_unique<GameBoard>()) {
   AssetManager& assMan = AssetManager::GetInstance();
   m_SaveButton.setTexture(assMan.GetTexture(GameAsset::BUTTON).get());
   m_SaveButton.setPosition(sf::Vector2f(799.f, 916.f));
@@ -78,9 +80,13 @@ void GameScene::Update(sf::Event event) {
       e->notifyListeners(event);
     }
   }
-  m_GameBoard.Update(event);
+  if (m_IsKilled) {
+    Game::GetInstance().PopScene();
+    return;
+  }
+  m_GameBoard->Update(event);
   // TODO : Make dynamic string for this
-  m_TurnText.setString(m_GameBoard.GetCurrPlayer()->occupation ==
+  m_TurnText.setString(m_GameBoard->GetCurrPlayer()->occupation ==
                                Token::Occupation::PEPE
                            ? "Player Pepe"
                            : "Player Doge");
@@ -95,5 +101,5 @@ void GameScene::Render(sf::RenderWindow& window) {
     window.draw(*e);
   }
 
-  m_GameBoard.Render(window);
+  m_GameBoard->Render(window);
 }

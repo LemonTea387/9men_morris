@@ -15,7 +15,8 @@ class OnClickEventListener : public EventListener {
   OnClickEventListener(UI* ui, std::function<void(sf::Event)> func) {
     m_ui = ui;
     setOnAction(func);
-  }
+  };
+
   ~OnClickEventListener() {}
   virtual void onAction(sf::Event e) {
     if (e.type == sf::Event::MouseButtonReleased &&
@@ -25,7 +26,7 @@ class OnClickEventListener : public EventListener {
         fireAction(e);
       }
     }
-  }
+  };
 
  private:
   UI* m_ui;

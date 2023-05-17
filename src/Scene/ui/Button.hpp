@@ -41,15 +41,13 @@ class Button : public UI {
   // void setCallback(std::function<void(sf::Event)> onAction);
 
  private:
+  typedef std::unique_ptr<OnClickEventListener> OCELPtr;
   static constexpr float MARGIN_X = 32.f;
   static constexpr float MARGIN_Y = 16.f;
   static constexpr int CHAR_SIZE = 32;
-
   sf::Text m_ButtonText;
   sf::Font m_ButtonFont;
   sf::RectangleShape m_ButtonShape;
-
-  typedef std::unique_ptr<OnClickEventListener> OCELPtr;
   OCELPtr m_clickListener;
 };
 }  // namespace graphics

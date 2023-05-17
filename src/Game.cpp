@@ -9,11 +9,11 @@ Game::~Game() {}
 void Game::PopScene() { m_Scenes.pop_back(); }
 void Game::PushScene(ScenePtr&& scene) { m_Scenes.push_back(std::move(scene)); }
 
-void Game::Loop() const {
+void Game::Loop() {
   sf::Event event;
   while (Game::GetWindow().pollEvent(event)) {
     if (event.type == sf::Event::Closed) {
-      Game::GetWindow().close();
+      m_Scenes.clear();
     }
     if (m_Scenes.size() > 0) {
       m_Scenes.back()->Update(event);

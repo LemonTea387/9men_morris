@@ -13,7 +13,11 @@ const std::vector<AssetFilePair> textures = {
     {GameAsset::Texture::HIGHLIGHT_TILE, "assets/ui/buttons/coconut.png"},
     {GameAsset::Texture::TILE, "assets/ui/buttons/trns.png"},
     {GameAsset::Texture::BUTTON, "assets/ui/buttons/Exit.png"},
-    {GameAsset::Texture::BOARD, "assets/ui/gameBoard.png"}};
+    {GameAsset::Texture::BOARD, "assets/ui/gameBoard.png"},
+    {GameAsset::Texture::PEPEWIN, "assets/ui/PepeWin.png"},
+    {GameAsset::Texture::DOGEWIN, "assets/ui/DogeWin.png"},
+    {GameAsset::Texture::TIEWIN, "assets/ui/Tie.png"},
+};
 const std::vector<AssetFilePair> fonts = {
     {GameAsset::Font::COMFORTAA,
      "assets/fonts/Comfortaa/static/Comfortaa-SemiBold.ttf"}};
@@ -26,15 +30,14 @@ std::shared_ptr<sf::Texture> AssetManager::GetTexture(
 std::shared_ptr<sf::Font> AssetManager::GetFont(GameAsset::Font t) const {
   return m_Fonts.at(t);
 }
-void AssetManager::LoadTextures() {
-  for (const auto& pair : textures) {
-    TexturePtr t = std::make_unique<sf::Texture>();
-    if (!t->loadFromFile(pair.second)) {
-      std::cerr << "Could not load texture: " << pair.second << std::endl;
-    }
-    m_Textures.insert({(GameAsset::Texture)(pair.first), std::move(t)});
-  }
+
+AssetManager::AssetManager() {
+  LoadTextures();
+  LoadFonts();
 }
+
+AssetManager::~AssetManager() {}
+
 void AssetManager::LoadFonts() {
   for (const auto& pair : fonts) {
     FontPtr t = std::make_unique<sf::Font>();
@@ -45,8 +48,12 @@ void AssetManager::LoadFonts() {
   }
 }
 
-AssetManager::AssetManager() {
-  LoadTextures();
-  LoadFonts();
+void AssetManager::LoadTextures() {
+  for (const auto& pair : textures) {
+    TexturePtr t = std::make_unique<sf::Texture>();
+    if (!t->loadFromFile(pair.second)) {
+      std::cerr << "Could not load texture: " << pair.second << std::endl;
+    }
+    m_Textures.insert({(GameAsset::Texture)(pair.first), std::move(t)});
+  }
 }
-AssetManager::~AssetManager() {}

@@ -13,6 +13,7 @@ class Scene {
   virtual ~Scene();
 
  protected:
+  bool m_IsKilled{false};
   std::vector<graphics::UI*> m_ui{};
   std::vector<sf::Drawable*> m_draw{};
 };
