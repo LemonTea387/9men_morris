@@ -9,6 +9,6 @@ class MillObserver : public Observer {
  private:
  public:
   virtual void Notify(Tile* tileAffected) override;
-  MillObserver(GameBoard* gb) : Observer::Observer(gb) {}
+  MillObserver(GameBoard* gb);
 };
 #endif
