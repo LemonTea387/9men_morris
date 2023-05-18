@@ -18,6 +18,7 @@ const std::vector<AssetFilePair> textures = {
     {GameAsset::Texture::PEPE_SCREAM, "assets/ui/buttons/PepeCry.png"},
     {GameAsset::Texture::HIGHLIGHT_TILE, "assets/ui/buttons/coconut.png"},
     {GameAsset::Texture::TILE, "assets/ui/buttons/trns.png"},
+    {GameAsset::Texture::DOGE_VS_PEPE, "assets/ui/buttons/DogeVsPepe.png"},
     {GameAsset::Texture::BUTTON, "assets/ui/buttons/Exit.png"},
     {GameAsset::Texture::BUTTON_NEWGAME, "assets/ui/buttons/NewGame.png"},
     {GameAsset::Texture::BOARD, "assets/ui/gameBoard.png"},
