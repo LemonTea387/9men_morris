@@ -57,6 +57,12 @@ class GameBoard {
    */
   sf::RectangleShape m_PepeTokenLeft;
 
+  /**
+   * Just a simple Shader to adjust transparency. May extend
+   * in the future for fancier effects
+   */
+  sf::Shader m_TokenLeftShader;
+
   void InitialiseTiles();
   void HighlightValidMoves();
   void CancelHighlight();

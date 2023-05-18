@@ -1,5 +1,8 @@
 #include "GameBoard.hpp"
 
+#include <iostream>
+#include <string>
+
 #include "AssetManager.hpp"
 #include "GameBoardUtils.hpp"
 #include "Observer/MillObserver.hpp"
@@ -12,6 +15,29 @@ constexpr float DOGE_Y_OFFSET = Game::WINDOW_HEIGHT / 10.f * 2.f;
 constexpr float PEPE_X_OFFSET = Game::WINDOW_WIDTH / 10.f * 9.f;
 constexpr float PEPE_Y_OFFSET = Game::WINDOW_HEIGHT / 10.f * 2.f;
 constexpr float TOKEN_LEFT_VERT_SPACING = 70.f;
+
+// Shader Code for drawing TokensLeft
+// Yes, it is normal to have the source code here as a string. It is
+// sent to the GPU to be compiled.
+
+// Learnt through
+// https://www.sfml-dev.org/tutorials/2.5/graphics-shader.php
+// and https://learnopengl.com/Getting-started/Shaders
+const std::string tokenLeftVertShader =
+    "void main()"
+    "{"
+    "gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;"
+    "gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;"
+    "gl_FrontColor = gl_Color;"
+    "}";
+const std::string tokenLeftFragShader =
+    "uniform sampler2D texture;"
+    "uniform float transparency;"
+    "void main()"
+    "{"
+    "vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);"
+    "gl_FragColor = gl_Color * pixel * vec4(1.0, 1.0, 1.0, transparency);"
+    "}";
 }  // namespace
 
 GameBoard::GameBoard()
@@ -39,6 +65,19 @@ GameBoard::GameBoard()
   m_PepeTokenLeft.setTexture(assMan.GetTexture(GameAsset::Texture::PEPE).get());
   m_DogeTokenLeft.setSize(sf::Vector2f(58.f, 60.f));
   m_PepeTokenLeft.setSize(sf::Vector2f(58.f, 60.f));
+
+  // Compile the Shaders
+  if (!m_TokenLeftShader.loadFromMemory(tokenLeftVertShader,
+                                        sf::Shader::Vertex)) {
+    std::cerr << "[WARNING] Could not load Vertex Shader for TokenLeft display!"
+              << std::endl;
+  }
+  if (!m_TokenLeftShader.loadFromMemory(tokenLeftFragShader,
+                                        sf::Shader::Fragment)) {
+    std::cerr
+        << "[WARNING] Could not load Fragment Shader for TokenLeft display!"
+        << std::endl;
+  }
 }
 
 GameBoard::~GameBoard() {}
@@ -78,20 +117,25 @@ void GameBoard::Render(sf::RenderWindow& window) {
       }
   }
 
+  // Draw the "Tokens Left to be placed" display
+
+  m_TokenLeftShader.setUniform("texture", sf::Shader::CurrentTexture);
+  m_TokenLeftShader.setUniform("transparency", 0.5f);
+
   constexpr int TOKENS_PER_GAME = 9;
 
   // Draw Tokens left display for Doge
   for (int curToken = 0; curToken < TOKENS_PER_GAME - m_P2.placed; curToken++) {
     m_DogeTokenLeft.setPosition(sf::Vector2f(
         DOGE_X_OFFSET, DOGE_Y_OFFSET + (curToken * TOKEN_LEFT_VERT_SPACING)));
-    window.draw(m_DogeTokenLeft);
+    window.draw(m_DogeTokenLeft, &m_TokenLeftShader);
   }
 
   // Draw Tokens left display for Pepe
   for (int curToken = 0; curToken < TOKENS_PER_GAME - m_P1.placed; curToken++) {
     m_PepeTokenLeft.setPosition(sf::Vector2f(
         PEPE_X_OFFSET, PEPE_Y_OFFSET + (curToken * TOKEN_LEFT_VERT_SPACING)));
-    window.draw(m_PepeTokenLeft);
+    window.draw(m_PepeTokenLeft, &m_TokenLeftShader);
   }
 }
 
