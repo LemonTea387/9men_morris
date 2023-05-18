@@ -46,12 +46,12 @@ WinScene::WinScene(WinnerType wt)
 
   switch (wt) {
     case WinnerType::DOGE:
-      m_WinMessage.setString("Player 1 Wins!");
+      m_WinMessage.setString("Doge Wins!");
       texture = assMan.GetTexture(GameAsset::Texture::DOGEWIN).get();
       m_WinImage.setPosition(dogePos);
       break;
     case WinnerType::PEPE:
-      m_WinMessage.setString("Player 2 Wins!");
+      m_WinMessage.setString("Pepe Wins!");
       texture = assMan.GetTexture(GameAsset::Texture::PEPEWIN).get();
       m_WinImage.setPosition(pepePos);
       break;

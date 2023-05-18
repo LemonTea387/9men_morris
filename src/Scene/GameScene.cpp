@@ -23,12 +23,12 @@ GameScene::GameScene()
   m_QuitButton.setPosition(sf::Vector2f(51.f, 909.f));
 
   m_PlayerOneText.setFont(*assMan.GetFont(GameAsset::COMFORTAA).get());
-  m_PlayerOneText.setString("Player 1");
+  m_PlayerOneText.setString("Pepe");
   m_PlayerOneText.setCharacterSize(32);
   m_PlayerOneText.setPosition(sf::Vector2f(332.f, 815.f));
 
   m_PlayerTwoText.setFont(*assMan.GetFont(GameAsset::COMFORTAA).get());
-  m_PlayerTwoText.setString("Player 2");
+  m_PlayerTwoText.setString("Doge");
   m_PlayerTwoText.setCharacterSize(32);
   m_PlayerTwoText.setPosition(sf::Vector2f(687.f, 815.f));
 
