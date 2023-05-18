@@ -30,7 +30,7 @@ void WinObserver::Notify(Tile* tileAffected) {
   // Here it relies on the MillCapture flag, as a special case of turn from the
   // GameBoard, as that will trigger a CAPTURE phase and will not progress to
   // the opponent in the next turn.
-  if (!(m_Gameboard->GetMillCapture()) &&
+  if (!(m_Gameboard->GetHasMillCapture()) &&
       m_Gameboard->GetOpponentPlayer()->placed == 9) {
     // Check until found at least 1 valid move
     bool validMoves = false;

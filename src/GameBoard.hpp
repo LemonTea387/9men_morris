@@ -34,7 +34,7 @@ class GameBoard {
   Player* GetCurrPlayer();
   Player* GetOpponentPlayer();
   GameState GetState() const;
-  bool GetMillCapture() const;
+  bool GetHasMillCapture() const;
 
  private:
   std::array<std::array<std::unique_ptr<Tile>, 7>, 7> m_Board;

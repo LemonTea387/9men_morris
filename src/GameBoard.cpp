@@ -198,6 +198,6 @@ Player* GameBoard::GetOpponentPlayer() {
   return &m_P1 == m_Turn ? &m_P2 : &m_P1;
 }
 
-bool GameBoard::GetMillCapture() const { return m_HasMillCapture; }
+bool GameBoard::GetHasMillCapture() const { return m_HasMillCapture; }
 
 GameBoard::GameState GameBoard::GetState() const { return m_State; }
