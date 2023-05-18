@@ -75,11 +75,7 @@ GameScene::GameScene()
 }
 
 void GameScene::Update(sf::Event event) {
-  if (event.type == sf::Event::MouseButtonReleased) {
-    for (auto& e : m_ui) {
-      e->notifyListeners(event);
-    }
-  }
+  Scene::Update(event);
   if (m_IsKilled) {
     Game::GetInstance().PopScene();
     return;
@@ -93,13 +89,6 @@ void GameScene::Update(sf::Event event) {
 }
 
 void GameScene::Render(sf::RenderWindow& window) {
-  for (auto& e : m_ui) {
-    window.draw(*e);
-  }
-
-  for (auto& e : m_draw) {
-    window.draw(*e);
-  }
-
+  Scene::Render(window);
   m_GameBoard->Render(window);
 }
