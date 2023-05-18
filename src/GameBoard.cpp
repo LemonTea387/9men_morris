@@ -10,10 +10,10 @@
 #include "SFML/System/Vector2.hpp"
 
 namespace {
-constexpr float DOGE_X_OFFSET = Game::WINDOW_WIDTH / 10.f * 9.f;
-constexpr float DOGE_Y_OFFSET = Game::WINDOW_HEIGHT / 10.f * 2.f;
-constexpr float PEPE_X_OFFSET = Game::WINDOW_WIDTH / 15.f;
-constexpr float PEPE_Y_OFFSET = Game::WINDOW_HEIGHT / 10.f * 2.f;
+constexpr float DOGE_X_OFFSET = Game::WINDOW_WIDTH * 0.9f;
+constexpr float DOGE_Y_OFFSET = Game::WINDOW_HEIGHT * 0.2f;
+constexpr float PEPE_X_OFFSET = Game::WINDOW_WIDTH * 0.05f;
+constexpr float PEPE_Y_OFFSET = Game::WINDOW_HEIGHT * 0.2f;
 constexpr float TOKEN_LEFT_VERT_SPACING = 70.f;
 }  // namespace
 
