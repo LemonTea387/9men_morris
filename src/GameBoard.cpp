@@ -4,6 +4,15 @@
 #include "GameBoardUtils.hpp"
 #include "Observer/MillObserver.hpp"
 #include "Observer/WinObserver.hpp"
+#include "SFML/System/Vector2.hpp"
+
+namespace {
+constexpr float DOGE_X_OFFSET = Game::WINDOW_WIDTH / 15.f;
+constexpr float DOGE_Y_OFFSET = Game::WINDOW_HEIGHT / 10.f * 2.f;
+constexpr float PEPE_X_OFFSET = Game::WINDOW_WIDTH / 10.f * 9.f;
+constexpr float PEPE_Y_OFFSET = Game::WINDOW_HEIGHT / 10.f * 2.f;
+constexpr float TOKEN_LEFT_VERT_SPACING = 70.f;
+}  // namespace
 
 GameBoard::GameBoard()
     : m_BoardShape(sf::Vector2f(BOARD_X, BOARD_Y)),
@@ -25,6 +34,11 @@ GameBoard::GameBoard()
 
   // Start the game at placing phase
   HighlightValidMoves();
+
+  m_DogeTokenLeft.setTexture(assMan.GetTexture(GameAsset::Texture::DOGE).get());
+  m_PepeTokenLeft.setTexture(assMan.GetTexture(GameAsset::Texture::PEPE).get());
+  m_DogeTokenLeft.setSize(sf::Vector2f(58.f, 60.f));
+  m_PepeTokenLeft.setSize(sf::Vector2f(58.f, 60.f));
 }
 
 GameBoard::~GameBoard() {}
@@ -62,6 +76,22 @@ void GameBoard::Render(sf::RenderWindow& window) {
       if (tile != nullptr) {
         window.draw(*tile);
       }
+  }
+
+  constexpr int TOKENS_PER_GAME = 9;
+
+  // Draw Tokens left display for Doge
+  for (int curToken = 0; curToken < TOKENS_PER_GAME - m_P2.placed; curToken++) {
+    m_DogeTokenLeft.setPosition(sf::Vector2f(
+        DOGE_X_OFFSET, DOGE_Y_OFFSET + (curToken * TOKEN_LEFT_VERT_SPACING)));
+    window.draw(m_DogeTokenLeft);
+  }
+
+  // Draw Tokens left display for Pepe
+  for (int curToken = 0; curToken < TOKENS_PER_GAME - m_P1.placed; curToken++) {
+    m_PepeTokenLeft.setPosition(sf::Vector2f(
+        PEPE_X_OFFSET, PEPE_Y_OFFSET + (curToken * TOKEN_LEFT_VERT_SPACING)));
+    window.draw(m_PepeTokenLeft);
   }
 }
 

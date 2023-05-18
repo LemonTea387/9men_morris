@@ -48,6 +48,15 @@ class GameBoard {
   Player* m_Turn;
   GameState m_State;
 
+  /**
+   * The shape of the Doge Tokens left to be placed.
+   */
+  sf::RectangleShape m_DogeTokenLeft;
+  /**
+   * The shape of the Pepe Tokens left to be placed.
+   */
+  sf::RectangleShape m_PepeTokenLeft;
+
   void InitialiseTiles();
   void HighlightValidMoves();
   void CancelHighlight();
