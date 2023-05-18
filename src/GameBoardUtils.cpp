@@ -10,10 +10,10 @@ namespace Util {
  * Current implementation uses pre-computed values, this is a trade-off we
  * agreed that we want a O(1) lookup and fastest possible generation of such
  * tables O(1) with the cost of certain inflexibilities and some memory for
- * storing the table
+ * storing the table.
+ * unordered_map does not support std::pair hashing, so it is converted to a
+ * singular int.
  */
-// unordered_map does not support std::pair hashing, so it is converted to a
-// singular int.
 std::unordered_map<int, std::vector<TileCoord>> adjacents = {
     {0 + ROW_MAX * 0, {{3, 0}, {0, 3}}},
     {3 + ROW_MAX * 0, {{0, 0}, {3, 1}, {6, 0}}},
