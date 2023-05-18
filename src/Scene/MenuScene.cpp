@@ -1,14 +1,12 @@
 #include "MenuScene.hpp"
 
-#include <iostream>
-
 #include "../AssetManager.hpp"
 #include "../Game.hpp"
 #include "CreditsScene.hpp"
 #include "GameScene.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
-#include "SFML/System/Vector2.hpp"
 #include "SFML/Window/Event.hpp"
+
 void MenuScene::Update(sf::Event event) { Scene::Update(event); }
 
 void MenuScene::Render(sf::RenderWindow& window) { Scene::Render(window); }
