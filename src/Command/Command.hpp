@@ -23,6 +23,11 @@ class Command {
       : m_AffectedTile{tile}, m_Player{player} {};
 
   /**
+   * Virtual Command Destructor
+   */
+  virtual ~Command() {}
+
+  /**
    * Getter for the affected tile of the Command, useful for checking what this
    * command did to the affected Tile.
    */
@@ -37,12 +42,12 @@ class Command {
 
  protected:
   /**
-  * The affected tile's pointer.
-  */
+   * The affected tile's pointer.
+   */
   TilePtr m_AffectedTile{nullptr};
   /**
-  * The player affected by the Command.
-  */
+   * The player affected by the Command.
+   */
   Player* m_Player;
 };
 
