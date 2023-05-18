@@ -48,6 +48,7 @@ MenuScene::MenuScene()
 
   addDrawable(&m_DogeVsPepe);
 
+  // Title and title background
   const auto textColor = sf::Color(0xE6, 0xE0, 0xE9);
   m_TitleText.setString("Nine Men's Morris");
   m_TitleText.setCharacterSize(32);
@@ -68,6 +69,7 @@ MenuScene::MenuScene()
   addDrawable(&m_TitleBackground);
   addDrawable(&m_TitleText);
 
+  // Copyright texts
   m_CopyrightNotice.setString("(C) Copyright 2023 All Rights Reserved");
   m_CopyrightNotice.setCharacterSize(20);
   m_CopyrightNotice.setFillColor(sf::Color(0xCA, 0xC4, 0xD0));
