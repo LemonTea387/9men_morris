@@ -135,10 +135,18 @@ bool isMill(const GameBoard* gameboard, const Tile* tile) {
     const auto a = gameboard->GetTile(mill[0].first, mill[0].second);
     const auto b = gameboard->GetTile(mill[1].first, mill[1].second);
     const auto c = gameboard->GetTile(mill[2].first, mill[2].second);
-    if (!a->GetToken() || !b->GetToken() || !c->GetToken()) continue;
 
-    if (a->GetToken()->GetOccupation() == b->GetToken()->GetOccupation() &&
-        b->GetToken()->GetOccupation() == c->GetToken()->GetOccupation()) {
+    Token* token_a = a->GetToken();
+    Token* token_b = b->GetToken();
+    Token* token_c = c->GetToken();
+
+    if (!token_a || !token_b || !token_c) continue;
+
+    Token::Occupation occupation_a = token_a->GetOccupation();
+    Token::Occupation occupation_b = token_b->GetOccupation();
+    Token::Occupation occupation_c = token_c->GetOccupation();
+
+    if (occupation_a == occupation_b && occupation_b == occupation_c) {
       return true;
     }
   }
