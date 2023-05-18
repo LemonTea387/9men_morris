@@ -7,6 +7,9 @@
 // Anonymous namespace
 namespace {
 typedef std::pair<int, std::string> AssetFilePair;
+/**
+* Define all the file paths to the Textures
+*/
 const std::vector<AssetFilePair> textures = {
     {GameAsset::Texture::DOGE, "assets/ui/buttons/Doge.png"},
     {GameAsset::Texture::DOGE_SUNGLASSES,
@@ -26,6 +29,10 @@ const std::vector<AssetFilePair> textures = {
     {GameAsset::Texture::DOGEWIN, "assets/ui/DogeWin.png"},
     {GameAsset::Texture::TIEWIN, "assets/ui/Tie.png"},
 };
+
+/**
+* Define all the file paths to the Fonts
+*/
 const std::vector<AssetFilePair> fonts = {
     {GameAsset::Font::COMFORTAA,
      "assets/fonts/Comfortaa/static/Comfortaa-SemiBold.ttf"},
@@ -42,6 +49,7 @@ std::shared_ptr<sf::Font> AssetManager::GetFont(GameAsset::Font t) const {
 }
 
 AssetManager::AssetManager() {
+  // We load all the assets at the start.
   LoadTextures();
   LoadFonts();
 }
