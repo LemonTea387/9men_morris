@@ -1,10 +1,19 @@
 #include "GameBoardUtils.hpp"
 
-#include <unordered_map>
 #include <map>
+#include <unordered_map>
 
 namespace Util {
 // TODO: Automatic generation of this
+/**
+ * Adjacency list of each tile.
+ * Current implementation uses pre-computed values, this is a trade-off we
+ * agreed that we want a O(1) lookup and fastest possible generation of such
+ * tables O(1) with the cost of certain inflexibilities and some memory for
+ * storing the table
+ */
+// unordered_map does not support std::pair hashing, so it is converted to a
+// singular int.
 std::unordered_map<int, std::vector<TileCoord>> adjacents = {
     {0 + ROW_MAX * 0, {{3, 0}, {0, 3}}},
     {3 + ROW_MAX * 0, {{0, 0}, {3, 1}, {6, 0}}},
@@ -38,6 +47,14 @@ std::unordered_map<int, std::vector<TileCoord>> adjacents = {
     {6 + ROW_MAX * 6, {{3, 6}, {6, 3}}},
 };
 
+/**
+ * All the Mills in the gameboard.
+ * Current implementation uses pre-computed values, this is a trade-off we
+ * agreed that we want a O(1) lookup and fastest possible generation of such
+ * tables O(1) with the cost of certain inflexibilities and some memory for
+ * storing the table
+ *
+ */
 std::vector<TileCoordVector> mills = {
     // Horizontal Mills
     {{0, 0}, {3, 0}, {6, 0}},
@@ -73,8 +90,14 @@ std::vector<TileCoordVector> mills = {
     {{6, 0}, {6, 3}, {6, 6}},
 };
 
-// millLookup[TileCoord] = indices in mills that contain
-// TileCoord
+/**
+ * millLookup[TileCoord] = indices in mills that contain
+ * Lookup the mills table above to get the mills that contains this tile.
+ * Current implementation uses pre-computed values, this is a trade-off we
+ * agreed that we want a O(1) lookup and fastest possible generation of such
+ * tables O(1) with the cost of certain inflexibilities and some memory for
+ * storing the table
+ */
 std::map<TileCoord, std::vector<int>> millLookup = {
     {{0, 0}, {0, 8}},  {{3, 0}, {0, 11}}, {{6, 0}, {0, 15}},
 
@@ -97,7 +120,7 @@ TileCoordVector GetNeighbours(TileCoord coord) {
   return adjacents[coord.first + coord.second * ROW_MAX];
 };
 
-std::vector<TileCoordVector> GetMillOfCoord(TileCoord coord){
+std::vector<TileCoordVector> GetMillOfCoord(TileCoord coord) {
   std::vector<TileCoordVector> millOfCoord{};
   for (const auto index : millLookup[coord]) {
     millOfCoord.push_back(mills[index]);
@@ -108,12 +131,10 @@ std::vector<TileCoordVector> GetMillOfCoord(TileCoord coord){
 bool isMill(const GameBoard* gameboard, const Tile* tile) {
   const auto coord = tile->GetTileCoord();
   for (const auto mill : GetMillOfCoord(coord)) {
-    const auto a =
-        gameboard->GetTile(mill[0].first, mill[0].second);
-    const auto b =
-        gameboard->GetTile(mill[1].first, mill[1].second);
-    const auto c =
-        gameboard->GetTile(mill[2].first, mill[2].second);
+    // Checking if the 3 Tiles in the mill has tokens and the saem occupation.
+    const auto a = gameboard->GetTile(mill[0].first, mill[0].second);
+    const auto b = gameboard->GetTile(mill[1].first, mill[1].second);
+    const auto c = gameboard->GetTile(mill[2].first, mill[2].second);
     if (!a->GetToken() || !b->GetToken() || !c->GetToken()) continue;
 
     if (a->GetToken()->GetOccupation() == b->GetToken()->GetOccupation() &&
