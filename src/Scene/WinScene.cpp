@@ -10,6 +10,8 @@ void WinScene::Render(sf::RenderWindow& window) { Scene::Render(window); }
 
 WinScene::WinScene(WinnerType wt)
     : m_MenuButton("Main Menu", [&](sf::Event e) {
+        // Pop twice because the previous scene is usually the GameScene, pop
+        // both WinScene and GameScene to return to MenuScene
         Game::GetInstance().PopScene();
         Game::GetInstance().PopScene();
       }) {
@@ -20,6 +22,7 @@ WinScene::WinScene(WinnerType wt)
   m_WinMessage.setCharacterSize(64);
 
   sf::Texture* texture;
+  // TODO : Position base on texture sizes
   const auto dogePos =
       sf::Vector2f(Game::WINDOW_WIDTH / 6.f, Game::WINDOW_HEIGHT / 3.f);
   const auto pepePos =
@@ -55,6 +58,7 @@ WinScene::WinScene(WinnerType wt)
   m_MenuButton.setPosition(
       sf::Vector2f(Game::WINDOW_WIDTH / 7.f,
                    Game::WINDOW_HEIGHT - Game::WINDOW_HEIGHT / 6.f));
+
   addDrawable(&m_WinImage);
   addDrawable(&m_WinMessage);
 }
