@@ -10,10 +10,25 @@
 #include "SFML/System/Vector2.hpp"
 
 namespace {
+/**
+ * Constants for positioning the drawing of the remaining placement tokens of
+ * DOGE.
+ */
 constexpr float DOGE_X_OFFSET = Game::WINDOW_WIDTH * 0.9f;
 constexpr float DOGE_Y_OFFSET = Game::WINDOW_HEIGHT * 0.2f;
+
+/**
+ * Constants for positioning the drawing of the remaining placement tokens of
+ * PEPE.
+ */
+
 constexpr float PEPE_X_OFFSET = Game::WINDOW_WIDTH * 0.05f;
 constexpr float PEPE_Y_OFFSET = Game::WINDOW_HEIGHT * 0.2f;
+
+/**
+ * The spacings in between the drawing of remaining placement tokens for both
+ * players.
+ */
 constexpr float TOKEN_LEFT_VERT_SPACING = 70.f;
 }  // namespace
 
@@ -30,6 +45,7 @@ GameBoard::GameBoard()
 
   InitialiseTiles();
 
+  // Initialise the observers bound to GameBoard.
   m_Observers.push_back(std::make_unique<MillObserver>(this));
   // Win Observer has to be last, as it may require previous observing's
   // information
@@ -38,6 +54,7 @@ GameBoard::GameBoard()
   // Start the game at placing phase
   HighlightValidMoves();
 
+  // Tokens remaining to be placed for both players.
   m_DogeTokenLeft.setTexture(assMan.GetTexture(GameAsset::Texture::DOGE).get());
   m_PepeTokenLeft.setTexture(assMan.GetTexture(GameAsset::Texture::PEPE).get());
   m_DogeTokenLeft.setSize(sf::Vector2f(58.f, 60.f));
@@ -71,12 +88,14 @@ GameBoard::GameBoard()
 GameBoard::~GameBoard() {}
 
 void GameBoard::Update(sf::Event event) {
+  // Notifying the underlying listeners (Tiles) to see if there's an update.
   for (const auto& tile_rows : m_Board) {
     for (const auto& tile : tile_rows)
       if (tile != nullptr) {
         tile->notifyListeners(event);
       }
   }
+
   // No command executed
   if (m_ProgressTurn) {
     // Handle turns
@@ -90,14 +109,18 @@ void GameBoard::Update(sf::Event event) {
       m_State = CAPTURE;
       m_HasMillCapture = false;
     }
+    // We have progressed this turn, turn off the flag.
     m_ProgressTurn = false;
 
+    // Highlight the current turn's valid moves.
     HighlightValidMoves();
   }
 }
 
 void GameBoard::Render(sf::RenderWindow& window) {
+  // Draw the board.
   window.draw(m_BoardShape);
+  // Drawing of all the tiles.
   for (const auto& tile_rows : m_Board) {
     for (const auto& tile : tile_rows)
       if (tile != nullptr) {
@@ -134,19 +157,26 @@ void GameBoard::ExecuteCommand(Command* command) {
     observer->Notify(command->GetAffectedTile());
   }
 
+  // TODO : Store the Commands in a Stack to be undo'd
   delete command;
+
+  // Remove the active selected tile.
   m_ActiveTile = nullptr;
+  // Executed a command, progress to next turn.
   m_ProgressTurn = true;
 }
 
 void GameBoard::SetActiveTile(Tile* tile) {
   m_ActiveTile = tile;
+  // For this activated tile, highlight its valid moves.
   HighlightValidMoves();
 };
 
 std::vector<Tile*> GameBoard::CalculateValidMoves(GameState state, Player* turn,
                                                   Tile* activeTile) {
+  // All the tiles available for easy traversal later.
   std::vector<Tile*> tiles{};
+  // The return vector for all the valid tiles' pointer.
   std::vector<Tile*> validTiles{};
 
   // Get the tiles first
@@ -206,6 +236,8 @@ std::vector<Tile*> GameBoard::CalculateValidMoves(GameState state, Player* turn,
 }
 
 void GameBoard::InitialiseTiles() {
+  // These are the coordinates where there can be a tile, may want to move it
+  // somewhere else for not having to change this function if any change.
   constexpr int coordinates[24][2]{
       {0, 0}, {3, 0}, {6, 0}, {1, 1}, {3, 1}, {5, 1}, {2, 2}, {3, 2},
       {4, 2}, {0, 3}, {1, 3}, {2, 3}, {4, 3}, {5, 3}, {6, 3}, {2, 4},
@@ -213,6 +245,7 @@ void GameBoard::InitialiseTiles() {
   for (const auto& coord : coordinates) {
     m_Board[coord[0]][coord[1]] =
         std::make_unique<Tile>(this, TileCoord{coord[0], coord[1]});
+    // The position is determined by the coordinates.
     m_Board[coord[0]][coord[1]]->setPosition(
         {TILE_X_PAD + coord[0] * TILE_DIM - TILE_DIM / 3,
          TILE_Y_PAD + coord[1] * TILE_DIM - TILE_DIM / 3});
@@ -222,6 +255,7 @@ void GameBoard::InitialiseTiles() {
 void GameBoard::HighlightValidMoves() {
   // Remove previous highlighting first
   CancelHighlight();
+  // Highlight the valid moves for the current state, turn and activetile.
   for (const auto& tile : CalculateValidMoves(m_State, m_Turn, m_ActiveTile)) {
     tile->SetHighlight(true);
   }
@@ -237,9 +271,11 @@ void GameBoard::CancelHighlight() {
 }
 
 std::vector<Tile*> GameBoard::GetPlayerTiles(Player* player) {
+  // The return tiles vector.
   std::vector<Tile*> tiles{};
   for (const auto& tile_rows : m_Board) {
     for (const auto& tile : tile_rows)
+      // If tile has a token and the token is matching the player's occupation.
       if (tile != nullptr && tile->HasToken() &&
           tile->GetToken()->GetOccupation() == player->occupation) {
         tiles.push_back(tile.get());
@@ -257,6 +293,8 @@ Tile* GameBoard::GetTile(int x, int y) const { return m_Board[x][y].get(); }
 Player* GameBoard::GetCurrPlayer() { return m_Turn; }
 
 Player* GameBoard::GetOpponentPlayer() {
+  // Check against the current player if it's the same then it's the other
+  // player
   return &m_P1 == m_Turn ? &m_P2 : &m_P1;
 }
 
