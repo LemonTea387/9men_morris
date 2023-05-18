@@ -4,6 +4,7 @@
 
 #include "../AssetManager.hpp"
 #include "../Game.hpp"
+#include "CreditsScene.hpp"
 #include "GameScene.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/System/Vector2.hpp"
@@ -19,7 +20,11 @@ MenuScene::MenuScene()
           [&](sf::Event e) {
             Game::GetInstance().PushScene(std::make_unique<GameScene>());
           }},
-      m_CreditsButton{"Credits", [&](sf::Event e) {}},
+      m_CreditsButton{
+          "Credits",
+          [&](sf::Event e) {
+            Game::GetInstance().PushScene(std::make_unique<CreditsScene>());
+          }},
       m_ExitButton{"Quit",
                    [&](sf::Event e) { Game::GetInstance().PopScene(); }} {
   AssetManager& assMan = AssetManager::GetInstance();
