@@ -15,29 +15,6 @@ constexpr float DOGE_Y_OFFSET = Game::WINDOW_HEIGHT / 10.f * 2.f;
 constexpr float PEPE_X_OFFSET = Game::WINDOW_WIDTH / 10.f * 9.f;
 constexpr float PEPE_Y_OFFSET = Game::WINDOW_HEIGHT / 10.f * 2.f;
 constexpr float TOKEN_LEFT_VERT_SPACING = 70.f;
-
-// Shader Code for drawing TokensLeft
-// Yes, it is normal to have the source code here as a string. It is
-// sent to the GPU to be compiled.
-
-// Learnt through
-// https://www.sfml-dev.org/tutorials/2.5/graphics-shader.php
-// and https://learnopengl.com/Getting-started/Shaders
-const std::string tokenLeftVertShader =
-    "void main()"
-    "{"
-    "gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;"
-    "gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;"
-    "gl_FrontColor = gl_Color;"
-    "}";
-const std::string tokenLeftFragShader =
-    "uniform sampler2D texture;"
-    "uniform float transparency;"
-    "void main()"
-    "{"
-    "vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);"
-    "gl_FragColor = gl_Color * pixel * vec4(1.0, 1.0, 1.0, transparency);"
-    "}";
 }  // namespace
 
 GameBoard::GameBoard()
@@ -67,13 +44,24 @@ GameBoard::GameBoard()
   m_PepeTokenLeft.setSize(sf::Vector2f(58.f, 60.f));
 
   // Compile the Shaders
-  if (!m_TokenLeftShader.loadFromMemory(tokenLeftVertShader,
-                                        sf::Shader::Vertex)) {
+
+  // Shader Code for drawing TokensLeft
+  // Yes, it is normal to have the source code here loaded through a file. It is
+  // sent to the GPU to be compiled.
+  //
+  // In the case they can't be compiled, the fallback is that the display
+  // is still drawn, but with no special effects.
+
+  // Learnt through
+  // https://www.sfml-dev.org/tutorials/2.5/graphics-shader.php
+  // and https://learnopengl.com/Getting-started/Shaders
+  if (!m_TokenLeftShader.loadFromFile("assets/shaders/TokensLeft.vert",
+                                      sf::Shader::Vertex)) {
     std::cerr << "[WARNING] Could not load Vertex Shader for TokenLeft display!"
               << std::endl;
   }
-  if (!m_TokenLeftShader.loadFromMemory(tokenLeftFragShader,
-                                        sf::Shader::Fragment)) {
+  if (!m_TokenLeftShader.loadFromFile("assets/shaders/TokensLeft.frag",
+                                      sf::Shader::Fragment)) {
     std::cerr
         << "[WARNING] Could not load Fragment Shader for TokenLeft display!"
         << std::endl;
