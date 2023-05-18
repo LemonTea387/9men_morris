@@ -10,8 +10,16 @@
 GameScene::~GameScene() {}
 
 GameScene::GameScene()
-    : m_SaveButton{"Save", [&](sf::Event e) {}},
-      m_QuitButton{"Quit", [&](sf::Event e) { m_IsKilled = true; }},
+    : m_SaveButton{"Save",
+                   [&](sf::Event e) {
+                     // TODO : Currently Save Button is not implemented.
+                   }},
+      m_QuitButton{"Quit",
+                   [&](sf::Event e) {
+                     // Marks the Scene to be popped and go back to previous
+                     // Scene.
+                     m_IsKilled = true;
+                   }},
       m_GameBoard(std::make_unique<GameBoard>()) {
   AssetManager& assMan = AssetManager::GetInstance();
 
@@ -40,8 +48,10 @@ GameScene::GameScene()
   m_PlayerOneText.setString("Pepe");
   m_PlayerTwoText.setString("Doge");
   m_TurnText.setString("Pepe - Place");
-  m_PlayerOneText.setPosition(sf::Vector2f(Game::WINDOW_WIDTH * 0.35, Game::WINDOW_HEIGHT*0.85));
-  m_PlayerTwoText.setPosition(sf::Vector2f(Game::WINDOW_WIDTH * 0.65, Game::WINDOW_HEIGHT*0.85));
+  m_PlayerOneText.setPosition(
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.35, Game::WINDOW_HEIGHT * 0.85));
+  m_PlayerTwoText.setPosition(
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.65, Game::WINDOW_HEIGHT * 0.85));
 
   m_PlayerOneTexture = assMan.GetTexture(GameAsset::Texture::PEPE).get();
   m_PlayerTwoTexture = assMan.GetTexture(GameAsset::Texture::DOGE).get();
@@ -52,15 +62,18 @@ GameScene::GameScene()
   m_PlayerOneIcon.setSize(sf::Vector2f(90, 90));
   m_PlayerTwoIcon.setSize(sf::Vector2f(90, 90));
   m_TurnIcon.setSize(sf::Vector2f(115, 115));
-  m_PlayerOneIcon.setPosition(sf::Vector2f(Game::WINDOW_WIDTH * 0.25, Game::WINDOW_HEIGHT*0.83));
-  m_PlayerTwoIcon.setPosition(sf::Vector2f(Game::WINDOW_WIDTH * 0.55, Game::WINDOW_HEIGHT*0.83));
-  m_TurnIcon.setPosition(sf::Vector2f(Game::WINDOW_WIDTH*0.25, Game::WINDOW_HEIGHT*0.05));
-  m_TurnText.setPosition(sf::Vector2f(Game::WINDOW_WIDTH*0.4, Game::WINDOW_HEIGHT*0.1));
+  m_PlayerOneIcon.setPosition(
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.25, Game::WINDOW_HEIGHT * 0.83));
+  m_PlayerTwoIcon.setPosition(
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.55, Game::WINDOW_HEIGHT * 0.83));
+  m_TurnIcon.setPosition(
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.25, Game::WINDOW_HEIGHT * 0.05));
+  m_TurnText.setPosition(
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.4, Game::WINDOW_HEIGHT * 0.1));
 
   addDrawable(&m_PlayerOneText);
   addDrawable(&m_PlayerTwoText);
   addDrawable(&m_TurnText);
-
 
   addDrawable(&m_PlayerOneIcon);
   addDrawable(&m_PlayerTwoIcon);
