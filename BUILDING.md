@@ -58,8 +58,3 @@ The resulting executable should be able to be found in `build/clean_build/Everyt
 Note that the `docker build` command is needed to be ran again if you make changes to the code and wish to see it reflected.
 The first time running the commands will take a while, but after that, running the commands should be faster as most things
 like the Linux VM and installed packages and libraries would be cached. 
-
-# Building Documentation
-We use [Doxygen](https://www.doxygen.nl/index.html) for our documentation. To use it, `cd` into
-the docs directory, run `doxygen Doxyfile`, and in the `docs/html` directory there should be an `index.html`
-file you can open in your preferred web browser.
