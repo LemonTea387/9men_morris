@@ -13,14 +13,16 @@ enum Texture {
   PEPE_SUNGLASSES,
   PEPE_SCREAM,
   BUTTON,
+  BUTTON_NEWGAME,
   BOARD,
   TILE,
+  DOGE_VS_PEPE,
   HIGHLIGHT_TILE,
   PEPEWIN,
   DOGEWIN,
   TIEWIN
 };
-enum Font { COMFORTAA };
+enum Font { COMFORTAA, ROBOTO_REGULAR, ROBOTO_BOLD };
 }  // namespace GameAsset
 class AssetManager {
  private:

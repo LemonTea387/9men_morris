@@ -9,14 +9,18 @@ namespace {
 typedef std::pair<int, std::string> AssetFilePair;
 const std::vector<AssetFilePair> textures = {
     {GameAsset::Texture::DOGE, "assets/ui/buttons/Doge.png"},
-    {GameAsset::Texture::DOGE_SUNGLASSES, "assets/ui/buttons/DogeSunglasses.png"},
+    {GameAsset::Texture::DOGE_SUNGLASSES,
+     "assets/ui/buttons/DogeSunglasses.png"},
     {GameAsset::Texture::DOGE_SCREAM, "assets/ui/buttons/DogeScream.png"},
     {GameAsset::Texture::PEPE, "assets/ui/buttons/Pepe.png"},
-    {GameAsset::Texture::PEPE_SUNGLASSES, "assets/ui/buttons/PepeSunglasses.png"},
+    {GameAsset::Texture::PEPE_SUNGLASSES,
+     "assets/ui/buttons/PepeSunglasses.png"},
     {GameAsset::Texture::PEPE_SCREAM, "assets/ui/buttons/PepeCry.png"},
     {GameAsset::Texture::HIGHLIGHT_TILE, "assets/ui/buttons/coconut.png"},
     {GameAsset::Texture::TILE, "assets/ui/buttons/trns.png"},
+    {GameAsset::Texture::DOGE_VS_PEPE, "assets/ui/buttons/DogeVsPepe.png"},
     {GameAsset::Texture::BUTTON, "assets/ui/buttons/Exit.png"},
+    {GameAsset::Texture::BUTTON_NEWGAME, "assets/ui/buttons/NewGame.png"},
     {GameAsset::Texture::BOARD, "assets/ui/gameBoard.png"},
     {GameAsset::Texture::PEPEWIN, "assets/ui/PepeWin.png"},
     {GameAsset::Texture::DOGEWIN, "assets/ui/DogeWin.png"},
@@ -24,7 +28,9 @@ const std::vector<AssetFilePair> textures = {
 };
 const std::vector<AssetFilePair> fonts = {
     {GameAsset::Font::COMFORTAA,
-     "assets/fonts/Comfortaa/static/Comfortaa-SemiBold.ttf"}};
+     "assets/fonts/Comfortaa/static/Comfortaa-SemiBold.ttf"},
+    {GameAsset::Font::ROBOTO_REGULAR, "assets/fonts/Roboto/Roboto-Regular.ttf"},
+    {GameAsset::Font::ROBOTO_BOLD, "assets/fonts/Roboto/Roboto-Bold.ttf"}};
 }  // namespace
 
 std::shared_ptr<sf::Texture> AssetManager::GetTexture(

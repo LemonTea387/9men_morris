@@ -2,93 +2,88 @@
 
 #include <iostream>
 
+#include "../AssetManager.hpp"
 #include "../Game.hpp"
+#include "CreditsScene.hpp"
+#include "GameScene.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/System/Vector2.hpp"
-void MenuScene::Update(sf::Event event) {
-  if (event.type == sf::Event::MouseButtonReleased &&
-      event.mouseButton.button == sf::Mouse::Left) {
-    if (m_ExitButton.getGlobalBounds().contains(event.mouseButton.x,
-                                                event.mouseButton.y)) {
-      Game::GetInstance().PopScene();
-    }
-  }
-}
+#include "SFML/Window/Event.hpp"
+void MenuScene::Update(sf::Event event) { Scene::Update(event); }
 
-void MenuScene::Render(sf::RenderWindow& window) {
-  window.draw(m_NewGameButton);
-  window.draw(m_ConGameButton);
-  window.draw(m_CreditsButton);
-  window.draw(m_ExitButton);
-
-  window.draw(m_NewGameText);
-  window.draw(m_ConGameText);
-  window.draw(m_CreditsText);
-  window.draw(m_ExitText);
-
-  window.draw(m_DogeVsPepe);
-}
+void MenuScene::Render(sf::RenderWindow& window) { Scene::Render(window); }
 
 MenuScene::MenuScene()
-    : m_NewGameButton(sf::Vector2f(261.f, 66.f)),
-      m_ConGameButton(sf::Vector2f(356.f, 74.f)),
-      m_CreditsButton(sf::Vector2f(206.f, 74.f)),
-      m_ExitButton(sf::Vector2f(191.f, 73.f)),
-      m_DogeVsPepe(sf::Vector2f(235.f, 115.f)) {
-  m_NewGameButton.setPosition(319.f, 303.f);
-  m_ConGameButton.setPosition(272.f, 395.f);
-  m_CreditsButton.setPosition(347.f, 495.f);
-  m_ExitButton.setPosition(354.f, 595.f);
-  m_DogeVsPepe.setPosition(602.f, 728.f);
+    : m_DogeVsPepe{sf::Vector2f(235.f, 115.f)},
+      m_NewGameButton{
+          "New Game",
+          [&](sf::Event e) {
+            Game::GetInstance().PushScene(std::make_unique<GameScene>());
+          }},
+      m_CreditsButton{
+          "Credits",
+          [&](sf::Event e) {
+            Game::GetInstance().PushScene(std::make_unique<CreditsScene>());
+          }},
+      m_ExitButton{"Quit",
+                   [&](sf::Event e) { Game::GetInstance().PopScene(); }} {
+  AssetManager& assMan = AssetManager::GetInstance();
+  m_NewGameButton.setTexture(
+      assMan.GetTexture(GameAsset::BUTTON_NEWGAME).get());
+  m_CreditsButton.setTexture(assMan.GetTexture(GameAsset::BUTTON).get());
+  m_ExitButton.setTexture(assMan.GetTexture(GameAsset::BUTTON).get());
+  m_DogeVsPepe.setTexture(assMan.GetTexture(GameAsset::DOGE_VS_PEPE).get());
 
-  m_NewGameText.setPosition(348.5f, 316.f);
-  m_ConGameText.setPosition(312.5f, 405.f);
-  m_CreditsText.setPosition(387.5f, 505.f);
-  m_ExitText.setPosition(409.f, 610.f);
-  if (!m_ButtonFont.loadFromFile(
-          "assets/fonts/Comfortaa/static/Comfortaa-SemiBold.ttf")) {
-    std::cerr << "Could not load font!" << std::endl;
-  }
-  if (!m_NewGameTexture.loadFromFile("assets/ui/buttons/NewGame.png")) {
-    std::cerr << "Could not load UI button!" << std::endl;
-  }
-  if (!m_ConGameTexture.loadFromFile("assets/ui/buttons/ConGame.png")) {
-    std::cerr << "Could not load UI button!" << std::endl;
-  }
-  if (!m_CreditsTexture.loadFromFile("assets/ui/buttons/Credits.png")) {
-    std::cerr << "Could not load UI button!" << std::endl;
-  }
-  if (!m_ExitTexture.loadFromFile("assets/ui/buttons/Exit.png")) {
-    std::cerr << "Could not load UI button!" << std::endl;
-  }
-  if (!m_DogeVsPepeTexture.loadFromFile("assets/ui/buttons/DogeVsPepe.png")) {
-    std::cerr << "Could not load DogeVsPepe!" << std::endl;
-  }
-  std::cerr << "Could not load DogeVsPepe!" << std::endl;
-  m_NewGameButton.setTexture(&m_NewGameTexture);
-  m_ConGameButton.setTexture(&m_ConGameTexture);
-  m_CreditsButton.setTexture(&m_CreditsTexture);
-  m_ExitButton.setTexture(&m_ExitTexture);
-  m_DogeVsPepe.setTexture(&m_DogeVsPepeTexture);
+  // TODO : Button has extra padding at the right, FIX
+  m_NewGameButton.setPosition(sf::Vector2f(
+      Game::WINDOW_WIDTH * 0.5 - m_NewGameButton.getSize().x / 2 + 15., Game::WINDOW_HEIGHT*0.35));
+  m_CreditsButton.setPosition(sf::Vector2f(
+      Game::WINDOW_WIDTH * 0.5 - m_CreditsButton.getSize().x / 2 + 10., Game::WINDOW_HEIGHT*0.45));
+  m_ExitButton.setPosition(sf::Vector2f(
+      Game::WINDOW_WIDTH * 0.5 - m_ExitButton.getSize().x / 2 + 30., Game::WINDOW_HEIGHT*0.55));
+  m_DogeVsPepe.setPosition(
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.7, Game::WINDOW_HEIGHT * 0.8));
 
-  m_NewGameText.setFont(m_ButtonFont);
-  m_NewGameText.setString("New Game");
-  m_NewGameText.setCharacterSize(32);
-  m_NewGameText.setFillColor(sf::Color(0xd0, 0xbc, 0xff));
+  addUI(&m_NewGameButton);
+  addUI(&m_CreditsButton);
+  addUI(&m_ExitButton);
 
-  m_ConGameText.setFont(m_ButtonFont);
-  m_ConGameText.setString("Continue Game");
-  m_ConGameText.setCharacterSize(32);
-  m_ConGameText.setFillColor(sf::Color(0xd0, 0xbc, 0xff));
+  addDrawable(&m_DogeVsPepe);
 
-  m_CreditsText.setFont(m_ButtonFont);
-  m_CreditsText.setString("Credits");
-  m_CreditsText.setCharacterSize(32);
-  m_CreditsText.setFillColor(sf::Color(0xd0, 0xbc, 0xff));
+  const auto textColor = sf::Color(0xE6, 0xE0, 0xE9);
+  m_TitleText.setString("Nine Men's Morris");
+  m_TitleText.setCharacterSize(32);
+  m_TitleText.setFillColor(textColor);
+  m_TitleText.setFont(*assMan.GetFont(GameAsset::Font::COMFORTAA));
+  m_TitleText.setPosition(sf::Vector2f(
+      Game::WINDOW_WIDTH * 0.5 - m_TitleText.getLocalBounds().width / 2,
+      Game::WINDOW_HEIGHT * 0.15));
+  m_TitleBackground.setFillColor(sf::Color(0x21, 0x1f, 0x26));
+  m_TitleBackground.setSize(
+      sf::Vector2f(m_TitleText.getLocalBounds().width * (1 + 2 / 3.f),
+                   m_TitleText.getLocalBounds().height * 4));
+  m_TitleBackground.setPosition(sf::Vector2f(
+      Game::WINDOW_WIDTH * 0.5 -
+          m_TitleText.getLocalBounds().width * (0.5 + 1 / 3.f),
+      Game::WINDOW_HEIGHT * 0.15 - m_TitleText.getLocalBounds().height));
 
-  m_ExitText.setFont(m_ButtonFont);
-  m_ExitText.setString("Quit");
-  m_ExitText.setCharacterSize(32);
-  m_ExitText.setFillColor(sf::Color(0xd0, 0xbc, 0xff));
+  addDrawable(&m_TitleBackground);
+  addDrawable(&m_TitleText);
+
+  m_CopyrightNotice.setString("(C) Copyright 2023 All Rights Reserved");
+  m_CopyrightNotice.setCharacterSize(20);
+  m_CopyrightNotice.setFillColor(sf::Color(0xCA, 0xC4, 0xD0));
+  m_CopyrightNotice.setFont(*assMan.GetFont(GameAsset::Font::ROBOTO_REGULAR));
+  m_CopyrightNotice.setPosition(
+      sf::Vector2f(Game::WINDOW_WIDTH / 20.f, Game::WINDOW_HEIGHT / 7.f * 6.f));
+  addDrawable(&m_CopyrightNotice);
+
+  m_CopyrightHolder.setString("The Everything Team");
+  m_CopyrightHolder.setCharacterSize(20);
+  m_CopyrightHolder.setFillColor(sf::Color(0xCA, 0xC4, 0xD0));
+  m_CopyrightHolder.setFont(*assMan.GetFont(GameAsset::Font::ROBOTO_BOLD));
+  m_CopyrightHolder.setPosition(sf::Vector2f(
+      Game::WINDOW_WIDTH / 20.f, Game::WINDOW_HEIGHT / 7.f * 6.f + 25.f));
+  addDrawable(&m_CopyrightHolder);
 }
 MenuScene::~MenuScene() {}

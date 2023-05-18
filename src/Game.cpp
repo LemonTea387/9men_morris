@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-#include "Scene/GameScene.hpp"
+#include "Scene/MenuScene.hpp"
 #include "Scene/Scene.hpp"
 
 Game::Game() { Game::GetWindow().setFramerateLimit(30); }
@@ -41,12 +41,7 @@ void Game::Run() {
       sf::Vector2f(Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT));
 
   // Set first Scene
-  // Use emplace_back instead of push_back
-  // because this way I don't have to convert
-  // the argument to a unique_ptr myself.
-  // Temporarily set to GameScene first because I'm too lazy to add the button
-  // to the MenuScene
-  m_Scenes.emplace_back(new GameScene());
+  m_Scenes.emplace_back(std::make_unique<MenuScene>());
 
   while (m_Scenes.size() > 0 && Game::GetWindow().isOpen()) {
     this->Loop();
