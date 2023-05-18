@@ -5,25 +5,8 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
 
-void WinScene::Update(sf::Event event) {
-  if (event.type == sf::Event::MouseButtonReleased) {
-    for (auto& e : m_ui) {
-      e->notifyListeners(event);
-    }
-  }
-}
-void WinScene::Render(sf::RenderWindow& window) {
-  window.draw(m_WinImage);
-  window.draw(m_WinMessage);
-
-  for (auto& e : m_ui) {
-    window.draw(*e);
-  }
-
-  for (auto& e : m_draw) {
-    window.draw(*e);
-  }
-}
+void WinScene::Update(sf::Event event) { Scene::Update(event); }
+void WinScene::Render(sf::RenderWindow& window) { Scene::Render(window); }
 
 WinScene::WinScene(WinnerType wt)
     : m_MenuButton("Main Menu", [&](sf::Event e) {
@@ -72,5 +55,7 @@ WinScene::WinScene(WinnerType wt)
   m_MenuButton.setPosition(
       sf::Vector2f(Game::WINDOW_WIDTH / 7.f,
                    Game::WINDOW_HEIGHT - Game::WINDOW_HEIGHT / 6.f));
+  addDrawable(&m_WinImage);
+  addDrawable(&m_WinMessage);
 }
 WinScene::~WinScene() {}
