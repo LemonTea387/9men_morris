@@ -11,7 +11,6 @@
 class MenuScene : public Scene {
  private:
   sf::RectangleShape m_DogeVsPepe;
-  sf::Texture m_DogeVsPepeTexture;
 
   sf::RectangleShape m_TitleBackground;
   sf::Text m_TitleText;
