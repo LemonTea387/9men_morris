@@ -41,26 +41,13 @@ GameScene::GameScene()
   addDrawable(&m_PlayerTwoText);
   addDrawable(&m_TurnText);
 
-  // TODO : Have these use Assetmanager
-  if (!m_PlayerOneTexture.loadFromFile("assets/ui/buttons/Pepe.png")) {
-    std::cerr << "Could not load UI button!" << std::endl;
-  }
-
-  if (!m_PlayerTwoTexture.loadFromFile("assets/ui/buttons/Doge.png")) {
-    std::cerr << "Could not load UI button!" << std::endl;
-  }
-
-  if (!m_TurnTexture.loadFromFile("assets/ui/buttons/Doge.png")) {
-    std::cerr << "Could not load UI button!" << std::endl;
-  }
-
   m_PlayerOneIcon.setSize(sf::Vector2f(90, 90));
   m_PlayerTwoIcon.setSize(sf::Vector2f(90, 90));
   m_TurnIcon.setSize(sf::Vector2f(115, 115));
 
-  m_PlayerOneIcon.setTexture(&m_PlayerOneTexture);
-  m_PlayerTwoIcon.setTexture(&m_PlayerTwoTexture);
-  m_TurnIcon.setTexture(&m_TurnTexture);
+  m_PlayerOneIcon.setTexture(assMan.GetTexture(GameAsset::Texture::PEPE).get());
+  m_PlayerTwoIcon.setTexture(assMan.GetTexture(GameAsset::Texture::DOGE).get());
+  m_TurnIcon.setTexture(assMan.GetTexture(GameAsset::Texture::DOGE).get());
 
   m_PlayerOneIcon.setPosition(sf::Vector2f(213, 790));
   m_PlayerTwoIcon.setPosition(sf::Vector2f(567, 790));
