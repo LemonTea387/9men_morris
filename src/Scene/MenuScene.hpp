@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "SFML/Graphics/RectangleShape.hpp"
+#include "SFML/Graphics/Text.hpp"
 #include "Scene.hpp"
 #include "ui/Button.hpp"
 
@@ -12,6 +13,12 @@ class MenuScene : public Scene {
   // TO-DO: Use a Button class (with rounded corners, hover support, etc.)
   sf::RectangleShape m_DogeVsPepe;
   sf::Texture m_DogeVsPepeTexture;
+
+  sf::RectangleShape m_TitleBackground;
+  sf::Text m_TitleText;
+
+  sf::Text m_CopyrightNotice;
+  sf::Text m_CopyrightHolder;
 
   graphics::Button m_NewGameButton;
   graphics::Button m_CreditsButton;

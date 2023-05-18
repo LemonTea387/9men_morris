@@ -21,7 +21,7 @@ enum Texture {
   DOGEWIN,
   TIEWIN
 };
-enum Font { COMFORTAA };
+enum Font { COMFORTAA, ROBOTO_REGULAR, ROBOTO_BOLD };
 }  // namespace GameAsset
 class AssetManager {
  private:

@@ -27,7 +27,9 @@ const std::vector<AssetFilePair> textures = {
 };
 const std::vector<AssetFilePair> fonts = {
     {GameAsset::Font::COMFORTAA,
-     "assets/fonts/Comfortaa/static/Comfortaa-SemiBold.ttf"}};
+     "assets/fonts/Comfortaa/static/Comfortaa-SemiBold.ttf"},
+    {GameAsset::Font::ROBOTO_REGULAR, "assets/fonts/Roboto/Roboto-Regular.ttf"},
+    {GameAsset::Font::ROBOTO_BOLD, "assets/fonts/Roboto/Roboto-Bold.ttf"}};
 }  // namespace
 
 std::shared_ptr<sf::Texture> AssetManager::GetTexture(
