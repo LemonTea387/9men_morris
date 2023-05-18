@@ -2,6 +2,7 @@
 
 #include "OnClickEventListener.hpp"
 #include "SFML/System/Vector2.hpp"
+#include "../../AssetManager.hpp"
 
 namespace graphics {
 Button::Button(const std::string& buttonText) {
@@ -9,13 +10,9 @@ Button::Button(const std::string& buttonText) {
   m_ButtonText.setCharacterSize(CHAR_SIZE);
   m_ButtonText.setFillColor(sf::Color(0xd0, 0xbc, 0xff));
 
-  // TODO : Remove this expensive workaround to fix SFML width = 0 bug with
   // AssetManager
-  if (!m_ButtonFont.loadFromFile(
-          "assets/fonts/Comfortaa/static/Comfortaa-SemiBold.ttf")) {
-    std::cerr << "Could not load ButtonFont" << std::endl;
-  }
-  m_ButtonText.setFont(m_ButtonFont);
+  AssetManager& assMan = AssetManager::GetInstance();
+  m_ButtonText.setFont(*assMan.GetFont(GameAsset::COMFORTAA).get());
 
   setSize(
       sf::Vector2f(m_ButtonText.getLocalBounds().width + Button::MARGIN_X * 2,
