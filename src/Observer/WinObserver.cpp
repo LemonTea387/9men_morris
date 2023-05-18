@@ -21,26 +21,25 @@ void Win(Player* player) {
 WinObserver::WinObserver(GameBoard* gb) : Observer::Observer(gb) {}
 
 void WinObserver::Notify(Tile* tileAffected) {
+  auto currPlayer{m_Gameboard->GetCurrPlayer()};
+  auto opponentPlayer{m_Gameboard->GetOpponentPlayer()};
   // Case 1 : Opponent has < 3 tiles left
-  if (m_Gameboard->GetOpponentPlayer()->left < 3) {
-    Win(m_Gameboard->GetCurrPlayer());
+  if (opponentPlayer->left < 3) {
+    Win(currPlayer);
   }
   // Case 2 : It is currently move phase for opponent (Opponent has placed all
   // tokens), and opponent does not have valid moves
   // Here it relies on the MillCapture flag, as a special case of turn from the
   // GameBoard, as that will trigger a CAPTURE phase and will not progress to
   // the opponent in the next turn.
-  if (!(m_Gameboard->GetHasMillCapture()) &&
-      m_Gameboard->GetOpponentPlayer()->placed == 9) {
+  if (!(m_Gameboard->GetHasMillCapture()) && opponentPlayer->placed == 9) {
     // Check until found at least 1 valid move
     bool validMoves = false;
     // Check through every tile of the opponent
-    for (const auto tile :
-         m_Gameboard->GetPlayerTiles(m_Gameboard->GetOpponentPlayer())) {
+    for (const auto tile : m_Gameboard->GetPlayerTiles(opponentPlayer)) {
       // If there's any valid moves from this token, it is not a win.
       if (m_Gameboard
-              ->CalculateValidMoves(GameBoard::MOVE,
-                                    m_Gameboard->GetOpponentPlayer(), tile)
+              ->CalculateValidMoves(GameBoard::MOVE, opponentPlayer, tile)
               .size() > 0) {
         validMoves = true;
         break;
@@ -48,7 +47,7 @@ void WinObserver::Notify(Tile* tileAffected) {
     }
 
     if (!validMoves) {
-      Win(m_Gameboard->GetCurrPlayer());
+      Win(currPlayer);
     }
   }
 }
