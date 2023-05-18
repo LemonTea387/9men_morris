@@ -68,11 +68,30 @@ void GameScene::Update(sf::Event event) {
     return;
   }
   m_GameBoard->Update(event);
-  // TODO : Make dynamic string for this
-  m_TurnText.setString(m_GameBoard->GetCurrPlayer()->occupation ==
-                               Token::Occupation::PEPE
-                           ? "Player Pepe"
-                           : "Player Doge");
+
+  // Change texture of icon if turns differ
+  if (m_PrevTurn != m_GameBoard->GetCurrPlayer()->occupation) {
+    m_PrevTurn = m_GameBoard->GetCurrPlayer()->occupation;
+    // Change texture of the Turn icon
+    m_TurnIcon.setTexture(m_PrevTurn == Token::Occupation::PEPE
+                              ? m_PlayerOneTexture
+                              : m_PlayerTwoTexture);
+  }
+  // Set the turn string
+  std::string turn{m_PrevTurn == Token::Occupation::PEPE ? "Pepe - "
+                                                         : "Doge - "};
+  switch (m_GameBoard->GetState()) {
+    case GameBoard::PLACE:
+      turn += "Place";
+      break;
+    case GameBoard::CAPTURE:
+      turn += "Capture";
+      break;
+    case GameBoard::MOVE:
+      turn += "Move";
+      break;
+  }
+  m_TurnText.setString(turn);
 }
 
 void GameScene::Render(sf::RenderWindow& window) {
