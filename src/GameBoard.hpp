@@ -48,6 +48,21 @@ class GameBoard {
   Player* m_Turn;
   GameState m_State;
 
+  /**
+   * The shape of the Doge Tokens left to be placed.
+   */
+  sf::RectangleShape m_DogeTokenLeft;
+  /**
+   * The shape of the Pepe Tokens left to be placed.
+   */
+  sf::RectangleShape m_PepeTokenLeft;
+
+  /**
+   * Just a simple Shader to adjust transparency. May extend
+   * in the future for fancier effects
+   */
+  sf::Shader m_TokenLeftShader;
+
   void InitialiseTiles();
   void HighlightValidMoves();
   void CancelHighlight();

@@ -1,70 +1,66 @@
 #include "GameScene.hpp"
 
-#include <iostream>
 #include <memory>
+#include <string>
 
 #include "../AssetManager.hpp"
 #include "../Game.hpp"
 #include "../GameBoard.hpp"
-#include "../Token.hpp"
 
 GameScene::~GameScene() {}
 
 GameScene::GameScene()
-    : m_SaveButton{"Save",
-                   [&](sf::Event e) { m_SaveButton.setText("Test Save"); }},
+    : m_SaveButton{"Save", [&](sf::Event e) {}},
       m_QuitButton{"Quit", [&](sf::Event e) { m_IsKilled = true; }},
       m_GameBoard(std::make_unique<GameBoard>()) {
   AssetManager& assMan = AssetManager::GetInstance();
-  m_SaveButton.setTexture(assMan.GetTexture(GameAsset::BUTTON).get());
-  m_SaveButton.setPosition(sf::Vector2f(799.f, 916.f));
 
-  m_QuitButton.setTexture(assMan.GetTexture(GameAsset::BUTTON).get());
-  m_QuitButton.setPosition(sf::Vector2f(51.f, 909.f));
+  auto btnTexture = assMan.GetTexture(GameAsset::BUTTON).get();
+  m_QuitButton.setTexture(btnTexture);
+  m_SaveButton.setTexture(btnTexture);
+  // Quit and Save placed with 5% width on both sides, in lower 90% of height
+  m_QuitButton.setPosition(
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.05, Game::WINDOW_HEIGHT * 0.9));
+  // TODO : FIX the asset padding
+  // The asset of button has slight padding, need to account for that in calc
+  // Theory : it uses C string for width calculation, thus it can account for \0
+  // character
+  m_SaveButton.setPosition(
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.95 - m_SaveButton.getSize().x + 20.f,
+                   Game::WINDOW_HEIGHT * 0.9));
 
-  m_PlayerOneText.setFont(*assMan.GetFont(GameAsset::COMFORTAA).get());
-  m_PlayerOneText.setString("Player 1");
+  auto font = assMan.GetFont(GameAsset::COMFORTAA).get();
+  m_PlayerOneText.setFont(*font);
+  m_PlayerTwoText.setFont(*font);
+  m_TurnText.setFont(*font);
   m_PlayerOneText.setCharacterSize(32);
-  m_PlayerOneText.setPosition(sf::Vector2f(332.f, 815.f));
-
-  m_PlayerTwoText.setFont(*assMan.GetFont(GameAsset::COMFORTAA).get());
-  m_PlayerTwoText.setString("Player 2");
   m_PlayerTwoText.setCharacterSize(32);
-  m_PlayerTwoText.setPosition(sf::Vector2f(687.f, 815.f));
-
-  m_TurnText.setFont(*assMan.GetFont(GameAsset::COMFORTAA).get());
-  m_TurnText.setString("Player 2 Move Token");
   m_TurnText.setCharacterSize(48);
-  m_TurnText.setPosition(sf::Vector2f(313.f, 42.f));
+
+  m_PlayerOneText.setString("Pepe");
+  m_PlayerTwoText.setString("Doge");
+  m_TurnText.setString("Pepe - Place");
+  m_PlayerOneText.setPosition(sf::Vector2f(Game::WINDOW_WIDTH * 0.35, Game::WINDOW_HEIGHT*0.85));
+  m_PlayerTwoText.setPosition(sf::Vector2f(Game::WINDOW_WIDTH * 0.65, Game::WINDOW_HEIGHT*0.85));
+
+  m_PlayerOneTexture = assMan.GetTexture(GameAsset::Texture::PEPE).get();
+  m_PlayerTwoTexture = assMan.GetTexture(GameAsset::Texture::DOGE).get();
+  m_PlayerOneIcon.setTexture(m_PlayerOneTexture);
+  m_PlayerTwoIcon.setTexture(m_PlayerTwoTexture);
+  m_TurnIcon.setTexture(m_PlayerOneTexture);
+
+  m_PlayerOneIcon.setSize(sf::Vector2f(90, 90));
+  m_PlayerTwoIcon.setSize(sf::Vector2f(90, 90));
+  m_TurnIcon.setSize(sf::Vector2f(115, 115));
+  m_PlayerOneIcon.setPosition(sf::Vector2f(Game::WINDOW_WIDTH * 0.25, Game::WINDOW_HEIGHT*0.83));
+  m_PlayerTwoIcon.setPosition(sf::Vector2f(Game::WINDOW_WIDTH * 0.55, Game::WINDOW_HEIGHT*0.83));
+  m_TurnIcon.setPosition(sf::Vector2f(Game::WINDOW_WIDTH*0.25, Game::WINDOW_HEIGHT*0.05));
+  m_TurnText.setPosition(sf::Vector2f(Game::WINDOW_WIDTH*0.4, Game::WINDOW_HEIGHT*0.1));
 
   addDrawable(&m_PlayerOneText);
   addDrawable(&m_PlayerTwoText);
   addDrawable(&m_TurnText);
 
-  // TODO : Have these use Assetmanager
-  if (!m_PlayerOneTexture.loadFromFile("assets/ui/buttons/Pepe.png")) {
-    std::cerr << "Could not load UI button!" << std::endl;
-  }
-
-  if (!m_PlayerTwoTexture.loadFromFile("assets/ui/buttons/Doge.png")) {
-    std::cerr << "Could not load UI button!" << std::endl;
-  }
-
-  if (!m_TurnTexture.loadFromFile("assets/ui/buttons/Doge.png")) {
-    std::cerr << "Could not load UI button!" << std::endl;
-  }
-
-  m_PlayerOneIcon.setSize(sf::Vector2f(90, 90));
-  m_PlayerTwoIcon.setSize(sf::Vector2f(90, 90));
-  m_TurnIcon.setSize(sf::Vector2f(115, 115));
-
-  m_PlayerOneIcon.setTexture(&m_PlayerOneTexture);
-  m_PlayerTwoIcon.setTexture(&m_PlayerTwoTexture);
-  m_TurnIcon.setTexture(&m_TurnTexture);
-
-  m_PlayerOneIcon.setPosition(sf::Vector2f(213, 790));
-  m_PlayerTwoIcon.setPosition(sf::Vector2f(567, 790));
-  m_TurnIcon.setPosition(sf::Vector2f(157, 15));
 
   addDrawable(&m_PlayerOneIcon);
   addDrawable(&m_PlayerTwoIcon);
@@ -75,31 +71,39 @@ GameScene::GameScene()
 }
 
 void GameScene::Update(sf::Event event) {
-  if (event.type == sf::Event::MouseButtonReleased) {
-    for (auto& e : m_ui) {
-      e->notifyListeners(event);
-    }
-  }
+  Scene::Update(event);
   if (m_IsKilled) {
     Game::GetInstance().PopScene();
     return;
   }
   m_GameBoard->Update(event);
-  // TODO : Make dynamic string for this
-  m_TurnText.setString(m_GameBoard->GetCurrPlayer()->occupation ==
-                               Token::Occupation::PEPE
-                           ? "Player Pepe"
-                           : "Player Doge");
+
+  // Change texture of icon if turns differ
+  if (m_PrevTurn != m_GameBoard->GetCurrPlayer()->occupation) {
+    m_PrevTurn = m_GameBoard->GetCurrPlayer()->occupation;
+    // Change texture of the Turn icon
+    m_TurnIcon.setTexture(m_PrevTurn == Token::Occupation::PEPE
+                              ? m_PlayerOneTexture
+                              : m_PlayerTwoTexture);
+  }
+  // Set the turn string
+  std::string turn{m_PrevTurn == Token::Occupation::PEPE ? "Pepe - "
+                                                         : "Doge - "};
+  switch (m_GameBoard->GetState()) {
+    case GameBoard::PLACE:
+      turn += "Place";
+      break;
+    case GameBoard::CAPTURE:
+      turn += "Capture";
+      break;
+    case GameBoard::MOVE:
+      turn += "Move";
+      break;
+  }
+  m_TurnText.setString(turn);
 }
 
 void GameScene::Render(sf::RenderWindow& window) {
-  for (auto& e : m_ui) {
-    window.draw(*e);
-  }
-
-  for (auto& e : m_draw) {
-    window.draw(*e);
-  }
-
+  Scene::Render(window);
   m_GameBoard->Render(window);
 }
