@@ -1,5 +1,19 @@
+![Quality grade](https://img.shields.io/badge/code%20quality-A-brightgreen) ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Platform Support](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-blue)
+
 # Nine Men's Morris - The Everything Team
+
+<div align="center"><img src="assets/ui/DogeVsPepe.png" /></div>
+
 A C++ implementation of Nine Men's Morris using SFML for the FIT3077 unit in Monash (Malaysia).
+
+## Pre-built binaries
+- [Windows MSVC Release Build (Recommended)](http://everything-nmm.s3-website-ap-southeast-1.amazonaws.com/EverythingNMM-3dab188-MSVC-Windows.zip)
+- [Windows MinGW Release Build (Backup)](http://everything-nmm.s3-website-ap-southeast-1.amazonaws.com/EverythingNMM-08344b4-MingW-Windows.zip)
+- [Linux AppImage](http://everything-nmm.s3-website-ap-southeast-1.amazonaws.com/Everything-NMM-html/index.html)
+
+For Windows builds, unzip the archive and double click the `EverythingNMM.exe` file. If Windows Defender gives a warning, please allow for the program to run.
+
+For Linux builds, unzip the archive and double click the `EverythingNMM.AppImage` file. Depending on your distro, you may see a warning about executing unknown files. Please click Allow.
 
 ## How to Play Nine Men's Morris
 
