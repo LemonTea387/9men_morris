@@ -16,7 +16,7 @@ A C++ implementation of Nine Men's Morris using SFML for the FIT3077 unit in Mon
 - [HTML Documentation](http://everything-nmm.s3-website-ap-southeast-1.amazonaws.com/Everything-NMM-html/index.html)
 - [PDF Documentation](http://everything-nmm.s3-website-ap-southeast-1.amazonaws.com/Everything-NMM-documentation.pdf)
 
-If you get a warning from your browser about downloading the file being a Potential Security Risk, please ignore it and select "Allow Download".
+If you get a warning from your browser about downloading the file being a Potential Security Risk, please ignore it, click on the "Right Arrow" and select "Allow Download".
 
 For Windows builds, unzip the archive and double click the `EverythingNMM.exe` file. If Windows Defender gives a warning, please allow for the program to run.
 
