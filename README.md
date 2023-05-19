@@ -2,9 +2,12 @@
 
 # Nine Men's Morris - The Everything Team
 
-<div align="center"><img src="assets/ui/DogeVsPepe.png" /></div>
+<div align="center"><img width=400 src="assets/ui/DogeVsPepe.png" />
+
 
 A C++ implementation of Nine Men's Morris using SFML for the FIT3077 unit in Monash (Malaysia).
+</div>
+
 
 ## Pre-built binaries
 - [Windows MSVC Release Build (Recommended)](http://everything-nmm.s3-website-ap-southeast-1.amazonaws.com/EverythingNMM-3dab188-MSVC-Windows.zip)
