@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <array>
 #include <memory>
+#include <stack>
+#include <vector>
 
 #include "Command/Command.hpp"
 #include "Game.hpp"
@@ -69,6 +71,12 @@ class GameBoard {
    * observers on the executed Command.
    */
   void ExecuteCommand(Command* command);
+
+  /**
+   * GameBoard undos the previous Command passed in, it will also notify the
+   * internal observers for preparing the state of previous command.
+   */
+  void UndoCommand();
 
   /**
    * Calculates all the valid moves using the board with for a given state, turn
@@ -141,6 +149,11 @@ class GameBoard {
   std::vector<std::unique_ptr<Observer>> m_Observers;
 
   /**
+   * The Command history of this current game.
+   */
+  std::stack<std::unique_ptr<Command>> m_CommandsHistory;
+
+  /**
    * The main GameBoard texture is drawn on this RectangleShape
    */
   sf::RectangleShape m_BoardShape;
@@ -198,19 +211,25 @@ class GameBoard {
   sf::Shader m_TokenLeftShader;
 
   /**
-  * Internal Helper function for creation of the Tiles.
-  */
+   * Internal Helper function for creation of the Tiles.
+   */
   void InitialiseTiles();
 
   /**
-  * Intenal Helper function for asking to highlight the valid moves of the current m_Turn.
-  */
+   * Internal Helper function for asking to highlight the valid moves of the
+   * current m_Turn.
+   */
   void HighlightValidMoves();
 
   /**
-  * Cancels all the highlighting of the Tiles.
-  */
+   * Cancels all the highlighting of the Tiles.
+   */
   void CancelHighlight();
+
+  /**
+   * Progresses the turn, which changes the game state and conditionally turn.
+   */
+  void ProgressTurn(bool reverse=false);
 };
 
 #endif

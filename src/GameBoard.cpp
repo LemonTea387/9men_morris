@@ -40,8 +40,9 @@ GameBoard::GameBoard()
       m_Turn{&m_P1} {
   AssetManager& assMan = AssetManager::GetInstance();
   m_BoardShape.setTexture(assMan.GetTexture(GameAsset::Texture::BOARD).get());
-  m_BoardShape.setPosition(sf::Vector2f((Game::WINDOW_WIDTH - BOARD_X) / 2,
-                                        (Game::WINDOW_HEIGHT - BOARD_Y) / 2 - 50));
+  m_BoardShape.setPosition(
+      sf::Vector2f((Game::WINDOW_WIDTH - BOARD_X) / 2,
+                   (Game::WINDOW_HEIGHT - BOARD_Y) / 2 - 50));
 
   InitialiseTiles();
 
@@ -98,20 +99,9 @@ void GameBoard::Update(sf::Event event) {
 
   // No command executed
   if (m_ProgressTurn) {
-    // Handle turns
-    if (!m_HasMillCapture) {
-      // Either Place or Move based on if it's done placing or not
-      m_State = (m_P1.placed < 9 || m_P2.placed < 9) ? PLACE : MOVE;
-      // Change Turn
-      m_Turn = m_Turn == &m_P1 ? &m_P2 : &m_P1;
-    } else {
-      // Capture Phase
-      m_State = CAPTURE;
-      m_HasMillCapture = false;
-    }
+    ProgressTurn();
     // We have progressed this turn, turn off the flag.
     m_ProgressTurn = false;
-
     // Highlight the current turn's valid moves.
     HighlightValidMoves();
   }
@@ -157,13 +147,36 @@ void GameBoard::ExecuteCommand(Command* command) {
     observer->Notify(command->GetAffectedTile());
   }
 
-  // TODO : Store the Commands in a Stack to be undo'd
-  delete command;
+  // Store command in command history
+  m_CommandsHistory.push(std::unique_ptr<Command>(command));
 
   // Remove the active selected tile.
   m_ActiveTile = nullptr;
   // Executed a command, progress to next turn.
   m_ProgressTurn = true;
+}
+
+void GameBoard::UndoCommand() {
+  if (m_CommandsHistory.empty()) return;
+  // Calls to undo
+  m_CommandsHistory.top()->Undo();
+
+  // Remove the command
+  m_CommandsHistory.pop();
+
+  // Calculate the state of the previous command
+  // Pass to observers
+  if (!m_CommandsHistory.empty()) {
+    for (const auto& observer : m_Observers) {
+      observer->Notify(m_CommandsHistory.top()->GetAffectedTile());
+    }
+  }
+
+  // We want to get the turn of the previous state, Then highlight.
+  // If previously mill flag is set, that means a mill formed, rmb
+  // if mill forms we retain the turn previously.
+  ProgressTurn(true);
+  HighlightValidMoves();
 }
 
 void GameBoard::SetActiveTile(Tile* tile) {
@@ -282,6 +295,40 @@ std::vector<Tile*> GameBoard::GetPlayerTiles(Player* player) {
       }
   }
   return tiles;
+}
+
+void GameBoard::ProgressTurn(bool reverse) {
+  // TODO : A better logical workaround for handling reverse order turn
+  // Turn goes back in reverse, need to prompt the current turn
+  // Capture turn means the previous turn did not actually change player
+  if (reverse) {
+    if (m_State == CAPTURE) {
+      // Either Place or Move based on if it's done placing or not
+      m_State = (m_P1.placed < 9 || m_P2.placed < 9) ? PLACE : MOVE;
+    } else if (m_HasMillCapture) {
+      m_State = CAPTURE;
+      // Change Turn for reverse capture
+      m_Turn = m_Turn == &m_P1 ? &m_P2 : &m_P1;
+      m_HasMillCapture = false;
+    } else {
+      // Either Place or Move based on if it's done placing or not
+      m_State = (m_P1.placed < 9 || m_P2.placed < 9) ? PLACE : MOVE;
+      // Change Turn for reverse capture
+      m_Turn = m_Turn == &m_P1 ? &m_P2 : &m_P1;
+    }
+  } else {
+    // Handle turns
+    if (!m_HasMillCapture) {
+      // Either Place or Move based on if it's done placing or not
+      m_State = (m_P1.placed < 9 || m_P2.placed < 9) ? PLACE : MOVE;
+      // Change Turn
+      m_Turn = m_Turn == &m_P1 ? &m_P2 : &m_P1;
+    } else {
+      // Capture Phase
+      m_State = CAPTURE;
+      m_HasMillCapture = false;
+    }
+  }
 }
 
 void GameBoard::SetMillFlag(bool flag) { m_HasMillCapture = flag; }
