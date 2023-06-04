@@ -1,10 +1,6 @@
 #ifndef SAVESCENE_H
 #define SAVESCENE_H
 
-#include <SFML/Graphics.hpp>
-#include <memory>
-
-#include "../Token.hpp"
 #include "Scene.hpp"
 #include "ui/Button.hpp"
 
