@@ -33,6 +33,11 @@ class GameScene : public Scene {
   graphics::Button m_SaveButton;
 
   /**
+   * Button to Save the game.
+   */
+  graphics::Button m_UndoButton;
+
+  /**
    * Labels the Icon of Player 1
    */
   sf::Text m_PlayerOneText;
