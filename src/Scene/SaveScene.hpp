@@ -3,12 +3,15 @@
 
 #include "Scene.hpp"
 #include "ui/Button.hpp"
+#include "ui/TextField.hpp"
 
 class SaveScene : public Scene {
  private:
   graphics::Button m_SaveButton;
   graphics::Button m_MenuButton;
   sf::Text m_SaveText;
+  TextField m_TextField;
+
 
  public:
   /**

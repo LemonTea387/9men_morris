@@ -6,13 +6,15 @@
 #include "../AssetManager.hpp"
 #include "../Game.hpp"
 #include "../GameBoard.hpp"
+#include "SaveScene.hpp"
 
 GameScene::~GameScene() {}
 
 GameScene::GameScene()
     : m_SaveButton{"Save",
                    [&](sf::Event e) {
-                     // TODO : Currently Save Button is not implemented.
+                     Game::GetInstance().PushScene(
+                         std::make_unique<SaveScene>());
                    }},
       m_UndoButton{"Undo",
                    [&](sf::Event e) {
