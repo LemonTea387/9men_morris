@@ -10,3 +10,7 @@ void MoveCommand::Execute() {
   if (!m_SrcTile || !(m_SrcTile->HasToken())) return;
   m_SrcTile->MoveToken(m_AffectedTile);
 }
+
+void MoveCommand::Undo() {
+  m_AffectedTile->MoveToken(m_SrcTile);
+}

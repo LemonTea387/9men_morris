@@ -18,3 +18,8 @@ void PlaceCommand::Execute() {
   // Count that the player has placed a new token
   m_Player->placed++;
 }
+
+void PlaceCommand::Undo() {
+  m_AffectedTile->RemoveToken();
+  m_Player->placed--;
+}

@@ -15,6 +15,11 @@ class PlaceCommand : public Command {
   virtual void Execute() override;
 
   /**
+   * Undos the placement of tile
+   */
+  virtual void Undo() override;
+
+  /**
   * PlaceCommand Constructor
   */
   PlaceCommand(TilePtr tile, Player* player);

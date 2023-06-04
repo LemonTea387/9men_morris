@@ -15,6 +15,11 @@ class MoveCommand : public Command {
   virtual void Execute() override;
 
   /**
+   * Undo this MoveCommand
+   */
+  virtual void Undo() override;
+
+  /**
    * MoveCommand Constructor, srcTile is the tile to move the token from, and
    * dstTile is the destination to move to.
    */
