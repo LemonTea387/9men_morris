@@ -47,7 +47,7 @@ class Tile : public graphics::Button {
   /**
    * Removes the Token from the Tile, Token is effectively deleted.
    */
-  void RemoveToken();
+  std::unique_ptr<Token> RemoveToken();
 
   /**
    * Highlights the Tile, in gameplay context, this activates the Tile which

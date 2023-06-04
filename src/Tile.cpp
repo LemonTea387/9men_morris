@@ -56,7 +56,9 @@ Token* Tile::GetToken() const { return m_Token.get(); };
 
 bool Tile::HasToken() const { return m_Token != nullptr; };
 
-void Tile::RemoveToken() { m_Token = nullptr; };
+std::unique_ptr<Token> Tile::RemoveToken() { 
+  return std::move(m_Token);
+};
 
 void Tile::SetHighlight(bool highlight) {
   // If it is the same, don't waste time resetting Textures (Expensive)
