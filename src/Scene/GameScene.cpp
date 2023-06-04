@@ -48,11 +48,7 @@ GameScene::GameScene()
   m_PlayerOneText.setString("Pepe");
   m_PlayerTwoText.setString("Doge");
   m_TurnText.setString("Pepe - Place");
-  m_PlayerOneText.setPosition(
-      sf::Vector2f(Game::WINDOW_WIDTH * 0.35, Game::WINDOW_HEIGHT * 0.85));
-  m_PlayerTwoText.setPosition(
-      sf::Vector2f(Game::WINDOW_WIDTH * 0.65, Game::WINDOW_HEIGHT * 0.85));
-
+  
   m_PlayerOneTexture = assMan.GetTexture(GameAsset::Texture::PEPE).get();
   m_PlayerTwoTexture = assMan.GetTexture(GameAsset::Texture::DOGE).get();
   m_PlayerOneIcon.setTexture(m_PlayerOneTexture);
@@ -61,15 +57,20 @@ GameScene::GameScene()
 
   m_PlayerOneIcon.setSize(sf::Vector2f(90, 90));
   m_PlayerTwoIcon.setSize(sf::Vector2f(90, 90));
+
   m_TurnIcon.setSize(sf::Vector2f(115, 115));
   m_PlayerOneIcon.setPosition(
-      sf::Vector2f(Game::WINDOW_WIDTH * 0.25, Game::WINDOW_HEIGHT * 0.83));
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.25, Game::WINDOW_HEIGHT * 0.83 - 50));
   m_PlayerTwoIcon.setPosition(
-      sf::Vector2f(Game::WINDOW_WIDTH * 0.55, Game::WINDOW_HEIGHT * 0.83));
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.55, Game::WINDOW_HEIGHT * 0.83 - 50));
   m_TurnIcon.setPosition(
-      sf::Vector2f(Game::WINDOW_WIDTH * 0.25, Game::WINDOW_HEIGHT * 0.05));
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.25, Game::WINDOW_HEIGHT * 0.05 - 50));
   m_TurnText.setPosition(
-      sf::Vector2f(Game::WINDOW_WIDTH * 0.4, Game::WINDOW_HEIGHT * 0.1));
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.4, Game::WINDOW_HEIGHT * 0.1 - 50));
+  m_PlayerOneText.setPosition(
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.35, Game::WINDOW_HEIGHT * 0.85 - 50));
+  m_PlayerTwoText.setPosition(
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.65, Game::WINDOW_HEIGHT * 0.85 - 50));
 
   addDrawable(&m_PlayerOneText);
   addDrawable(&m_PlayerTwoText);

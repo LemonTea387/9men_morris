@@ -41,7 +41,7 @@ GameBoard::GameBoard()
   AssetManager& assMan = AssetManager::GetInstance();
   m_BoardShape.setTexture(assMan.GetTexture(GameAsset::Texture::BOARD).get());
   m_BoardShape.setPosition(sf::Vector2f((Game::WINDOW_WIDTH - BOARD_X) / 2,
-                                        (Game::WINDOW_HEIGHT - BOARD_Y) / 2));
+                                        (Game::WINDOW_HEIGHT - BOARD_Y) / 2 - 50));
 
   InitialiseTiles();
 

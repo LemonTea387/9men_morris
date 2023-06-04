@@ -34,7 +34,7 @@ class GameBoard {
    * Paddings for left and top for initial placements of the tile.
    */
   const float TILE_X_PAD{(Game::WINDOW_WIDTH - BOARD_X) / 2};
-  const float TILE_Y_PAD{(Game::WINDOW_HEIGHT - BOARD_Y) / 2};
+  const float TILE_Y_PAD{(Game::WINDOW_HEIGHT - BOARD_Y) / 2 - 50};
 
  public:
   /**
