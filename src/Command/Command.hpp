@@ -40,6 +40,13 @@ class Command {
    */
   virtual void Execute() = 0;
 
+  /**
+   * The main abstract Undo function, this is what GameBoard will call to undo
+   * this Command. The specific implementations of this function has to be done
+   * in any Derived Command class.
+   */
+  virtual void Undo() = 0;
+
  protected:
   /**
    * The affected tile's pointer.
