@@ -4,21 +4,20 @@
 #include "../../AssetManager.hpp"
 
 TextField::TextField()
-    : m_size(64),
+    : m_size(32),
       m_rect(sf::Vector2f(
           15 * m_size,
           20)),  // 15 pixels per char, 20 pixels height, you can tweak
       m_hasfocus(false) {
 
     AssetManager& assMan = AssetManager::GetInstance();
-  m_font.loadFromFile(
-        "C:/Windows/Fonts/Arial.ttf");  // I'm working on Windows, you can put
-                                      // your own font instead
   m_rect.setOutlineThickness(2);
   m_rect.setFillColor(sf::Color::White);
   m_rect.setOutlineColor(sf::Color(127, 127, 127));
-  m_rect.setPosition(this->getPosition());
+  m_rect.setPosition(100, 100);
 }
+
+TextField::~TextField() {}
 
 const std::string& TextField::getText() const { return m_text; }
 
@@ -48,4 +47,8 @@ void TextField::handleInput(sf::Event e) {
   } else if (m_text.size() < m_size) {
     m_text += e.text.unicode;
   }
+}
+
+void TextField::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+  target.draw(m_rect);
 }
