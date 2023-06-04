@@ -33,6 +33,8 @@ add_executable(EverythingNMM
   src/Scene/WinScene.cpp
   src/Scene/CreditsScene.hpp
   src/Scene/CreditsScene.cpp
+  src/Scene/SaveScene.cpp
+  src/Scene/SaveScene.hpp
   src/Command/Command.hpp
   src/Command/PlaceCommand.hpp
   src/Command/PlaceCommand.cpp
@@ -57,7 +59,8 @@ add_executable(EverythingNMM
   src/GameBoardUtils.cpp
   src/AssetManager.hpp
   src/AssetManager.cpp
-  src/Tile.cpp "src/Scene/SaveScene.cpp" "src/Scene/ui/TextField.cpp")
+  src/Tile.cpp 
+)
 
 if(MSVC)
   # Microsoft Documentation recommends these two lines
