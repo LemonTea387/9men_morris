@@ -16,7 +16,7 @@ GameScene::GameScene()
                    }},
       m_UndoButton{"Undo",
                    [&](sf::Event e) {
-                     // TODO : Currently Save Button is not implemented.
+                      m_GameBoard->UndoCommand();
                    }},
       m_QuitButton{"Quit",
                    [&](sf::Event e) {
