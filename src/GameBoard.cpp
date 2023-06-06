@@ -97,7 +97,7 @@ void GameBoard::Update(sf::Event event) {
       }
   }
 
-  // No command executed
+  // Command executed
   if (m_ProgressTurn) {
     ProgressTurn();
     // We have progressed this turn, turn off the flag.
