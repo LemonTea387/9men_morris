@@ -46,6 +46,11 @@ class MenuScene : public Scene {
   graphics::Button m_NewGameButton;
 
   /**
+   * Button to load a saved game.
+   */
+  graphics::Button m_LoadGameButton;
+
+  /**
    * Button to show credits.
    */
   graphics::Button m_CreditsButton;

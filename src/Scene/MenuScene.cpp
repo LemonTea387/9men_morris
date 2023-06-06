@@ -4,6 +4,7 @@
 #include "../Game.hpp"
 #include "CreditsScene.hpp"
 #include "GameScene.hpp"
+#include "LoadScene.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
 
@@ -18,6 +19,11 @@ MenuScene::MenuScene()
           [&](sf::Event e) {
             Game::GetInstance().PushScene(std::make_unique<GameScene>());
           }},
+      m_LoadGameButton(
+          "Load Game",
+          [&](sf::Event e) {
+            Game::GetInstance().PushScene(std::make_unique<LoadScene>());
+          }),
       m_CreditsButton{
           "Credits",
           [&](sf::Event e) {
@@ -28,21 +34,30 @@ MenuScene::MenuScene()
   AssetManager& assMan = AssetManager::GetInstance();
   m_NewGameButton.setTexture(
       assMan.GetTexture(GameAsset::BUTTON_NEWGAME).get());
+  m_LoadGameButton.setTexture(
+      assMan.GetTexture(GameAsset::BUTTON_NEWGAME).get());
   m_CreditsButton.setTexture(assMan.GetTexture(GameAsset::BUTTON).get());
   m_ExitButton.setTexture(assMan.GetTexture(GameAsset::BUTTON).get());
   m_DogeVsPepe.setTexture(assMan.GetTexture(GameAsset::DOGE_VS_PEPE).get());
 
   // TODO : Button has extra padding at the right, FIX
   m_NewGameButton.setPosition(sf::Vector2f(
-      Game::WINDOW_WIDTH * 0.5 - m_NewGameButton.getSize().x / 2 + 15., Game::WINDOW_HEIGHT*0.35));
+      Game::WINDOW_WIDTH * 0.5 - m_NewGameButton.getSize().x / 2 + 15.,
+      Game::WINDOW_HEIGHT * 0.35));
+  m_LoadGameButton.setPosition(sf::Vector2f(
+      Game::WINDOW_WIDTH * 0.5 - m_NewGameButton.getSize().x / 2 + 5.,
+      Game::WINDOW_HEIGHT * 0.45));
   m_CreditsButton.setPosition(sf::Vector2f(
-      Game::WINDOW_WIDTH * 0.5 - m_CreditsButton.getSize().x / 2 + 10., Game::WINDOW_HEIGHT*0.45));
+      Game::WINDOW_WIDTH * 0.5 - m_CreditsButton.getSize().x / 2 + 10.,
+      Game::WINDOW_HEIGHT * 0.55));
   m_ExitButton.setPosition(sf::Vector2f(
-      Game::WINDOW_WIDTH * 0.5 - m_ExitButton.getSize().x / 2 + 30., Game::WINDOW_HEIGHT*0.55));
+      Game::WINDOW_WIDTH * 0.5 - m_ExitButton.getSize().x / 2 + 30.,
+      Game::WINDOW_HEIGHT * 0.65));
   m_DogeVsPepe.setPosition(
       sf::Vector2f(Game::WINDOW_WIDTH * 0.7, Game::WINDOW_HEIGHT * 0.8));
 
   addUI(&m_NewGameButton);
+  addUI(&m_LoadGameButton);
   addUI(&m_CreditsButton);
   addUI(&m_ExitButton);
 
