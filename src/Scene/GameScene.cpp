@@ -45,7 +45,7 @@ GameScene::GameScene()
       sf::Vector2f(Game::WINDOW_WIDTH * 0.95 - m_SaveButton.getSize().x + 20.f,
                    Game::WINDOW_HEIGHT * 0.9));
   m_UndoButton.setPosition(
-      sf::Vector2f(Game::WINDOW_WIDTH * 0.45, Game::WINDOW_HEIGHT * 0.9));
+      sf::Vector2f(Game::WINDOW_WIDTH * 0.425, Game::WINDOW_HEIGHT * 0.9));
 
   auto font = assMan.GetFont(GameAsset::COMFORTAA).get();
   m_PlayerOneTexture = assMan.GetTexture(GameAsset::Texture::PEPE).get();
