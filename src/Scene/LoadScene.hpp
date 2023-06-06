@@ -1,20 +1,20 @@
-#ifndef SAVESCENE_H
-#define SAVESCENE_H
+#ifndef LOADSCENE_H
+#define LOADSCENE_H
 
 #include "Scene.hpp"
 #include "ui/Button.hpp"
 
-class SaveScene : public Scene {
+class LoadScene : public Scene {
  public:
   /**
-   * SaveScene Constructor.
+   * LoadScene Constructor.
    */
-  SaveScene();
+  LoadScene();
 
   /**
-   * SaveScene Destructor.
+   * LoadScene Destructor.
    */
-  ~SaveScene();
+  ~LoadScene();
 
   virtual void Update(sf::Event event) override;
   virtual void Render(sf::RenderWindow& window) override;
@@ -31,7 +31,7 @@ class SaveScene : public Scene {
 
   bool m_IsKilled;
   graphics::Button m_MenuButton;
-  std::vector<std::unique_ptr<graphics::Button>> m_SaveButtons;
+  std::vector<std::unique_ptr<graphics::Button>> m_LoadButtons;
 };
 
 #endif

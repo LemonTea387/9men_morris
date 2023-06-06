@@ -1,6 +1,5 @@
-#include "SaveScene.hpp"
+#include "LoadScene.hpp"
 
-#include <memory>
 #include <string>
 
 #include "../AssetManager.hpp"
@@ -17,7 +16,7 @@ inline bool exists(const std::string& name) {
   }
 }
 
-void SaveScene::Update(sf::Event event) {
+void LoadScene::Update(sf::Event event) {
   Scene::Update(event);
   if (m_IsKilled) {
     Game::GetInstance().PopScene();
@@ -25,21 +24,19 @@ void SaveScene::Update(sf::Event event) {
   }
 }
 
-void SaveScene::Render(sf::RenderWindow& window) { Scene::Render(window); }
+void LoadScene::Render(sf::RenderWindow& window) { Scene::Render(window); }
 
-SaveScene::SaveScene()
-    : m_MenuButton{"Back", [&](sf::Event e) { m_IsKilled = true; }},
+LoadScene::LoadScene()
+    : m_MenuButton{"Menu", [&](sf::Event e) { m_IsKilled = true; }},
       m_IsKilled{false} {
   auto width = Game::WINDOW_WIDTH;
   auto height = Game::WINDOW_HEIGHT;
-
   AssetManager& assMan = AssetManager::GetInstance();
 
   auto btnTexture = assMan.GetTexture(GameAsset::BUTTON_NEWGAME).get();
   m_MenuButton.setTexture(btnTexture);
 
   m_MenuButton.setPosition(sf::Vector2f(width * 0.05, height * 0.9));
-
   addUI(&m_MenuButton);
 
   // Save slot buttons
@@ -49,17 +46,17 @@ SaveScene::SaveScene()
     if (!exists(filename)) {
       filename = "Empty";
     }
-    m_SaveButtons.push_back(std::make_unique<graphics::Button>(filename));
-    m_SaveButtons.back()->setPosition(
-        sf::Vector2f(width * 0.5 - m_SaveButtons.back()->getSize().x / 2 + 15.,
+    m_LoadButtons.push_back(std::make_unique<graphics::Button>(filename));
+    m_LoadButtons.back()->setPosition(
+        sf::Vector2f(width * 0.5 - m_LoadButtons.back()->getSize().x / 2 + 15.,
                      height * 0.35 + i * 75));
-    m_SaveButtons.back()->setTexture(btnTexture);
-    addUI(m_SaveButtons.back().get());
+    m_LoadButtons.back()->setTexture(btnTexture);
+    addUI(m_LoadButtons.back().get());
   }
 
   // Title and title background
   const auto textColor = sf::Color(0xE6, 0xE0, 0xE9);
-  m_TitleText.setString("Save Game");
+  m_TitleText.setString("Load Game");
   m_TitleText.setCharacterSize(32);
   m_TitleText.setFillColor(textColor);
   m_TitleText.setFont(*assMan.GetFont(GameAsset::Font::COMFORTAA));
@@ -76,4 +73,4 @@ SaveScene::SaveScene()
   addDrawable(&m_TitleBackground);
   addDrawable(&m_TitleText);
 }
-SaveScene::~SaveScene() {}
+LoadScene::~LoadScene() {}
