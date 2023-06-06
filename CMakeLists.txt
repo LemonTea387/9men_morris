@@ -35,6 +35,8 @@ add_executable(EverythingNMM
   src/Scene/CreditsScene.cpp
   src/Scene/SaveScene.cpp
   src/Scene/SaveScene.hpp
+  src/Scene/LoadScene.cpp
+  src/Scene/LoadScene.hpp
   src/Command/Command.hpp
   src/Command/PlaceCommand.hpp
   src/Command/PlaceCommand.cpp
