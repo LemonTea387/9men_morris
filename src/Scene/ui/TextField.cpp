@@ -1,54 +1,57 @@
 #include "TextField.hpp"
 
+#include <memory>
 
 #include "../../AssetManager.hpp"
+#include "OnClickEventListener.hpp"
 
-TextField::TextField()
-    : m_size(32),
-      m_rect(sf::Vector2f(
-          15 * m_size,
-          20)),  // 15 pixels per char, 20 pixels height, you can tweak
-      m_hasfocus(false) {
+namespace graphics {
+TextField::TextField(unsigned int size)
+    : m_Rect{sf::Vector2f(15 * size, 20)},
+      m_MaxSize{size},
+      m_ClickListener{std::make_unique<OnClickEventListener>(
+          this, [&](sf::Event e) { this->SetFocus(true); })} {
+  AssetManager& assMan = AssetManager::GetInstance();
+  m_Rect.setOutlineThickness(2);
+  m_Rect.setFillColor(sf::Color::White);
+  m_Rect.setOutlineColor(sf::Color(127, 127, 127));
 
-    AssetManager& assMan = AssetManager::GetInstance();
-  m_rect.setOutlineThickness(2);
-  m_rect.setFillColor(sf::Color::White);
-  m_rect.setOutlineColor(sf::Color(127, 127, 127));
-  m_rect.setPosition(100, 100);
+  addEventListener(m_ClickListener.get());
+
+  SetFocus(true);
 }
 
 TextField::~TextField() {}
 
-const std::string& TextField::getText() const { return m_text; }
+const std::string& TextField::GetText() const { return m_Str; }
 
-void TextField::setPosition(float x, float y) {
-  sf::Transformable::setPosition(x, y);
-  m_rect.setPosition(x, y);
+void TextField::setPosition(const sf::Vector2f& position) {
+  sf::Transformable::setPosition(position);
+  m_Rect.setPosition(position);
+  m_Text.setPosition(sf::Vector2f(position.x + 10, position.y));
 }
 
-bool TextField::contains(sf::Vector2f point) const {
-  return m_rect.getGlobalBounds().contains(point);
-}
-
-void TextField::setFocus(bool focus) {
-  m_hasfocus = focus;
+void TextField::SetFocus(bool focus) {
+  m_HasFocus = focus;
   if (focus) {
-    m_rect.setOutlineColor(sf::Color::Blue);
+    m_Rect.setOutlineColor(sf::Color::Blue);
   } else {
-    m_rect.setOutlineColor(sf::Color(127, 127, 127));  // Gray color
+    m_Rect.setOutlineColor(sf::Color(127, 127, 127));  // Gray color
   }
 }
 
-void TextField::handleInput(sf::Event e) {
-  if (!m_hasfocus || e.type != sf::Event::TextEntered) return;
+void TextField::HandleInput(sf::Event e) {
+  if (!m_HasFocus || e.type != sf::Event::TextEntered) return;
 
   if (e.text.unicode == 8) {  // Delete key
-    m_text = m_text.substr(0, m_text.size() - 1);
-  } else if (m_text.size() < m_size) {
-    m_text += e.text.unicode;
+    m_Str = m_Str.substr(0, m_Str.size() - 1);
+  } else if (m_Str.size() < m_MaxSize) {
+    m_Str += e.text.unicode;
   }
 }
 
 void TextField::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-  target.draw(m_rect);
+  target.draw(m_Rect);
+  target.draw(m_Text);
 }
+}  // namespace graphics
