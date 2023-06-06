@@ -70,6 +70,11 @@ class Game {
   static constexpr int WINDOW_HEIGHT = 1000;
 
   /**
+   * The publicly accessible constant default number of save games allowed.
+   */
+  static constexpr int SAVE_NUM = 5;
+
+  /**
    * Gets the context of the application's window. Retrieves a single Window
    * that ensures that all classes can use the same Window to render on.
    * Might deprecate in the future in favour of Render() function taking in
