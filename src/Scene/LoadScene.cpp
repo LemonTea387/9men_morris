@@ -7,10 +7,6 @@
 #include "../Game.hpp"
 #include "GameScene.hpp"
 
-inline bool exists(const std::string& name) {
-  return std::filesystem::exists(name);
-}
-
 void LoadScene::Update(sf::Event event) {
   Scene::Update(event);
   if (m_IsKilled) {
@@ -40,7 +36,7 @@ LoadScene::LoadScene()
     std::string filename = "./save/save" + std::to_string(i) + ".txt";
     std::string buttonText = "";
     // Try opening file
-    if (!exists(filename)) {
+    if (!std::filesystem::exists(filename)) {
       buttonText = "Empty";
     } else {
       buttonText = "Savegame #" + std::to_string(i);
