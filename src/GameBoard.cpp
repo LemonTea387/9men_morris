@@ -87,7 +87,7 @@ GameBoard::GameBoard()
         << std::endl;
   }
 
-  m_SaveGame = std::make_unique<SaveGame>(&m_CommandsHistory);
+  m_SaveGame = std::make_unique<SaveGame>(&m_CommandsHistory, this);
 }
 
 GameBoard::~GameBoard() {}
@@ -104,6 +104,11 @@ void GameBoard::Update(sf::Event event) {
   // Debug Save
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
     m_SaveGame->SaveGameFile("debug_savegame.txt");
+  }
+
+  // Debug Load
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+    m_SaveGame->LoadFromSave("debug_savegame.txt");
   }
 
   // Command executed

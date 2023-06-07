@@ -1,8 +1,10 @@
 #include "PlaceCommand.hpp"
 
+#include <iostream>
 #include <memory>
 #include <sstream>
 
+#include "../GameBoard.hpp"
 #include "../SaveGame.hpp"
 #include "../Token.hpp"
 
@@ -33,4 +35,36 @@ void PlaceCommand::AddToSaveGame(SaveGamePtr sg) {
       << m_Player->occupation;
   sg->AddToSave(out.str());
 }
-void PlaceCommand::RestoreFromSave(std::string save) {}
+void PlaceCommand::RestoreFromSave(std::string save, GameBoard* gb) {
+  std::stringstream instream(save);
+  std::string magic;
+  instream >> magic;
+  const auto magic_assert = [&](std::string comparison) {
+    if (magic != comparison) {
+      std::cerr << "Savegame Invalid command " << magic << "!" << std::endl;
+      return;
+    }
+  };
+  magic_assert("PLACE");
+  instream >> magic;
+  magic_assert("TILE");
+
+  int xCoord, yCoord;
+  instream >> xCoord;
+  instream >> yCoord;
+
+  Tile* tile = gb->GetTile(xCoord, yCoord);
+
+  bool highlighted;
+  instream >> highlighted;
+
+  m_AffectedTile = tile;
+
+  int left, placed;
+  int occupation;
+  instream >> left;
+  instream >> placed;
+  instream >> occupation;
+  // Safe cast since enums are just ints under the hood anyway.
+  m_Player = gb->GetPlayer(static_cast<Token::Occupation>(occupation));
+}

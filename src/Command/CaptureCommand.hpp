@@ -23,7 +23,7 @@ class CaptureCommand : public Command {
   virtual void Undo() override;
 
   virtual void AddToSaveGame(SaveGamePtr) override;
-  virtual void RestoreFromSave(std::string save) override;
+  virtual void RestoreFromSave(std::string save, GameBoard* gb) override;
 
   /**
    * Capture Command's Constructor, the player pointer here is actually the

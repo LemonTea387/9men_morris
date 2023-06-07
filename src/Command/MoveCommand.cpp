@@ -13,4 +13,4 @@ void MoveCommand::Execute() {
 
 void MoveCommand::Undo() { m_AffectedTile->MoveToken(m_SrcTile); }
 void MoveCommand::AddToSaveGame(SaveGamePtr) {}
-void MoveCommand::RestoreFromSave(std::string save) {}
+void MoveCommand::RestoreFromSave(std::string save, GameBoard* gb) {}

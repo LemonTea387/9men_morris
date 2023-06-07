@@ -12,12 +12,57 @@ target_link_libraries(
 add_executable(
   savegame_test
   savegame_test.cpp
+  ../src/Tile.hpp
+  ../src/Tile.cpp
+  ../src/Token.hpp
+  ../src/Token.cpp
+  ../src/Scene/Scene.hpp
+  ../src/Scene/Scene.cpp
+  ../src/Scene/MenuScene.hpp
+  ../src/Scene/MenuScene.cpp
+  ../src/Scene/GameScene.hpp
+  ../src/Scene/GameScene.cpp
+  ../src/Scene/WinScene.hpp
+  ../src/Scene/WinScene.cpp
+  ../src/Scene/CreditsScene.hpp
+  ../src/Scene/CreditsScene.cpp
+  ../src/Scene/SaveScene.cpp
+  ../src/Scene/SaveScene.hpp
+  ../src/Scene/LoadScene.cpp
+  ../src/Scene/LoadScene.hpp
+  ../src/Command/Command.hpp
+  ../src/Command/PlaceCommand.hpp
+  ../src/Command/PlaceCommand.cpp
+  ../src/Command/MoveCommand.cpp
+  ../src/Command/MoveCommand.hpp
+  ../src/Command/CaptureCommand.cpp
+  ../src/Command/CaptureCommand.hpp
+  ../src/Observer/Observer.hpp
+  ../src/Observer/MillObserver.hpp
+  ../src/Observer/MillObserver.cpp
+  ../src/Observer/WinObserver.hpp
+  ../src/Observer/WinObserver.cpp
+  ../src/Game.hpp
+  ../src/Game.cpp
+  ../src/GameBoard.hpp
+  ../src/GameBoard.cpp
+  ../src/Scene/ui/Button.hpp
+  ../src/Scene/ui/Button.cpp
+  ../src/Scene/ui/TextField.hpp
+  ../src/Scene/ui/TextField.cpp
+  ../src/GameBoardUtils.hpp
+  ../src/GameBoardUtils.cpp
+  ../src/AssetManager.hpp
+  ../src/AssetManager.cpp
+  ../src/Tile.cpp 
   ../src/SaveGame.hpp
   ../src/SaveGame.cpp
+  ../src/Serializable.hpp
 )
 target_link_libraries(
   savegame_test 
   GTest::gtest_main
+  sfml-graphics
 )
 
 include(GoogleTest)

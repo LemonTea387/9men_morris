@@ -138,6 +138,13 @@ class GameBoard {
    */
   bool GetHasMillCapture() const;
 
+  /**
+   * Gets a pointer to the player with the occupation specified.
+   */
+  Player* GetPlayer(Token::Occupation occupation) {
+    return m_P1.occupation == occupation ? &m_P1 : &m_P2;
+  };
+
  private:
   /**
    * Board representation, current one uses 7x7 matrix with empty tiles just

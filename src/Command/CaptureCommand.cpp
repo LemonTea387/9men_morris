@@ -22,4 +22,4 @@ void CaptureCommand::Undo() {
 }
 
 void CaptureCommand::AddToSaveGame(SaveGamePtr) {}
-void CaptureCommand::RestoreFromSave(std::string save) {}
+void CaptureCommand::RestoreFromSave(std::string save, GameBoard* gb) {}
