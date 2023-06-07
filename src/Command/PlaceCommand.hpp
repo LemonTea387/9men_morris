@@ -20,7 +20,7 @@ class PlaceCommand : public Command {
   virtual void Undo() override;
 
   virtual void AddToSaveGame(SaveGamePtr) override;
-  virtual Command* RestoreFromSave(std::string save) override;
+  virtual void RestoreFromSave(std::string save) override;
 
   /**
    * PlaceCommand Constructor

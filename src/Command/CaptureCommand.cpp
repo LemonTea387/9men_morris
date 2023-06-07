@@ -22,6 +22,4 @@ void CaptureCommand::Undo() {
 }
 
 void CaptureCommand::AddToSaveGame(SaveGamePtr) {}
-Command* CaptureCommand::RestoreFromSave(std::string save) {
-  return new CaptureCommand(this->m_AffectedTile, this->m_Player);
-}
+void CaptureCommand::RestoreFromSave(std::string save) {}

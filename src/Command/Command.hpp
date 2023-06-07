@@ -62,7 +62,7 @@ class Command {
    * Restores a Command from a string sequence that was previously saved
    * via AddToSaveGame.
    */
-  virtual Command* RestoreFromSave(std::string save) = 0;
+  virtual void RestoreFromSave(std::string save) = 0;
 
  protected:
   /**

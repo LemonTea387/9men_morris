@@ -75,6 +75,7 @@ add_executable(EverythingNMM
   src/Tile.cpp 
   src/SaveGame.hpp
   src/SaveGame.cpp
+  src/Serializable.hpp
 )
 
 if(MSVC)

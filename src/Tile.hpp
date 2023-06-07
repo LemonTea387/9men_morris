@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "Scene/ui/Button.hpp"
+#include "Serializable.hpp"
 #include "Token.hpp"
 
 class GameBoard;
@@ -19,7 +20,7 @@ typedef std::pair<int, int> TileCoord;
  * meaning if it exists without being in a GameBoard, so any dangling Tile is
  * effectively useless.
  */
-class Tile : public graphics::Button {
+class Tile : public graphics::Button, public Serializable {
  public:
   /**
    * Tile constructor, tile uses the gameboard pointer to communicate with the
@@ -70,6 +71,8 @@ class Tile : public graphics::Button {
    * Getter for obtaining the Tile Coordinates in a GameBoard.
    */
   TileCoord GetTileCoord() const;
+
+  std::string serialize() override;
 
  private:
   /**

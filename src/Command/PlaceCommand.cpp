@@ -1,7 +1,9 @@
 #include "PlaceCommand.hpp"
 
 #include <memory>
+#include <sstream>
 
+#include "../SaveGame.hpp"
 #include "../Token.hpp"
 
 PlaceCommand::PlaceCommand(TilePtr tile, Player* player)
@@ -23,7 +25,10 @@ void PlaceCommand::Undo() {
   m_AffectedTile->RemoveToken();
   m_Player->placed--;
 }
-void PlaceCommand::AddToSaveGame(SaveGamePtr) {}
-Command* PlaceCommand::RestoreFromSave(std::string save) {
-  return new PlaceCommand(this->m_AffectedTile, this->m_Player);
+void PlaceCommand::AddToSaveGame(SaveGamePtr sg) {
+  std::stringstream out;
+  out << m_AffectedTile->serialize();
+  out << m_Player->left << m_Player->placed << m_Player->occupation;
+  sg->AddToSave(out.str(), this);
 }
+void PlaceCommand::RestoreFromSave(std::string save) {}

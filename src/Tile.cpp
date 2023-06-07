@@ -1,6 +1,7 @@
 #include "Tile.hpp"
 
 #include <iostream>
+#include <sstream>
 
 #include "AssetManager.hpp"
 #include "Command/CaptureCommand.hpp"
@@ -56,9 +57,7 @@ Token* Tile::GetToken() const { return m_Token.get(); };
 
 bool Tile::HasToken() const { return m_Token != nullptr; };
 
-std::unique_ptr<Token> Tile::RemoveToken() { 
-  return std::move(m_Token);
-};
+std::unique_ptr<Token> Tile::RemoveToken() { return std::move(m_Token); };
 
 void Tile::SetHighlight(bool highlight) {
   // If it is the same, don't waste time resetting Textures (Expensive)
@@ -109,3 +108,11 @@ void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 }
 
 TileCoord Tile::GetTileCoord() const { return m_Coord; };
+
+std::string Tile::serialize() {
+  std::stringstream out;
+  out << "TILE";
+  out << m_Coord.first << " " << m_Coord.second;
+  out << m_Highlight;
+  return out.str();
+}
