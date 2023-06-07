@@ -62,6 +62,8 @@ add_executable(EverythingNMM
   src/AssetManager.hpp
   src/AssetManager.cpp
   src/Tile.cpp 
+  src/SaveGame.hpp
+  src/SaveGame.cpp
 )
 
 if(MSVC)
