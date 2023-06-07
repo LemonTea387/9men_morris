@@ -22,12 +22,11 @@ class SaveGame {
 
  public:
   void AddToSave(const std::string& serialised);
-  void PopSavedCommand();
   void LoadFromSave(const std::string& filename);
   void SaveGameFile(const std::string& filename);
 
   std::vector<std::string> GetFileContents() const { return m_FileContents; }
-  SaveGame(std::vector<std::unique_ptr<Command>>* cps, GameBoard* gb);
+  SaveGame(GameBoard* gb);
   ~SaveGame();
 };
 

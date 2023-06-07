@@ -91,7 +91,7 @@ GameBoard::GameBoard()
         << std::endl;
   }
 
-  m_SaveGame = std::make_unique<SaveGame>(&m_CommandsHistory, this);
+  m_SaveGame = std::make_unique<SaveGame>(this);
 }
 
 GameBoard::~GameBoard() {}
@@ -179,9 +179,6 @@ void GameBoard::ExecuteCommand(Command* command) {
     observer->Notify(command->GetAffectedTile());
   }
 
-  // Add command to Savegame
-  command->AddToSaveGame(m_SaveGame.get());
-
   // Store command in command history
   m_CommandsHistory.push_back(std::unique_ptr<Command>(command));
 
@@ -198,9 +195,6 @@ void GameBoard::UndoCommand() {
 
   // Remove the command
   m_CommandsHistory.pop_back();
-
-  // Remove command from Savegame
-  m_SaveGame->PopSavedCommand();
 
   // Calculate the state of the previous command
   // Pass to observers

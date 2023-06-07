@@ -14,8 +14,6 @@ void SaveGame::AddToSave(const std::string &serialised) {
   m_FileContents.push_back(serialised);
 }
 
-void SaveGame::PopSavedCommand() { m_FileContents.pop_back(); }
-
 void SaveGame::LoadFromSave(const std::string &filename) {
   // Clear string and stack
   m_FileContents.clear();
@@ -65,6 +63,9 @@ void SaveGame::AddCommandFromString(const std::string &line) {
 }
 
 void SaveGame::SaveGameFile(const std::string &filename) {
+  for (auto &command : *m_Commands) {
+    command->AddToSaveGame(this);
+  }
   std::ofstream outfile{filename.c_str()};
 
   if (!outfile) {
@@ -75,6 +76,6 @@ void SaveGame::SaveGameFile(const std::string &filename) {
   for (const auto s : m_FileContents) outfile << s << "\n";
 }
 
-SaveGame::SaveGame(std::vector<std::unique_ptr<Command>> *cps, GameBoard *gb)
-    : m_Commands(cps), m_GameBoard(gb) {}
+SaveGame::SaveGame(GameBoard *gb)
+    : m_Commands(&(gb->m_CommandsHistory)), m_GameBoard(gb) {}
 SaveGame::~SaveGame() {}
