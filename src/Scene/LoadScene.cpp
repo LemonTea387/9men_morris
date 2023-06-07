@@ -1,19 +1,13 @@
 #include "LoadScene.hpp"
 
+#include <filesystem>
 #include <string>
 
 #include "../AssetManager.hpp"
 #include "../Game.hpp"
 
 inline bool exists(const std::string& name) {
-  FILE* file;
-  fopen_s(&file, name.c_str(), "r");
-  if (file) {
-    fclose(file);
-    return true;
-  } else {
-    return false;
-  }
+  return std::filesystem::exists(name);
 }
 
 void LoadScene::Update(sf::Event event) {
