@@ -30,6 +30,7 @@ class LoadScene : public Scene {
   sf::Text m_TitleText;
 
   bool m_IsKilled;
+  std::string m_SaveFilename;
   graphics::Button m_MenuButton;
   std::vector<std::unique_ptr<graphics::Button>> m_LoadButtons;
 };
