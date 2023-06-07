@@ -8,6 +8,7 @@
 #include "Command/Command.hpp"
 #include "Command/MoveCommand.hpp"
 #include "Command/PlaceCommand.hpp"
+#include "GameBoard.hpp"
 
 void SaveGame::AddToSave(const std::string &serialised) {
   m_FileContents.push_back(serialised);
@@ -59,6 +60,8 @@ void SaveGame::AddCommandFromString(const std::string &line) {
   command->RestoreFromSave(line, m_GameBoard);
   m_Commands->push(std::unique_ptr<Command>(command));
   m_Commands->top()->Execute();
+  m_GameBoard->ProgressTurn();
+  m_GameBoard->HighlightValidMoves();
 }
 
 void SaveGame::SaveGameFile(const std::string &filename) {

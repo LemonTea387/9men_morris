@@ -246,6 +246,7 @@ class GameBoard {
    * SaveGame file of the current game.
    */
   std::unique_ptr<SaveGame> m_SaveGame;
+  friend class SaveGame;
 };
 
 #endif
