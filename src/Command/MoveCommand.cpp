@@ -11,6 +11,8 @@ void MoveCommand::Execute() {
   m_SrcTile->MoveToken(m_AffectedTile);
 }
 
-void MoveCommand::Undo() {
-  m_AffectedTile->MoveToken(m_SrcTile);
+void MoveCommand::Undo() { m_AffectedTile->MoveToken(m_SrcTile); }
+void MoveCommand::AddToSaveGame(SaveGamePtr) {}
+Command* MoveCommand::RestoreFromSave(std::string save) {
+  return new MoveCommand(this->m_SrcTile, this->m_AffectedTile, this->m_Player);
 }

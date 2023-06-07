@@ -10,8 +10,8 @@
 class PlaceCommand : public Command {
  public:
   /**
-  * Make a new Token and place it in m_AffectedTile
-  */
+   * Make a new Token and place it in m_AffectedTile
+   */
   virtual void Execute() override;
 
   /**
@@ -19,14 +19,17 @@ class PlaceCommand : public Command {
    */
   virtual void Undo() override;
 
+  virtual void AddToSaveGame(SaveGamePtr) override;
+  virtual Command* RestoreFromSave(std::string save) override;
+
   /**
-  * PlaceCommand Constructor
-  */
+   * PlaceCommand Constructor
+   */
   PlaceCommand(TilePtr tile, Player* player);
 
   /**
-  * PlaceCommand Destructor
-  */
+   * PlaceCommand Destructor
+   */
   ~PlaceCommand();
 };
 

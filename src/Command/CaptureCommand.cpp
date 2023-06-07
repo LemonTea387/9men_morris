@@ -1,5 +1,7 @@
 #include "CaptureCommand.hpp"
 
+#include "PlaceCommand.hpp"
+
 CaptureCommand::CaptureCommand(TilePtr tile, Player* player)
     : Command::Command{tile, player} {}
 
@@ -17,4 +19,9 @@ void CaptureCommand::Undo() {
   m_AffectedTile->SetToken(std::move(m_CapturedToken));
   m_CapturedToken = nullptr;
   m_Player->left++;
+}
+
+void CaptureCommand::AddToSaveGame(SaveGamePtr) {}
+Command* CaptureCommand::RestoreFromSave(std::string save) {
+  return new CaptureCommand(this->m_AffectedTile, this->m_Player);
 }

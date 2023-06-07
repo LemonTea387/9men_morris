@@ -23,3 +23,7 @@ void PlaceCommand::Undo() {
   m_AffectedTile->RemoveToken();
   m_Player->placed--;
 }
+void PlaceCommand::AddToSaveGame(SaveGamePtr) {}
+Command* PlaceCommand::RestoreFromSave(std::string save) {
+  return new PlaceCommand(this->m_AffectedTile, this->m_Player);
+}

@@ -22,6 +22,9 @@ class CaptureCommand : public Command {
    */
   virtual void Undo() override;
 
+  virtual void AddToSaveGame(SaveGamePtr) override;
+  virtual Command* RestoreFromSave(std::string save) override;
+
   /**
    * Capture Command's Constructor, the player pointer here is actually the
    * player getting captured, NOT the player initiating the capture.

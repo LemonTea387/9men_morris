@@ -1,8 +1,12 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
+#include <string>
+
 #include "../Player.hpp"
 #include "../Tile.hpp"
+
+class SaveGame;
 
 /**
  * The Command class acts as a base class for sophisticated Commands to perform
@@ -11,11 +15,13 @@
  * atomic Command, which can be easily executed by the GameBoard. It acts as a
  * base template for any move to be represented in a way that GameBoard can
  * Execute without knowing specifically what type of move it is executing and is
- * expecting.
+ * expecting. The Command class is also an "Originator" in the Memento file
+ * pattern.
  */
 class Command {
  public:
   typedef Tile* TilePtr;
+  typedef SaveGame* SaveGamePtr;
   /**
    * Command Constructor.
    */
@@ -46,6 +52,17 @@ class Command {
    * in any Derived Command class.
    */
   virtual void Undo() = 0;
+
+  /**
+   * Adds Game to be part of the SaveGame memento class.
+   */
+  virtual void AddToSaveGame(SaveGamePtr) = 0;
+
+  /**
+   * Restores a Command from a string sequence that was previously saved
+   * via AddToSaveGame.
+   */
+  virtual Command* RestoreFromSave(std::string save) = 0;
 
  protected:
   /**

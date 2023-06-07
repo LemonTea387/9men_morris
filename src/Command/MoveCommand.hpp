@@ -30,6 +30,9 @@ class MoveCommand : public Command {
    */
   ~MoveCommand();
 
+  virtual void AddToSaveGame(SaveGamePtr) override;
+  virtual Command* RestoreFromSave(std::string save) override;
+
  private:
   /**
    * The Tile to move tokens from.
