@@ -82,6 +82,7 @@ if(MSVC)
   # Microsoft Documentation recommends these two lines
   # for having better debugging experience
   # Source: https://learn.microsoft.com/en-us/cpp/build/cmake-projects-in-visual-studio?view=msvc-170#edit-and-continue-for-cmake-projects
+  target_compile_features(EverythingNMM PRIVATE cxx_std_17)
   target_compile_options(EverythingNMM PUBLIC "/ZI")
   target_link_options(EverythingNMM PUBLIC "/INCREMENTAL")
 
