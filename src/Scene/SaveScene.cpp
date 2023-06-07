@@ -1,11 +1,13 @@
 #include "SaveScene.hpp"
 
 #include <filesystem>
+#include <iostream>
 #include <memory>
 #include <string>
 
 #include "../AssetManager.hpp"
 #include "../Game.hpp"
+#include "../SaveGame.hpp"
 
 inline bool exists(const std::string& name) {
   return std::filesystem::exists(name);
@@ -21,9 +23,10 @@ void SaveScene::Update(sf::Event event) {
 
 void SaveScene::Render(sf::RenderWindow& window) { Scene::Render(window); }
 
-SaveScene::SaveScene()
+SaveScene::SaveScene(SaveGame* savegame)
     : m_MenuButton{"Back", [&](sf::Event e) { m_IsKilled = true; }},
-      m_IsKilled{false} {
+      m_IsKilled{false},
+      m_SaveGame(savegame) {
   auto width = Game::WINDOW_WIDTH;
   auto height = Game::WINDOW_HEIGHT;
 
@@ -39,11 +42,19 @@ SaveScene::SaveScene()
   // Save slot buttons
   for (int i = 0; i < Game::SAVE_NUM; i++) {
     std::string filename = "./save/save" + std::to_string(i) + ".txt";
+    std::string buttonText = "";
     // Try opening file
     if (!exists(filename)) {
-      filename = "Empty";
+      buttonText = "Empty";
+    } else {
+      buttonText = "Savegame #" + std::to_string(i);
     }
-    m_SaveButtons.push_back(std::make_unique<graphics::Button>(filename));
+    m_SaveButtons.push_back(std::make_unique<graphics::Button>(
+        buttonText, [buttonText, filename, this](sf::Event e) {
+          std::cout << "Going to save to " << filename << std::endl;
+          this->m_SaveGame->SaveGameFile(filename);
+          this->m_IsKilled = true;
+        }));
     m_SaveButtons.back()->setPosition(
         sf::Vector2f(width * 0.5 - m_SaveButtons.back()->getSize().x / 2 + 15.,
                      height * 0.35 + i * 75));

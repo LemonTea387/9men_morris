@@ -147,6 +147,8 @@ class GameBoard {
 
   void LoadSave(const std::string& savegame);
 
+  SaveGame* GetSaveGame() { return m_SaveGame.get(); }
+
  private:
   /**
    * Board representation, current one uses 7x7 matrix with empty tiles just
@@ -246,6 +248,7 @@ class GameBoard {
    * SaveGame file of the current game.
    */
   std::unique_ptr<SaveGame> m_SaveGame;
+
   friend class SaveGame;
 };
 

@@ -4,12 +4,13 @@
 #include "Scene.hpp"
 #include "ui/Button.hpp"
 
+class SaveGame;
 class SaveScene : public Scene {
  public:
   /**
    * SaveScene Constructor.
    */
-  SaveScene();
+  SaveScene(SaveGame* savegame);
 
   /**
    * SaveScene Destructor.
@@ -31,6 +32,7 @@ class SaveScene : public Scene {
 
   bool m_IsKilled;
   graphics::Button m_MenuButton;
+  SaveGame* m_SaveGame;
   std::vector<std::unique_ptr<graphics::Button>> m_SaveButtons;
 };
 

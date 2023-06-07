@@ -11,11 +11,7 @@
 GameScene::~GameScene() {}
 
 GameScene::GameScene()
-    : m_SaveButton{"Save",
-                   [&](sf::Event e) {
-                     Game::GetInstance().PushScene(
-                         std::make_unique<SaveScene>());
-                   }},
+    : m_SaveButton{"Save"},
       m_UndoButton{"Undo", [&](sf::Event e) { m_GameBoard->UndoCommand(); }},
       m_QuitButton{"Quit",
                    [&](sf::Event e) {
@@ -24,6 +20,10 @@ GameScene::GameScene()
                      m_IsKilled = true;
                    }},
       m_GameBoard(std::make_unique<GameBoard>()) {
+  m_SaveButton.setCallback([&](sf::Event e) {
+    Game::GetInstance().PushScene(
+        std::make_unique<SaveScene>(m_GameBoard->GetSaveGame()));
+  });
   AssetManager& assMan = AssetManager::GetInstance();
 
   auto btnTexture = assMan.GetTexture(GameAsset::BUTTON).get();
