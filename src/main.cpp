@@ -2,11 +2,7 @@
 
 #include "Game.hpp"
 
-#ifdef _MSC_VER
-int WinMain() {
-#else
 int main(int argc, char* argv[]) {
-#endif
 
   try {
     Game::GetInstance().Run();
