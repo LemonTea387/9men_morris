@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 option(SHOW_TERMINAL "Displays the terminal on Windows" ON)
+option(ENABLE_TESTS "Enables Tests for the Project to be built" OFF)
 
 project(
   EverythingNMM
@@ -19,14 +20,16 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(SFML)
 
+if(ENABLE_TESTS)
 # Fetch Google Testing library
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-)
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
+  include(FetchContent)
+  FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+  )
+  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(googletest)
+endif()
 
 add_executable(EverythingNMM 
   src/main.cpp
@@ -95,4 +98,6 @@ endif()
 target_compile_features(EverythingNMM PRIVATE cxx_std_17)
 target_link_libraries(EverythingNMM sfml-graphics)
 
-add_subdirectory(tests)
+if(ENABLE_TESTS)
+  add_subdirectory(tests)
+endif()
