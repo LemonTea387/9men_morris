@@ -27,8 +27,10 @@ void PlaceCommand::Undo() {
 }
 void PlaceCommand::AddToSaveGame(SaveGamePtr sg) {
   std::stringstream out;
+  out << "PLACE ";
   out << m_AffectedTile->serialize();
-  out << m_Player->left << m_Player->placed << m_Player->occupation;
-  sg->AddToSave(out.str(), this);
+  out << m_Player->left << " " << m_Player->placed << " "
+      << m_Player->occupation;
+  sg->AddToSave(out.str());
 }
 void PlaceCommand::RestoreFromSave(std::string save) {}

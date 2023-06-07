@@ -8,6 +8,8 @@
 #include "Observer/MillObserver.hpp"
 #include "Observer/WinObserver.hpp"
 #include "SFML/System/Vector2.hpp"
+#include "SFML/Window/Keyboard.hpp"
+#include "SaveGame.hpp"
 
 namespace {
 /**
@@ -84,6 +86,8 @@ GameBoard::GameBoard()
         << "[WARNING] Could not load Fragment Shader for TokenLeft display!"
         << std::endl;
   }
+
+  m_SaveGame = std::make_unique<SaveGame>(&m_CommandsHistory);
 }
 
 GameBoard::~GameBoard() {}
@@ -95,6 +99,11 @@ void GameBoard::Update(sf::Event event) {
       if (tile != nullptr) {
         tile->notifyListeners(event);
       }
+  }
+
+  // Debug Save
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+    m_SaveGame->SaveGameFile("debug_savegame.txt");
   }
 
   // Command executed
@@ -147,6 +156,9 @@ void GameBoard::ExecuteCommand(Command* command) {
     observer->Notify(command->GetAffectedTile());
   }
 
+  // Add command to Savegame
+  command->AddToSaveGame(m_SaveGame.get());
+
   // Store command in command history
   m_CommandsHistory.push(std::unique_ptr<Command>(command));
 
@@ -163,6 +175,9 @@ void GameBoard::UndoCommand() {
 
   // Remove the command
   m_CommandsHistory.pop();
+
+  // Remove command from Savegame
+  m_SaveGame->PopSavedCommand();
 
   // Calculate the state of the previous command
   // Pass to observers

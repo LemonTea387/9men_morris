@@ -111,8 +111,7 @@ TileCoord Tile::GetTileCoord() const { return m_Coord; };
 
 std::string Tile::serialize() {
   std::stringstream out;
-  out << "TILE";
-  out << m_Coord.first << " " << m_Coord.second;
-  out << m_Highlight;
+  out << "TILE ";
+  out << m_Coord.first << " " << m_Coord.second << " " << m_Highlight << " ";
   return out.str();
 }

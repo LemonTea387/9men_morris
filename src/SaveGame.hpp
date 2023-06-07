@@ -1,5 +1,7 @@
 #ifndef SAVE_GAME_H
 #define SAVE_GAME_H
+#include <memory>
+#include <stack>
 #include <string>
 #include <vector>
 
@@ -9,19 +11,21 @@ class Command;
  */
 class SaveGame {
  private:
-  std::vector<Command*> m_Commands;
-  std::string m_FileContents;
+  typedef std::unique_ptr<Command> CommandPtr;
+  typedef std::stack<CommandPtr> CommandPtrStack;
+  CommandPtrStack* m_Commands;
+  std::vector<std::string> m_FileContents;
 
   void AddCommandFromString(const std::string& line);
 
  public:
-  void AddToSave(const std::string& serialised, Command* command);
+  void AddToSave(const std::string& serialised);
+  void PopSavedCommand();
   void LoadFromSave(const std::string& filename);
   void SaveGameFile(const std::string& filename);
 
-  std::vector<Command*> GetCommands() const { return m_Commands; }
-  std::string GetFileContents() const { return m_FileContents; }
-  SaveGame();
+  std::vector<std::string> GetFileContents() const { return m_FileContents; }
+  SaveGame(std::stack<std::unique_ptr<Command>>* cps);
   ~SaveGame();
 };
 

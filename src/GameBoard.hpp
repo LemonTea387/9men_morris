@@ -12,6 +12,8 @@
 #include "Player.hpp"
 #include "Tile.hpp"
 
+class SaveGame;
+
 /**
  * GameBoard is the representation of the 9 Men's Morris gameboard, it is
  * responsible for the 9 Men's Morris game to run. The GameBoard handles
@@ -229,7 +231,12 @@ class GameBoard {
   /**
    * Progresses the turn, which changes the game state and conditionally turn.
    */
-  void ProgressTurn(bool reverse=false);
+  void ProgressTurn(bool reverse = false);
+
+  /**
+   * SaveGame file of the current game.
+   */
+  std::unique_ptr<SaveGame> m_SaveGame;
 };
 
 #endif
