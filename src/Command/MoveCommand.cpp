@@ -12,6 +12,10 @@ MoveCommand::MoveCommand(TilePtr srcTile, TilePtr dstTile, Player* player)
 MoveCommand::~MoveCommand() {}
 
 void MoveCommand::Execute() {
+  std::cout << "Move from " << m_SrcTile->GetTileCoord().first << ","
+            << m_SrcTile->GetTileCoord().second << " to ";
+  std::cout << m_AffectedTile->GetTileCoord().first << ","
+            << m_AffectedTile->GetTileCoord().second << std::endl;
   // Check to see if source Tile is valid and it has tokens.
   if (!m_SrcTile || !(m_SrcTile->HasToken())) return;
   m_SrcTile->MoveToken(m_AffectedTile);
@@ -28,9 +32,9 @@ void MoveCommand::AddToSaveGame(SaveGamePtr sg) {
   sg->AddToSave(out.str());
 }
 void MoveCommand::RestoreFromSave(std::string save, GameBoard* gb) {
+  std::cout << "Parsing string " << save << std::endl;
   std::stringstream instream(save);
   std::string magic;
-  instream >> magic;
   const auto magic_assert = [&](std::string comparison) {
     if (magic != comparison) {
       std::cerr << "Savegame Invalid command " << magic << " when expected "
@@ -38,6 +42,7 @@ void MoveCommand::RestoreFromSave(std::string save, GameBoard* gb) {
       return;
     }
   };
+  instream >> magic;
   magic_assert("MOVE");
   instream >> magic;
 
@@ -48,15 +53,18 @@ void MoveCommand::RestoreFromSave(std::string save, GameBoard* gb) {
   instream >> xCoord;
   instream >> yCoord;
   instream >> highlighted;
+  std::cout << "Loaded Move from " << xCoord << ", " << yCoord << " to ";
 
   Tile* tile = gb->GetTile(xCoord, yCoord);
   m_SrcTile = tile;
 
   // Retrieve dest tile
+  instream >> magic;
   magic_assert("TILE");
   instream >> xCoord;
   instream >> yCoord;
   instream >> highlighted;
+  std::cout << xCoord << ", " << yCoord << std::endl;
 
   tile = gb->GetTile(xCoord, yCoord);
   m_AffectedTile = tile;
