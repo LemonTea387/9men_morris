@@ -2,10 +2,11 @@
 #define TEXTFIELD_H
 
 #include <SFML/Graphics.hpp>
+#include <memory>
 #include <string>
 
-#include "UI.hpp"
 #include "OnClickEventListener.hpp"
+#include "UI.hpp"
 
 namespace graphics {
 class TextField : public UI {
