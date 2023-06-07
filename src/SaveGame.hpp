@@ -16,6 +16,9 @@ class SaveGame {
   void AddToSave(const std::string& serialised, Command* command);
   void LoadFromSave(const std::string& filename);
   void SaveGameFile(const std::string& filename);
+
+  std::vector<Command*> GetCommands() const { return m_Commands; }
+  std::string GetFileContents() const { return m_FileContents; }
   SaveGame();
   ~SaveGame();
 };
