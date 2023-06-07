@@ -8,13 +8,8 @@
 #include "Observer/MillObserver.hpp"
 #include "Observer/WinObserver.hpp"
 #include "SFML/System/Vector2.hpp"
-#include "SFML/Window/Keyboard.hpp"
-#include "SaveGame.hpp"
 
 namespace {
-
-bool q_pressed = false;
-bool w_pressed = false;
 
 /**
  * Constants for positioning the drawing of the remaining placement tokens of
@@ -90,8 +85,6 @@ GameBoard::GameBoard()
         << "[WARNING] Could not load Fragment Shader for TokenLeft display!"
         << std::endl;
   }
-
-  m_SaveGame = std::make_unique<SaveGame>(this);
 }
 
 GameBoard::~GameBoard() {}
@@ -105,26 +98,6 @@ void GameBoard::Update(sf::Event event) {
       }
   }
 
-  // Debug Save
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-    q_pressed = true;
-  } else {
-    if (q_pressed == true) {
-      q_pressed = false;
-      m_SaveGame->SaveGameFile("debug_savegame.txt");
-    }
-  }
-
-  // Debug Load
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-    w_pressed = true;
-  } else {
-    if (w_pressed == true) {
-      w_pressed = false;
-      m_SaveGame->LoadFromSave("debug_savegame.txt");
-    }
-  }
-
   // Command executed
   if (m_ProgressTurn) {
     ProgressTurn();
@@ -133,10 +106,6 @@ void GameBoard::Update(sf::Event event) {
     // Highlight the current turn's valid moves.
     HighlightValidMoves();
   }
-}
-void GameBoard::LoadSave(const std::string& savegame) {
-  std::cout << "Gameboard Loading from " << savegame << std::endl;
-  m_SaveGame->LoadFromSave(savegame);
 }
 
 void GameBoard::Render(sf::RenderWindow& window) {

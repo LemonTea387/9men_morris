@@ -8,6 +8,7 @@
 #include "Scene.hpp"
 #include "ui/Button.hpp"
 class GameBoard;
+class SaveGame;
 
 /**
  * The Scene for the gameplay. GameScene creates a game with GameBoard and
@@ -15,6 +16,11 @@ class GameBoard;
  */
 class GameScene : public Scene {
  private:
+  /**
+   * SaveGame file of the current game
+   */
+  std::unique_ptr<SaveGame> m_SaveGame;
+
   /**
    * Updates the Text and Icon to show the name and icon of the current turn's
    * Player icon and name.

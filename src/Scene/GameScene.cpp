@@ -6,6 +6,7 @@
 #include "../AssetManager.hpp"
 #include "../Game.hpp"
 #include "../GameBoard.hpp"
+#include "../SaveGame.hpp"
 #include "SaveScene.hpp"
 
 GameScene::~GameScene() {}
@@ -20,9 +21,11 @@ GameScene::GameScene()
                      m_IsKilled = true;
                    }},
       m_GameBoard(std::make_unique<GameBoard>()) {
-  m_SaveButton.setCallback([&](sf::Event e) {
+  m_SaveGame = std::make_unique<SaveGame>(m_GameBoard.get());
+
+  m_SaveButton.setCallback([this](sf::Event e) {
     Game::GetInstance().PushScene(
-        std::make_unique<SaveScene>(m_GameBoard->GetSaveGame()));
+        std::make_unique<SaveScene>(m_SaveGame.get()));
   });
   AssetManager& assMan = AssetManager::GetInstance();
 
@@ -96,7 +99,8 @@ GameScene::GameScene()
 #include <iostream>
 GameScene::GameScene(const std::string& savegame) : GameScene() {
   std::cout << "GameScene Load Save " << savegame << std::endl;
-  m_GameBoard->LoadSave(savegame);
+  m_SaveGame->LoadFromSave(savegame);
+  UpdateTextAndIcons();
 }
 
 void GameScene::UpdateTextAndIcons() {
