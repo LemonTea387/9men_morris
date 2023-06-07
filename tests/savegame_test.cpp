@@ -5,15 +5,18 @@
 #include <filesystem>
 #include <fstream>
 
-// MockCommand class
-class Command {
- public:
-  int m_Val;
-  Command(int val) : m_Val(val) {}
-  ~Command() {}
-};
+#include "../src/Command/Command.hpp"
+#include "../src/GameBoard.hpp"
+#include "../src/SaveGame.hpp"
 
-TEST(SaveGameTest, AddingSingleCommandToSave) {}
+typedef std::stack<std::unique_ptr<Command>> CommandStack;
+
+TEST(SaveGameTest, AddingSingleCommandToSave) {
+  std::stack<std::unique_ptr<Command>> cs;
+  GameBoard gb;
+  SaveGame sg(&cs, &gb);
+  ASSERT_EQ(sg.GetFileContents().size(), 0);
+}
 
 TEST(SaveGameTest, AddingMultipleCommandsToSave) {}
 
