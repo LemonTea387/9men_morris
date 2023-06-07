@@ -5,6 +5,7 @@
 
 #include "../AssetManager.hpp"
 #include "../Game.hpp"
+#include "GameScene.hpp"
 
 inline bool exists(const std::string& name) {
   return std::filesystem::exists(name);
@@ -20,6 +21,7 @@ void LoadScene::Update(sf::Event event) {
 
 void LoadScene::Render(sf::RenderWindow& window) { Scene::Render(window); }
 
+#include <iostream>
 LoadScene::LoadScene()
     : m_MenuButton{"Menu", [&](sf::Event e) { m_IsKilled = true; }},
       m_IsKilled{false} {
@@ -36,11 +38,22 @@ LoadScene::LoadScene()
   // Save slot buttons
   for (int i = 0; i < Game::SAVE_NUM; i++) {
     std::string filename = "./save/save" + std::to_string(i) + ".txt";
+    std::string buttonText = "";
     // Try opening file
     if (!exists(filename)) {
-      filename = "Empty";
+      buttonText = "Empty";
+    } else {
+      buttonText = "Savegame #" + std::to_string(i);
     }
-    m_LoadButtons.push_back(std::make_unique<graphics::Button>(filename));
+    m_LoadButtons.push_back(std::make_unique<graphics::Button>(
+        buttonText, [buttonText, filename](sf::Event e) {
+          std::cout << "Button Text: " << buttonText << std::endl;
+          std::cout << "Filename: " << filename << std::endl;
+          if (buttonText != "Empty") {
+            Game::GetInstance().PushScene(
+                std::make_unique<GameScene>(filename));
+          }
+        }));
     m_LoadButtons.back()->setPosition(
         sf::Vector2f(width * 0.5 - m_LoadButtons.back()->getSize().x / 2 + 15.,
                      height * 0.35 + i * 75));

@@ -9,8 +9,6 @@
 #include "Command/MoveCommand.hpp"
 #include "Command/PlaceCommand.hpp"
 
-namespace {}
-
 void SaveGame::AddToSave(const std::string &serialised) {
   m_FileContents.push_back(serialised);
 }
@@ -26,6 +24,7 @@ void SaveGame::LoadFromSave(const std::string &filename) {
   }
 
   std::ifstream inputfile{filename};
+  std::cout << "Loading file " << filename << std::endl;
 
   std::string line;
   while (inputfile) {

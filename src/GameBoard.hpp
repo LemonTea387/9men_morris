@@ -145,6 +145,8 @@ class GameBoard {
     return m_P1.occupation == occupation ? &m_P1 : &m_P2;
   };
 
+  void LoadSave(const std::string& savegame);
+
  private:
   /**
    * Board representation, current one uses 7x7 matrix with empty tiles just

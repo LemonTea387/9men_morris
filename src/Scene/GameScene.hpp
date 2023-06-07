@@ -53,44 +53,49 @@ class GameScene : public Scene {
   sf::Text m_TurnText;
 
   /**
-  * Icon of Player 1
-  */
+   * Icon of Player 1
+   */
   sf::RectangleShape m_PlayerOneIcon;
 
   /**
-  * Icon of Player 2
-  */
+   * Icon of Player 2
+   */
   sf::RectangleShape m_PlayerTwoIcon;
 
   /**
-  * The current turn's (player) icon.
-  */
+   * The current turn's (player) icon.
+   */
   sf::RectangleShape m_TurnIcon;
 
   /**
-  * Player 1's texture, for ease of swapping textures for m_TurnIcon
-  */
+   * Player 1's texture, for ease of swapping textures for m_TurnIcon
+   */
   sf::Texture* m_PlayerOneTexture;
 
   /**
-  * Player 2' texture, for ease of swapping textures for m_TurnIcon
-  */ 
+   * Player 2' texture, for ease of swapping textures for m_TurnIcon
+   */
   sf::Texture* m_PlayerTwoTexture;
 
   /**
-  * The GameBoard that the game is played.
-  */
+   * The GameBoard that the game is played.
+   */
   std::unique_ptr<GameBoard> m_GameBoard;
 
  public:
   /**
-  * GameScene Constructor.
-  */
+   * GameScene Constructor.
+   */
   GameScene();
 
   /**
-  * GameScene Destructor.
-  */
+   * GameScene Constructor from a Savegame file.
+   */
+  GameScene(const std::string& savegame);
+
+  /**
+   * GameScene Destructor.
+   */
   ~GameScene();
 
   virtual void Update(sf::Event event) override;

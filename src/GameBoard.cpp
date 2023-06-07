@@ -134,6 +134,10 @@ void GameBoard::Update(sf::Event event) {
     HighlightValidMoves();
   }
 }
+void GameBoard::LoadSave(const std::string& savegame) {
+  std::cout << "Gameboard Loading from " << savegame << std::endl;
+  m_SaveGame->LoadFromSave(savegame);
+}
 
 void GameBoard::Render(sf::RenderWindow& window) {
   // Draw the board.

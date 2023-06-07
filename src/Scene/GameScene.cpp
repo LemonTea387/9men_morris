@@ -16,10 +16,7 @@ GameScene::GameScene()
                      Game::GetInstance().PushScene(
                          std::make_unique<SaveScene>());
                    }},
-      m_UndoButton{"Undo",
-                   [&](sf::Event e) {
-                      m_GameBoard->UndoCommand();
-                   }},
+      m_UndoButton{"Undo", [&](sf::Event e) { m_GameBoard->UndoCommand(); }},
       m_QuitButton{"Quit",
                    [&](sf::Event e) {
                      // Marks the Scene to be popped and go back to previous
@@ -54,19 +51,19 @@ GameScene::GameScene()
   m_TurnText.setFont(*font);
   m_PlayerOneText.setFont(*font);
   m_PlayerTwoText.setFont(*font);
-  
+
   m_TurnText.setCharacterSize(48);
   m_PlayerOneText.setCharacterSize(32);
   m_PlayerTwoText.setCharacterSize(32);
-  
+
   m_TurnText.setString("Pepe - Place");
   m_PlayerOneText.setString("Pepe");
   m_PlayerTwoText.setString("Doge");
-  
+
   m_TurnIcon.setTexture(m_PlayerOneTexture);
   m_PlayerOneIcon.setTexture(m_PlayerOneTexture);
   m_PlayerTwoIcon.setTexture(m_PlayerTwoTexture);
-  
+
   m_TurnIcon.setSize(sf::Vector2f(115, 115));
   m_PlayerOneIcon.setSize(sf::Vector2f(90, 90));
   m_PlayerTwoIcon.setSize(sf::Vector2f(90, 90));
@@ -83,8 +80,7 @@ GameScene::GameScene()
       sf::Vector2f(Game::WINDOW_WIDTH * 0.25, Game::WINDOW_HEIGHT * 0.83 - 50));
   m_PlayerTwoIcon.setPosition(
       sf::Vector2f(Game::WINDOW_WIDTH * 0.55, Game::WINDOW_HEIGHT * 0.83 - 50));
-  
- 
+
   addDrawable(&m_PlayerOneText);
   addDrawable(&m_PlayerTwoText);
   addDrawable(&m_TurnText);
@@ -96,6 +92,11 @@ GameScene::GameScene()
   addUI(&m_SaveButton);
   addUI(&m_QuitButton);
   addUI(&m_UndoButton);
+}
+#include <iostream>
+GameScene::GameScene(const std::string& savegame) : GameScene() {
+  std::cout << "GameScene Load Save " << savegame << std::endl;
+  m_GameBoard->LoadSave(savegame);
 }
 
 void GameScene::Update(sf::Event event) {
