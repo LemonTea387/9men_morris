@@ -183,7 +183,7 @@ void GameBoard::ExecuteCommand(Command* command) {
   command->AddToSaveGame(m_SaveGame.get());
 
   // Store command in command history
-  m_CommandsHistory.push(std::unique_ptr<Command>(command));
+  m_CommandsHistory.push_back(std::unique_ptr<Command>(command));
 
   // Remove the active selected tile.
   m_ActiveTile = nullptr;
@@ -194,10 +194,10 @@ void GameBoard::ExecuteCommand(Command* command) {
 void GameBoard::UndoCommand() {
   if (m_CommandsHistory.empty()) return;
   // Calls to undo
-  m_CommandsHistory.top()->Undo();
+  m_CommandsHistory.back()->Undo();
 
   // Remove the command
-  m_CommandsHistory.pop();
+  m_CommandsHistory.pop_back();
 
   // Remove command from Savegame
   m_SaveGame->PopSavedCommand();
@@ -206,7 +206,7 @@ void GameBoard::UndoCommand() {
   // Pass to observers
   if (!m_CommandsHistory.empty()) {
     for (const auto& observer : m_Observers) {
-      observer->Notify(m_CommandsHistory.top()->GetAffectedTile());
+      observer->Notify(m_CommandsHistory.back()->GetAffectedTile());
     }
   }
 

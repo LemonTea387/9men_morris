@@ -16,6 +16,12 @@ class GameBoard;
 class GameScene : public Scene {
  private:
   /**
+   * Updates the Text and Icon to show the name and icon of the current turn's
+   * Player icon and name.
+   */
+  void UpdateTextAndIcons();
+
+  /**
    * Stores the Previous turn the gameboard has played, this is to keep track of
    * the changes to the turns which if no change to turn we would not have to
    * perform an expensive texture change when displaying turns.

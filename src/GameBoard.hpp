@@ -164,7 +164,7 @@ class GameBoard {
   /**
    * The Command history of this current game.
    */
-  std::stack<std::unique_ptr<Command>> m_CommandsHistory;
+  std::vector<std::unique_ptr<Command>> m_CommandsHistory;
 
   /**
    * The main GameBoard texture is drawn on this RectangleShape

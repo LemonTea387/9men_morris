@@ -50,6 +50,7 @@ LoadScene::LoadScene()
           std::cout << "Button Text: " << buttonText << std::endl;
           std::cout << "Filename: " << filename << std::endl;
           if (buttonText != "Empty") {
+            Game::GetInstance().PopScene();
             Game::GetInstance().PushScene(
                 std::make_unique<GameScene>(filename));
           }

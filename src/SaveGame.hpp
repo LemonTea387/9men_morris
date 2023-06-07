@@ -13,7 +13,7 @@ class GameBoard;
 class SaveGame {
  private:
   typedef std::unique_ptr<Command> CommandPtr;
-  typedef std::stack<CommandPtr> CommandPtrStack;
+  typedef std::vector<CommandPtr> CommandPtrStack;
   CommandPtrStack* m_Commands;
   GameBoard* m_GameBoard;
   std::vector<std::string> m_FileContents;
@@ -27,7 +27,7 @@ class SaveGame {
   void SaveGameFile(const std::string& filename);
 
   std::vector<std::string> GetFileContents() const { return m_FileContents; }
-  SaveGame(std::stack<std::unique_ptr<Command>>* cps, GameBoard* gb);
+  SaveGame(std::vector<std::unique_ptr<Command>>* cps, GameBoard* gb);
   ~SaveGame();
 };
 

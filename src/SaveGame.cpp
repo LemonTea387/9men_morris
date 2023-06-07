@@ -20,8 +20,8 @@ void SaveGame::LoadFromSave(const std::string &filename) {
   // Clear string and stack
   m_FileContents.clear();
   while (!m_Commands->empty()) {
-    m_Commands->top()->Undo();
-    m_Commands->pop();
+    m_Commands->back()->Undo();
+    m_Commands->pop_back();
   }
 
   std::ifstream inputfile{filename};
@@ -58,8 +58,8 @@ void SaveGame::AddCommandFromString(const std::string &line) {
   }
   std::cout << "Line: " << line << "\n";
   command->RestoreFromSave(line, m_GameBoard);
-  m_Commands->push(std::unique_ptr<Command>(command));
-  m_Commands->top()->Execute();
+  m_Commands->push_back(std::unique_ptr<Command>(command));
+  m_Commands->back()->Execute();
   m_GameBoard->ProgressTurn();
   m_GameBoard->HighlightValidMoves();
 }
@@ -75,6 +75,6 @@ void SaveGame::SaveGameFile(const std::string &filename) {
   for (const auto s : m_FileContents) outfile << s << "\n";
 }
 
-SaveGame::SaveGame(std::stack<std::unique_ptr<Command>> *cps, GameBoard *gb)
+SaveGame::SaveGame(std::vector<std::unique_ptr<Command>> *cps, GameBoard *gb)
     : m_Commands(cps), m_GameBoard(gb) {}
 SaveGame::~SaveGame() {}

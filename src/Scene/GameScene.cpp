@@ -99,14 +99,7 @@ GameScene::GameScene(const std::string& savegame) : GameScene() {
   m_GameBoard->LoadSave(savegame);
 }
 
-void GameScene::Update(sf::Event event) {
-  Scene::Update(event);
-  if (m_IsKilled) {
-    Game::GetInstance().PopScene();
-    return;
-  }
-  m_GameBoard->Update(event);
-
+void GameScene::UpdateTextAndIcons() {
   // Change texture of icon if turns differ
   if (m_PrevTurn != m_GameBoard->GetCurrPlayer()->occupation) {
     m_PrevTurn = m_GameBoard->GetCurrPlayer()->occupation;
@@ -130,6 +123,16 @@ void GameScene::Update(sf::Event event) {
       break;
   }
   m_TurnText.setString(turn);
+}
+
+void GameScene::Update(sf::Event event) {
+  Scene::Update(event);
+  if (m_IsKilled) {
+    Game::GetInstance().PopScene();
+    return;
+  }
+  m_GameBoard->Update(event);
+  UpdateTextAndIcons();
 }
 
 void GameScene::Render(sf::RenderWindow& window) {
