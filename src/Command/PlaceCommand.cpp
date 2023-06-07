@@ -41,7 +41,8 @@ void PlaceCommand::RestoreFromSave(std::string save, GameBoard* gb) {
   instream >> magic;
   const auto magic_assert = [&](std::string comparison) {
     if (magic != comparison) {
-      std::cerr << "Savegame Invalid command " << magic << "!" << std::endl;
+      std::cerr << "Savegame Invalid command " << magic << " when expected "
+                << comparison << "!" << std::endl;
       return;
     }
   };

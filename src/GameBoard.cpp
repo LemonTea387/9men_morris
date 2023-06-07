@@ -12,6 +12,10 @@
 #include "SaveGame.hpp"
 
 namespace {
+
+bool q_pressed = false;
+bool w_pressed = false;
+
 /**
  * Constants for positioning the drawing of the remaining placement tokens of
  * DOGE.
@@ -103,12 +107,22 @@ void GameBoard::Update(sf::Event event) {
 
   // Debug Save
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-    m_SaveGame->SaveGameFile("debug_savegame.txt");
+    q_pressed = true;
+  } else {
+    if (q_pressed == true) {
+      q_pressed = false;
+      m_SaveGame->SaveGameFile("debug_savegame.txt");
+    }
   }
 
   // Debug Load
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-    m_SaveGame->LoadFromSave("debug_savegame.txt");
+    w_pressed = true;
+  } else {
+    if (w_pressed == true) {
+      w_pressed = false;
+      m_SaveGame->LoadFromSave("debug_savegame.txt");
+    }
   }
 
   // Command executed

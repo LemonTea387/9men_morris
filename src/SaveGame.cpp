@@ -4,7 +4,9 @@
 #include <iostream>
 #include <sstream>
 
+#include "Command/CaptureCommand.hpp"
 #include "Command/Command.hpp"
+#include "Command/MoveCommand.hpp"
 #include "Command/PlaceCommand.hpp"
 
 namespace {}
@@ -16,7 +18,8 @@ void SaveGame::AddToSave(const std::string &serialised) {
 void SaveGame::PopSavedCommand() { m_FileContents.pop_back(); }
 
 void SaveGame::LoadFromSave(const std::string &filename) {
-  // Clear stack
+  // Clear string and stack
+  m_FileContents.clear();
   while (!m_Commands->empty()) {
     m_Commands->top()->Undo();
     m_Commands->pop();
@@ -28,6 +31,7 @@ void SaveGame::LoadFromSave(const std::string &filename) {
   while (inputfile) {
     std::getline(inputfile, line);
     if (line.size() > 0) {
+      m_FileContents.push_back(line);
       AddCommandFromString(line);
     }
   }
@@ -36,13 +40,26 @@ void SaveGame::LoadFromSave(const std::string &filename) {
 void SaveGame::AddCommandFromString(const std::string &line) {
   std::stringstream stream;
   stream << line;
-  if (line.at(0) == 'P') {
-    Command *command = new PlaceCommand(nullptr, nullptr);
-    std::cout << "Line: " << line << "\n";
-    command->RestoreFromSave(line, m_GameBoard);
-    m_Commands->push(std::unique_ptr<Command>(command));
-    m_Commands->top()->Execute();
+  Command *command;
+
+  switch (line.at(0)) {
+    case 'P':
+      command = new PlaceCommand(nullptr, nullptr);
+      break;
+    case 'C':
+      command = new CaptureCommand(nullptr, nullptr);
+      break;
+    case 'M':
+      command = new MoveCommand(nullptr, nullptr, nullptr);
+      break;
+
+    default:
+      return;
   }
+  std::cout << "Line: " << line << "\n";
+  command->RestoreFromSave(line, m_GameBoard);
+  m_Commands->push(std::unique_ptr<Command>(command));
+  m_Commands->top()->Execute();
 }
 
 void SaveGame::SaveGameFile(const std::string &filename) {

@@ -1,5 +1,11 @@
 #include "MoveCommand.hpp"
 
+#include <iostream>
+#include <sstream>
+
+#include "../GameBoard.hpp"
+#include "../SaveGame.hpp"
+
 MoveCommand::MoveCommand(TilePtr srcTile, TilePtr dstTile, Player* player)
     : Command::Command(dstTile, player), m_SrcTile{srcTile} {}
 
@@ -12,5 +18,55 @@ void MoveCommand::Execute() {
 }
 
 void MoveCommand::Undo() { m_AffectedTile->MoveToken(m_SrcTile); }
-void MoveCommand::AddToSaveGame(SaveGamePtr) {}
-void MoveCommand::RestoreFromSave(std::string save, GameBoard* gb) {}
+void MoveCommand::AddToSaveGame(SaveGamePtr sg) {
+  std::stringstream out;
+  out << "MOVE ";
+  out << m_SrcTile->serialize();
+  out << m_AffectedTile->serialize();
+  out << m_Player->left << " " << m_Player->placed << " "
+      << m_Player->occupation;
+  sg->AddToSave(out.str());
+}
+void MoveCommand::RestoreFromSave(std::string save, GameBoard* gb) {
+  std::stringstream instream(save);
+  std::string magic;
+  instream >> magic;
+  const auto magic_assert = [&](std::string comparison) {
+    if (magic != comparison) {
+      std::cerr << "Savegame Invalid command " << magic << " when expected "
+                << comparison << "!" << std::endl;
+      return;
+    }
+  };
+  magic_assert("MOVE");
+  instream >> magic;
+
+  // Retrieve src tile
+  magic_assert("TILE");
+  int xCoord, yCoord;
+  bool highlighted;
+  instream >> xCoord;
+  instream >> yCoord;
+  instream >> highlighted;
+
+  Tile* tile = gb->GetTile(xCoord, yCoord);
+  m_SrcTile = tile;
+
+  // Retrieve dest tile
+  magic_assert("TILE");
+  instream >> xCoord;
+  instream >> yCoord;
+  instream >> highlighted;
+
+  tile = gb->GetTile(xCoord, yCoord);
+  m_AffectedTile = tile;
+
+  // retrieve player
+  int left, placed;
+  int occupation;
+  instream >> left;
+  instream >> placed;
+  instream >> occupation;
+  // Safe cast since enums are just ints under the hood anyway.
+  m_Player = gb->GetPlayer(static_cast<Token::Occupation>(occupation));
+}
