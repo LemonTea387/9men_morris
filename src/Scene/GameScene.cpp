@@ -64,6 +64,7 @@ GameScene::GameScene()
   m_PlayerOneText.setCharacterSize(32);
   m_PlayerTwoText.setCharacterSize(32);
 
+  // Default values, may want to extract it to constants
   m_TurnText.setString("Pepe - Place");
   m_PlayerOneText.setString("Pepe");
   m_PlayerTwoText.setString("Doge");
@@ -148,6 +149,7 @@ void GameScene::Update(sf::Event event) {
 
 void GameScene::Render(sf::RenderWindow& window) {
   Scene::Render(window);
+  // Only show rainbow effect when in capture phase
   if (m_GameBoard->GetState() == GameBoard::CAPTURE) {
     m_IconShader.setUniform(
         "elapsedTime", (float)localClock.getElapsedTime().asMilliseconds());
@@ -155,6 +157,7 @@ void GameScene::Render(sf::RenderWindow& window) {
     window.draw(m_TurnIcon, &m_IconShader);
     window.draw(m_TurnText, &m_IconShader);
   } else {
+    // Or else draw normally
     window.draw(m_TurnIcon);
     window.draw(m_TurnText);
   }
