@@ -69,8 +69,6 @@ add_executable(EverythingNMM
   src/GameBoard.cpp
   src/Scene/ui/Button.hpp
   src/Scene/ui/Button.cpp
-  src/Scene/ui/TextField.hpp
-  
   src/GameBoardUtils.hpp
   src/GameBoardUtils.cpp
   src/AssetManager.hpp
