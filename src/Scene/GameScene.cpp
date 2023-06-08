@@ -1,5 +1,6 @@
 #include "GameScene.hpp"
 
+#include <iostream>
 #include <memory>
 #include <string>
 
@@ -8,6 +9,10 @@
 #include "../GameBoard.hpp"
 #include "../SaveGame.hpp"
 #include "SaveScene.hpp"
+
+namespace {
+sf::Clock localClock;
+}
 
 GameScene::~GameScene() {}
 
@@ -86,17 +91,19 @@ GameScene::GameScene()
 
   addDrawable(&m_PlayerOneText);
   addDrawable(&m_PlayerTwoText);
-  addDrawable(&m_TurnText);
 
   addDrawable(&m_PlayerOneIcon);
   addDrawable(&m_PlayerTwoIcon);
-  addDrawable(&m_TurnIcon);
 
   addUI(&m_SaveButton);
   addUI(&m_QuitButton);
   addUI(&m_UndoButton);
+
+  if (!m_IconShader.loadFromFile("assets/shaders/PlayerIcon.frag",
+                                 sf::Shader::Fragment)) {
+    std::cerr << "Could not load PlayerIcon fragment shader!" << std::endl;
+  }
 }
-#include <iostream>
 GameScene::GameScene(const std::string& savegame) : GameScene() {
   std::cout << "GameScene Load Save " << savegame << std::endl;
   m_SaveGame->LoadFromSave(savegame);
@@ -141,5 +148,10 @@ void GameScene::Update(sf::Event event) {
 
 void GameScene::Render(sf::RenderWindow& window) {
   Scene::Render(window);
+  m_IconShader.setUniform("elapsedTime",
+                          (float)localClock.getElapsedTime().asMilliseconds());
+  m_IconShader.setUniform("texture", sf::Shader::CurrentTexture);
+  window.draw(m_TurnIcon, &m_IconShader);
+  window.draw(m_TurnText, &m_IconShader);
   m_GameBoard->Render(window);
 }

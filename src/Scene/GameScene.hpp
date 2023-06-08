@@ -94,6 +94,11 @@ class GameScene : public Scene {
    */
   std::unique_ptr<GameBoard> m_GameBoard;
 
+  /**
+   * Shader for the Player Icon
+   */
+  sf::Shader m_IconShader;
+
  public:
   /**
    * GameScene Constructor.
