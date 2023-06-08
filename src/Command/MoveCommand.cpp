@@ -19,7 +19,8 @@ void MoveCommand::Execute() {
 
 void MoveCommand::Undo() { m_AffectedTile->MoveToken(m_SrcTile); }
 void MoveCommand::AddToSaveGame(SaveGamePtr sg) {
-  // MOVE [src_tile] [dest_tile] [player-left] [player-placed] [player-occupation]
+  // MOVE [src_tile] [dest_tile] [player-left] [player-placed]
+  // [player-occupation]
   std::stringstream out;
   out << "MOVE ";
   out << m_SrcTile->serialize();
@@ -59,7 +60,6 @@ void MoveCommand::RestoreFromSave(std::string save, GameBoard* gb) {
   instream >> xCoord;
   instream >> yCoord;
   instream >> highlighted;
-  std::cout << xCoord << ", " << yCoord << std::endl;
 
   tile = gb->GetTile(xCoord, yCoord);
   m_AffectedTile = tile;

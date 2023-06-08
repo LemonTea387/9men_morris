@@ -106,7 +106,6 @@ GameScene::GameScene()
   }
 }
 GameScene::GameScene(const std::string& savegame) : GameScene() {
-  std::cout << "GameScene Load Save " << savegame << std::endl;
   m_SaveGame->LoadFromSave(savegame);
   UpdateTextAndIcons(true);
 }
