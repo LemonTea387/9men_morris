@@ -2,6 +2,9 @@
 #define SERIALIZABLE_H
 #include <string>
 class Serializable {
+  /**
+   * The object should serialize itself into string.
+   */
   virtual std::string serialize() = 0;
 };
 
