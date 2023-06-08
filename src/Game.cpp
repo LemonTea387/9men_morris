@@ -37,6 +37,7 @@ void Game::Run() {
   //
   if (m_BackgroundMusic.openFromFile("assets/sounds/background.ogg")) {
     m_BackgroundMusic.setLoop(true);
+    m_BackgroundMusic.setVolume(20.f);
     m_BackgroundMusic.play();
   }
 
