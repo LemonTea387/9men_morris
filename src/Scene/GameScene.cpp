@@ -148,10 +148,15 @@ void GameScene::Update(sf::Event event) {
 
 void GameScene::Render(sf::RenderWindow& window) {
   Scene::Render(window);
-  m_IconShader.setUniform("elapsedTime",
-                          (float)localClock.getElapsedTime().asMilliseconds());
-  m_IconShader.setUniform("texture", sf::Shader::CurrentTexture);
-  window.draw(m_TurnIcon, &m_IconShader);
-  window.draw(m_TurnText, &m_IconShader);
+  if (m_GameBoard->GetState() == GameBoard::CAPTURE) {
+    m_IconShader.setUniform(
+        "elapsedTime", (float)localClock.getElapsedTime().asMilliseconds());
+    m_IconShader.setUniform("texture", sf::Shader::CurrentTexture);
+    window.draw(m_TurnIcon, &m_IconShader);
+    window.draw(m_TurnText, &m_IconShader);
+  } else {
+    window.draw(m_TurnIcon);
+    window.draw(m_TurnText);
+  }
   m_GameBoard->Render(window);
 }
