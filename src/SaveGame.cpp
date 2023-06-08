@@ -63,6 +63,10 @@ void SaveGame::AddCommandFromString(const std::string &line) {
 }
 
 void SaveGame::SaveGameFile(const std::string &filename) {
+  if (m_FileContents.size() != 0) {
+    std::cout << "Potential bug" << std::endl;
+  }
+  m_FileContents.clear();
   for (auto &command : *m_Commands) {
     command->AddToSaveGame(this);
   }
