@@ -5,7 +5,6 @@
 
 #include "../GameBoard.hpp"
 #include "../SaveGame.hpp"
-#include "PlaceCommand.hpp"
 
 CaptureCommand::CaptureCommand(TilePtr tile, Player* player)
     : Command::Command{tile, player} {}
@@ -21,17 +20,21 @@ void CaptureCommand::Execute() {
 }
 
 void CaptureCommand::Undo() {
+  // Restore the captured token to original tile
   m_AffectedTile->SetToken(std::move(m_CapturedToken));
   m_CapturedToken = nullptr;
   m_Player->left++;
 }
 
 void CaptureCommand::AddToSaveGame(SaveGamePtr sg) {
+  // CAPTURE [tile] [player-left] [player-placed] [player-occupation]
   std::stringstream out;
   out << "CAPTURE ";
   out << m_AffectedTile->serialize();
   out << m_Player->left << " " << m_Player->placed << " "
       << m_Player->occupation;
+
+  // Add this command to memento
   sg->AddToSave(out.str());
 }
 void CaptureCommand::RestoreFromSave(std::string save, GameBoard* gb) {
@@ -49,17 +52,20 @@ void CaptureCommand::RestoreFromSave(std::string save, GameBoard* gb) {
   instream >> magic;
   magic_assert("TILE");
 
+  // Parsing 
   int xCoord, yCoord;
   instream >> xCoord;
   instream >> yCoord;
 
   Tile* tile = gb->GetTile(xCoord, yCoord);
 
+  // This is not used
   bool highlighted;
   instream >> highlighted;
 
   m_AffectedTile = tile;
 
+  // Parses the remaining player data
   int left, placed;
   int occupation;
   instream >> left;

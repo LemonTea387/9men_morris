@@ -54,7 +54,7 @@ class Command {
   virtual void Undo() = 0;
 
   /**
-   * Adds Game to be part of the SaveGame memento class.
+   * Adds command to the SaveGame memento class.
    */
   virtual void AddToSaveGame(SaveGamePtr) = 0;
 

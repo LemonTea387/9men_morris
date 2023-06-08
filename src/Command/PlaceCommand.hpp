@@ -19,7 +19,14 @@ class PlaceCommand : public Command {
    */
   virtual void Undo() override;
 
+  /**
+   * Serialises the place command and adds to the SaveGame memento
+   */
   virtual void AddToSaveGame(SaveGamePtr) override;
+
+  /**
+   * Deserialises the string into a PlaceCommand
+   */
   virtual void RestoreFromSave(std::string save, GameBoard* gb) override;
 
   /**

@@ -30,7 +30,14 @@ class MoveCommand : public Command {
    */
   ~MoveCommand();
 
+  /**
+   * Serialises the Move command and adds to the SaveGame memento
+   */
   virtual void AddToSaveGame(SaveGamePtr) override;
+
+  /**
+   * Deserialises the string into a MoveCommand
+   */
   virtual void RestoreFromSave(std::string save, GameBoard* gb) override;
 
  private:

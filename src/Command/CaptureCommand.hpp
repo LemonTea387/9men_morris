@@ -22,7 +22,14 @@ class CaptureCommand : public Command {
    */
   virtual void Undo() override;
 
+  /**
+   * Serialises the capture command and adds to the SaveGame memento
+   */
   virtual void AddToSaveGame(SaveGamePtr) override;
+
+  /**
+   * Deserialises the string into a CaptureCommand
+   */
   virtual void RestoreFromSave(std::string save, GameBoard* gb) override;
 
   /**

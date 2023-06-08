@@ -28,6 +28,7 @@ void PlaceCommand::Undo() {
   m_Player->placed--;
 }
 void PlaceCommand::AddToSaveGame(SaveGamePtr sg) {
+  // PLACE [tile] [player-left] [player-placed] [player-occupation]
   std::stringstream out;
   out << "PLACE ";
   out << m_AffectedTile->serialize();
@@ -50,17 +51,20 @@ void PlaceCommand::RestoreFromSave(std::string save, GameBoard* gb) {
   instream >> magic;
   magic_assert("TILE");
 
+  // Parse the tile
   int xCoord, yCoord;
   instream >> xCoord;
   instream >> yCoord;
 
   Tile* tile = gb->GetTile(xCoord, yCoord);
 
+  // Parses highlight state, not used
   bool highlighted;
   instream >> highlighted;
 
   m_AffectedTile = tile;
 
+  // Parse player info
   int left, placed;
   int occupation;
   instream >> left;
