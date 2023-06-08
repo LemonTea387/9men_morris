@@ -74,11 +74,6 @@ GameBoard::GameBoard()
   // Learnt through
   // https://www.sfml-dev.org/tutorials/2.5/graphics-shader.php
   // and https://learnopengl.com/Getting-started/Shaders
-  if (!m_TokenLeftShader.loadFromFile("assets/shaders/TokensLeft.vert",
-                                      sf::Shader::Vertex)) {
-    std::cerr << "[WARNING] Could not load Vertex Shader for TokenLeft display!"
-              << std::endl;
-  }
   if (!m_TokenLeftShader.loadFromFile("assets/shaders/TokensLeft.frag",
                                       sf::Shader::Fragment)) {
     std::cerr
