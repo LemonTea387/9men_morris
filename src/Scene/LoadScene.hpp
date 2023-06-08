@@ -29,9 +29,24 @@ class LoadScene : public Scene {
    */
   sf::Text m_TitleText;
 
+  /**
+   * Variable to control for marking the scene as to be popped from the game.
+   */
   bool m_IsKilled;
+
+  /**
+   * String for the filename of the save selected
+   */
   std::string m_SaveFilename;
+
+  /**
+   * Go back to main menu button
+   */
   graphics::Button m_MenuButton;
+
+  /**
+   * Buttons to display and provide selection of game saves.
+   */
   std::vector<std::unique_ptr<graphics::Button>> m_LoadButtons;
 };
 

@@ -1,7 +1,6 @@
 #include "LoadScene.hpp"
 
 #include <filesystem>
-#include <iostream>
 #include <string>
 
 #include "../AssetManager.hpp"
@@ -14,8 +13,6 @@ void LoadScene::Update(sf::Event event) {
     std::string filename = m_SaveFilename;
     Game::GetInstance().PopScene();
     if (filename.size() > 0) {
-      std::cout << "Creating Scene with Savegame " << m_SaveFilename
-                << std::endl;
       Game::GetInstance().PushScene(std::make_unique<GameScene>(filename));
     }
     return;
@@ -24,7 +21,6 @@ void LoadScene::Update(sf::Event event) {
 
 void LoadScene::Render(sf::RenderWindow& window) { Scene::Render(window); }
 
-#include <iostream>
 LoadScene::LoadScene()
     : m_MenuButton{"Menu", [&](sf::Event e) { m_IsKilled = true; }},
       m_IsKilled{false} {
@@ -50,13 +46,9 @@ LoadScene::LoadScene()
     }
     m_LoadButtons.push_back(std::make_unique<graphics::Button>(
         buttonText, [buttonText, filename, this](sf::Event e) {
-          std::cout << "Button Text: " << buttonText << std::endl;
-          std::cout << "Filename: " << filename << std::endl;
           if (buttonText != "Empty") {
             m_IsKilled = true;
             this->m_SaveFilename.assign(filename);
-            std::cout << "Set SaveFilename to " << this->m_SaveFilename
-                      << std::endl;
           }
         }));
     m_LoadButtons.back()->setPosition(

@@ -30,9 +30,24 @@ class SaveScene : public Scene {
    */
   sf::Text m_TitleText;
 
+  /**
+   * Variable to control for marking the scene as to be popped from the game
+   */
   bool m_IsKilled;
-  graphics::Button m_MenuButton;
+
+  /**
+   * Go back to gamescene button
+   */
+  graphics::Button m_BackButton;
+
+  /**
+   * The pointer to the savegame memento created
+   */
   SaveGame* m_SaveGame;
+
+  /**
+   * Buttons to display and provide selection of the slot to save to
+   */
   std::vector<std::unique_ptr<graphics::Button>> m_SaveButtons;
 };
 

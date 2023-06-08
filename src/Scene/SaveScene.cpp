@@ -20,7 +20,7 @@ void SaveScene::Update(sf::Event event) {
 void SaveScene::Render(sf::RenderWindow& window) { Scene::Render(window); }
 
 SaveScene::SaveScene(SaveGame* savegame)
-    : m_MenuButton{"Back", [&](sf::Event e) { m_IsKilled = true; }},
+    : m_BackButton{"Back", [&](sf::Event e) { m_IsKilled = true; }},
       m_IsKilled{false},
       m_SaveGame(savegame) {
   auto width = Game::WINDOW_WIDTH;
@@ -29,11 +29,11 @@ SaveScene::SaveScene(SaveGame* savegame)
   AssetManager& assMan = AssetManager::GetInstance();
 
   auto btnTexture = assMan.GetTexture(GameAsset::BUTTON_NEWGAME).get();
-  m_MenuButton.setTexture(btnTexture);
+  m_BackButton.setTexture(btnTexture);
 
-  m_MenuButton.setPosition(sf::Vector2f(width * 0.05, height * 0.9));
+  m_BackButton.setPosition(sf::Vector2f(width * 0.05, height * 0.9));
 
-  addUI(&m_MenuButton);
+  addUI(&m_BackButton);
 
   // Save slot buttons
   for (int i = 0; i < Game::SAVE_NUM; i++) {
@@ -47,7 +47,6 @@ SaveScene::SaveScene(SaveGame* savegame)
     }
     m_SaveButtons.push_back(std::make_unique<graphics::Button>(
         buttonText, [buttonText, filename, this](sf::Event e) {
-          std::cout << "Going to save to " << filename << std::endl;
           this->m_SaveGame->SaveGameFile(filename);
           this->m_IsKilled = true;
         }));
