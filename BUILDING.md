@@ -33,7 +33,7 @@ select the "CMake Targets View" and hit Enter.Wait for a while, and after it par
 After it parses, it will bring you back to Project View and you can see the "EveryhingNMM" project and you can 
 right click the executable and hit Build/Debug. 
 
-You will need to copy the DLLs from the `out/build/<BUILD_TYPE>/_deps/sfml-build/lib` to the `out/build/<BUILD_TYPE>` directory.
+You will need to copy the DLLs from the `out/build/<BUILD_TYPE>/_deps/sfml-build/lib` and `out/build/<BUILD_TYPE>/build_deps/sfml-src/extlibs/bin/x64/openal32.dll` to the `out/build/<BUILD_TYPE>` directory.
 `BUILD_TYPE` will be something like `x64-Debug` or `x86-Debug` or `x64-Release` (for Release mode).
 Optionally, you can just add the directory containing the DLLs to your PATH environment variable.
 
