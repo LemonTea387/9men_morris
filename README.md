@@ -16,6 +16,8 @@ A C++ implementation of Nine Men's Morris using SFML for the FIT3077 unit in Mon
 ## Pre-built binaries
 - [Windows MSVC Release Build](http://everything-nmm.s3-website-ap-southeast-1.amazonaws.com/EverythingNMM-MSVC-Windows.zip)
 - [Linux AppImage](http://everything-nmm.s3-website-ap-southeast-1.amazonaws.com/EverythingNMM-Linux-Prebuilt.zip)
+- [HTML Documentation](http://everything-nmm.s3-website-ap-southeast-1.amazonaws.com/Everything-NMM-html-latest/index.html)
+- [PDF Documentation](http://everything-nmm.s3-website-ap-southeast-1.amazonaws.com/Everything-NMM-documentation-latest.pdf)
 
 You can also find the pre-built binaries in the `executables` folder in this project.
 
