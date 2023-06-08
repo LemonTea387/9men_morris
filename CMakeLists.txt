@@ -96,7 +96,7 @@ if(MSVC)
 endif()
 
 target_compile_features(EverythingNMM PRIVATE cxx_std_17)
-target_link_libraries(EverythingNMM sfml-graphics)
+target_link_libraries(EverythingNMM sfml-graphics sfml-audio)
 
 if(ENABLE_TESTS)
   add_subdirectory(tests)

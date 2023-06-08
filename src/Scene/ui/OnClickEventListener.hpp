@@ -1,6 +1,7 @@
 #ifndef ONCLICK_EVENTLISTENER_H
 #define ONCLICK_EVENTLISTENER_H
 
+#include <SFML/Audio.hpp>
 #include <iostream>
 
 #include "EventListener.hpp"
@@ -23,6 +24,8 @@ class OnClickEventListener : public EventListener {
   OnClickEventListener(UI* ui, std::function<void(sf::Event)> func) {
     m_ui = ui;
     setOnAction(func);
+    m_ClickSoundBuffer.loadFromFile("assets/sounds/select.wav");
+    m_ClickSound.setBuffer(m_ClickSoundBuffer);
   };
 
   /**
@@ -39,6 +42,7 @@ class OnClickEventListener : public EventListener {
         e.mouseButton.button == sf::Mouse::Left) {
       if (sf::Rect<float>(m_ui->getPosition(), m_ui->getSize())
               .contains(e.mouseButton.x, e.mouseButton.y)) {
+        m_ClickSound.play();
         fireAction(e);
       }
     }
@@ -50,6 +54,12 @@ class OnClickEventListener : public EventListener {
    * bounds against the position of the sf::Event::MouseButtonReleased.
    */
   UI* m_ui;
+
+  /**
+   * Audio buffer to play when clicking a button
+   */
+  sf::SoundBuffer m_ClickSoundBuffer;
+  sf::Sound m_ClickSound;
 };
 }  // namespace graphics
 #endif

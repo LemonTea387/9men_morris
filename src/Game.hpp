@@ -1,12 +1,12 @@
 #ifndef GAME_H
 #define GAME_H
+#include <SFML/Audio.hpp>
 #include <SFML/Window.hpp>
 #include <memory>
 #include <vector>
 
 #include "SFML/Graphics/RectangleShape.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
-
 class Scene;
 
 /**
@@ -21,6 +21,11 @@ class Game {
  private:
   typedef std::unique_ptr<Scene> ScenePtr;
   typedef std::vector<ScenePtr> SceneStack;
+
+  /**
+   * Background Music
+   */
+  sf::Music m_BackgroundMusic;
 
   /**
    * Background color of the program. This is to draw the background color of

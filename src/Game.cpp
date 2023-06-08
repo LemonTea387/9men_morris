@@ -1,8 +1,9 @@
 #include "Game.hpp"
 
+#include <SFML/Audio.hpp>
+
 #include "Scene/MenuScene.hpp"
 #include "Scene/Scene.hpp"
-
 Game::Game() { Game::GetWindow().setFramerateLimit(30); }
 Game::~Game() {}
 
@@ -34,6 +35,10 @@ void Game::Run() {
   // Do Future Set Up Work here
   // (Initialise Logging or whatever)
   //
+  if (m_BackgroundMusic.openFromFile("assets/sounds/background.ogg")) {
+    m_BackgroundMusic.setLoop(true);
+    m_BackgroundMusic.play();
+  }
 
   m_BackgroundColor.setFillColor(sf::Color(0x14, 0x12, 0x18));
   m_BackgroundColor.setPosition(sf::Vector2f(0.f, 0.f));
