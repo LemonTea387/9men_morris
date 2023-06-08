@@ -100,12 +100,12 @@ GameScene::GameScene()
 GameScene::GameScene(const std::string& savegame) : GameScene() {
   std::cout << "GameScene Load Save " << savegame << std::endl;
   m_SaveGame->LoadFromSave(savegame);
-  UpdateTextAndIcons();
+  UpdateTextAndIcons(true);
 }
 
-void GameScene::UpdateTextAndIcons() {
+void GameScene::UpdateTextAndIcons(bool force_update) {
   // Change texture of icon if turns differ
-  if (m_PrevTurn != m_GameBoard->GetCurrPlayer()->occupation) {
+  if (force_update || m_PrevTurn != m_GameBoard->GetCurrPlayer()->occupation) {
     m_PrevTurn = m_GameBoard->GetCurrPlayer()->occupation;
     // Change texture of the Turn icon
     m_TurnIcon.setTexture(m_PrevTurn == Token::Occupation::PEPE

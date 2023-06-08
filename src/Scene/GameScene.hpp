@@ -25,7 +25,7 @@ class GameScene : public Scene {
    * Updates the Text and Icon to show the name and icon of the current turn's
    * Player icon and name.
    */
-  void UpdateTextAndIcons();
+  void UpdateTextAndIcons(bool force_update = false);
 
   /**
    * Stores the Previous turn the gameboard has played, this is to keep track of
