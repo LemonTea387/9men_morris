@@ -1,7 +1,7 @@
 
-<div align="center">
+
 ![Quality grade](https://img.shields.io/badge/code%20quality-A-brightgreen) ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Platform Support](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-blue)
-</div>
+
 
 # Nine Men's Morris - The Everything Team
 
